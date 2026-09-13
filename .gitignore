@@ -1,0 +1,28 @@
+# --- Dependencies ---
+node_modules/
+
+# --- Environment & secrets ---
+backend/.env
+.env
+
+# --- Database ---
+backend/data/
+
+# --- Runtime data (regenerated on the server) ---
+frontend/data/content.config.js
+frontend/images/uploads/
+frontend/analytics-visits.json
+
+# --- Logs ---
+*.log
+backend/logs/
+
+# --- Local tooling (not part of the app) ---
+.opencode/
+.agents/
+.serena/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+desktop.ini

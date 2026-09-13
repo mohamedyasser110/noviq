@@ -1,0 +1,402 @@
+/* ============================================================
+   NOVIQ RTL — Arabic language support
+   ------------------------------------------------------------
+   Preserves brand mark direction, fixes nav order, aligns
+   icons, and keeps email/phone/numbers in LTR for readability.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap');
+
+/* ---- Language Toggle Button ---- */
+.noviq-language-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.04));
+  color: var(--text-secondary);
+  font: 600 12px 'Inter', sans-serif;
+  letter-spacing: 0.02em;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.noviq-language-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(6, 182, 212, 0.12));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.noviq-language-toggle:hover {
+  border-color: var(--secondary);
+  color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.25);
+}
+.noviq-language-toggle:hover::before { opacity: 1; }
+.noviq-language-toggle:active { transform: translateY(0); }
+
+.noviq-language-toggle .lang-globe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  color: var(--secondary);
+}
+.noviq-language-toggle .lang-globe svg { width: 100%; height: 100%; }
+.noviq-language-toggle .lang-code {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  min-width: 14px;
+  text-align: center;
+}
+
+/* ---- RTL Base ---- */
+html[dir='rtl'] body {
+  font-family: 'Cairo', 'Tajawal', var(--font-body), sans-serif;
+  text-align: right;
+}
+html[dir='rtl'] h1,
+html[dir='rtl'] h2,
+html[dir='rtl'] h3,
+html[dir='rtl'] h4,
+html[dir='rtl'] h5,
+html[dir='rtl'] h6,
+html[dir='rtl'] .noviq-section-header h2,
+html[dir='rtl'] .noviq-page-hero h1,
+html[dir='rtl'] .noviq-hero-title {
+  font-family: 'Cairo', var(--font-display), sans-serif;
+  letter-spacing: 0 !important;
+}
+html[dir='rtl'] .noviq-logo-text {
+  font-family: var(--font-display) !important;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ---- Navbar ---- */
+html[dir='rtl'] .noviq-navbar .noviq-logo,
+html[dir='rtl'] .noviq-footer .noviq-logo {
+  direction: ltr;
+  flex-direction: row;
+  margin-right: 0;
+  unicode-bidi: isolate;
+}
+html[dir='rtl'] .noviq-logo-icon { margin-right: 4px !important; margin-left: 0 !important; }
+html[dir='rtl'] .noviq-desktop-nav { direction: rtl; }
+html[dir='rtl'] .noviq-desktop-nav a::after { transform-origin: right; }
+html[dir='rtl'] .noviq-desktop-nav a:hover::after { transform-origin: left; }
+html[dir='rtl'] .noviq-mega-menu {
+  left: auto;
+  right: -80px;
+}
+
+/* ---- Header search ---- */
+html[dir='rtl'] .noviq-header-search { direction: rtl; }
+html[dir='rtl'] .noviq-search-input {
+  padding: 9px 38px 9px 14px;
+  text-align: right;
+}
+html[dir='rtl'] .noviq-search-icon {
+  right: 13px;
+  left: auto;
+  transform: translateY(-50%);
+}
+html[dir='rtl'] .noviq-search-dropdown { text-align: right; }
+html[dir='rtl'] .noviq-login-icon { margin-left: 0; margin-right: 4px; }
+
+/* ---- Hero ---- */
+html[dir='rtl'] .noviq-hero-grid { direction: rtl; }
+html[dir='rtl'] #home .noviq-hero-grid > div:first-child { text-align: right; }
+html[dir='rtl'] .noviq-hero-title,
+html[dir='rtl'] .noviq-hero-desc { text-align: right; }
+html[dir='rtl'] .noviq-hero-badge {
+  direction: ltr;
+}
+html[dir='rtl'] .noviq-hero-grid > div:first-child > .reveal[style*="flex-wrap"] {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+html[dir='rtl'] .noviq-btn-primary i[data-lucide='arrow-right'],
+html[dir='rtl'] .noviq-btn-primary i[data-lucide='arrow-up-right'] {
+  transform: scaleX(-1);
+}
+html[dir='rtl'] .noviq-scroll-hint { direction: rtl; }
+
+/* ---- Stats ---- */
+html[dir='rtl'] .noviq-stat { text-align: right; }
+html[dir='rtl'] .noviq-stat-number { direction: ltr; display: inline-block; }
+
+/* ---- Section headers ---- */
+html[dir='rtl'] .noviq-section-header { text-align: right; margin-right: 0; margin-left: auto; }
+html[dir='rtl'] .noviq-section-header .eyebrow {
+  font-size: clamp(13px, 1vw, 14px) !important;
+  font-weight: 600;
+  letter-spacing: 0.02em !important;
+  font-family: 'Cairo', var(--font-body), sans-serif;
+}
+html[dir='rtl'] .noviq-section-header h2 {
+  font-size: var(--fs-display-lg) !important;
+  font-family: 'Cairo', var(--font-display), sans-serif;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0 !important;
+  background: linear-gradient(135deg, var(--text) 50%, color-mix(in srgb, var(--text) 30%, var(--secondary) 70%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html[dir='rtl'] .noviq-section-header p,
+html[dir='rtl'] .noviq-page-hero p {
+  font-size: clamp(18px, 1.4vw, 22px) !important;
+  font-weight: 500;
+  font-family: 'Cairo', var(--font-body), sans-serif;
+  line-height: 1.7;
+  max-width: 680px;
+}
+html[dir='rtl'] p {
+  font-family: 'Cairo', var(--font-body), sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+html[dir='rtl'] .noviq-service-card,
+html[dir='rtl'] .noviq-why-card,
+html[dir='rtl'] .noviq-industry-card,
+html[dir='rtl'] .noviq-project-body { text-align: right; }
+
+html[dir='rtl'] .noviq-timeline-item {
+  text-align: center !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html[dir='rtl'] .noviq-timeline-item h4,
+html[dir='rtl'] .noviq-timeline-item p {
+  text-align: center !important;
+}
+html[dir='rtl'] .noviq-project-body .link {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+html[dir='rtl'] .noviq-project-body .link i { transform: scaleX(-1); }
+html[dir='rtl'] .noviq-icon-badge { margin-left: 0; }
+
+/* ---- Testimonials ---- */
+html[dir='rtl'] .noviq-testimonial-card { text-align: right; }
+html[dir='rtl'] .noviq-testimonial-card .name,
+html[dir='rtl'] .noviq-testimonial-card .role { direction: rtl; }
+
+/* ---- Tech stack ---- */
+html[dir='rtl'] .noviq-stack-grid { direction: rtl; }
+html[dir='rtl'] .noviq-stack-chip { direction: ltr; }
+
+/* ---- Contact section ---- */
+html[dir='rtl'] .noviq-contact-grid { direction: rtl; }
+html[dir='rtl'] .noviq-contact-info { text-align: right; }
+html[dir='rtl'] .noviq-contact-detail {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+html[dir='rtl'] .noviq-contact-form { text-align: right; }
+html[dir='rtl'] .noviq-input,
+html[dir='rtl'] textarea.noviq-input {
+  text-align: right;
+  font-family: 'Cairo', sans-serif;
+}
+html[dir='rtl'] #contact-email,
+html[dir='rtl'] #contact-phone,
+html[dir='rtl'] input[type='email'],
+html[dir='rtl'] input[type='tel'] {
+  direction: ltr;
+  text-align: right;
+  unicode-bidi: plaintext;
+}
+html[dir='rtl'] #contact-submit i { transform: scaleX(-1); }
+
+/* ---- Footer ---- */
+html[dir='rtl'] .noviq-footer { text-align: right; }
+html[dir='rtl'] .noviq-footer-col h5 { text-align: right; }
+html[dir='rtl'] .noviq-footer-col a:hover { transform: translateX(-4px); }
+html[dir='rtl'] .noviq-newsletter-input { text-align: right; }
+html[dir='rtl'] .noviq-newsletter-btn svg { transform: scaleX(-1); }
+html[dir='rtl'] .noviq-footer-social {
+  direction: ltr;
+  justify-content: flex-start;
+}
+html[dir='rtl'] .noviq-footer-bottom {
+  direction: rtl;
+}
+
+/* Keep the footer brand at the outer right edge on desktop without changing mobile order. */
+@media (min-width: 901px) {
+  html[dir='rtl'] .noviq-footer-grid { direction: rtl; }
+  html[dir='rtl'] .noviq-footer-brand .noviq-logo {
+    margin-left: auto;
+    margin-right: 0;
+    width: max-content;
+  }
+}
+
+/* ---- Page hero & SPA pages ---- */
+html[dir='rtl'] .noviq-page-hero,
+html[dir='rtl'] .noviq-page-section,
+html[dir='rtl'] .noviq-page-section-alt { text-align: right; }
+html[dir='rtl'] .noviq-breadcrumb {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+html[dir='rtl'] .noviq-page-body { direction: rtl; }
+html[dir='rtl'] .noviq-page-sidebar a {
+  border-left: 0;
+  border-right: 2px solid transparent;
+  text-align: right;
+}
+html[dir='rtl'] .noviq-page-sidebar a:hover,
+html[dir='rtl'] .noviq-page-sidebar a.active {
+  border-left-color: transparent;
+  border-right-color: var(--accent);
+}
+html[dir='rtl'] .noviq-select { text-align: right; }
+
+/* ---- Interactive tools ---- */
+html[dir='rtl'] .nv-chat-shell,
+html[dir='rtl'] .noviq-builder,
+html[dir='rtl'] .noviq-estimator,
+html[dir='rtl'] .noviq-quiz,
+html[dir='rtl'] .noviq-roi { direction: rtl; }
+html[dir='rtl'] .chat-bubble,
+html[dir='rtl'] .chat-quick-reply,
+html[dir='rtl'] .noviq-builder-step,
+html[dir='rtl'] .noviq-estimator-feature,
+html[dir='rtl'] .noviq-quiz-progress-label,
+html[dir='rtl'] .noviq-quiz-option,
+html[dir='rtl'] .noviq-roi-control-group { text-align: right; }
+html[dir='rtl'] .nv-sources { margin: -4px 37px 2px 0; }
+html[dir='rtl'] .typing-indicator { margin-left: 0; margin-right: 37px; }
+html[dir='rtl'] .chat-input-bar input { text-align: right; font-family: 'Cairo', sans-serif; }
+html[dir='rtl'] .ai-lab-console,
+html[dir='rtl'] .ai-lab-prompt { text-align: right; }
+html[dir='rtl'] .ai-lab-prompt-arrow { transform: scaleX(-1); }
+html[dir='rtl'] .chat-input-bar .nv-composer-field input { padding-right: 16px; padding-left: 58px; }
+html[dir='rtl'] .nv-composer-hint { right: auto; left: 11px; }
+html[dir='rtl'] .nv-send-btn i,
+html[dir='rtl'] .nv-send-btn svg { transform: scaleX(-1); }
+html[dir='rtl'] .noviq-estimator-feature .feature-cost,
+html[dir='rtl'] .noviq-estimator-total,
+html[dir='rtl'] .noviq-price-display,
+html[dir='rtl'] .noviq-roi-col .value { direction: ltr; }
+html[dir='rtl'] .noviq-estimator-chart { direction: ltr; }
+
+@media (max-width: 700px) {
+  html[dir='rtl'] .chat-input-bar .nv-composer-field input { padding-left: 12px; }
+}
+html[dir='rtl'] .noviq-proposal-card { text-align: right; }
+html[dir='rtl'] .noviq-proposal-card .proposal-section h4 { letter-spacing: 0; }
+html[dir='rtl'] .noviq-auth-card { text-align: right; }
+html[dir='rtl'] .noviq-auth-header,
+html[dir='rtl'] .noviq-auth-footer { text-align: center; }
+html[dir='rtl'] .noviq-auth-field label { text-align: right; }
+html[dir='rtl'] .noviq-auth-logo {
+  direction: ltr;
+  flex-direction: row !important;
+  unicode-bidi: isolate;
+}
+
+@media (min-width: 901px) {
+  html[dir='rtl'] .chat-bubble.user {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 16px;
+  }
+  html[dir='rtl'] .chat-bubble.ai {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 16px;
+  }
+  html[dir='rtl'] .typing-indicator {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 14px;
+  }
+  html[dir='rtl'] .noviq-builder-nav,
+  html[dir='rtl'] .noviq-proposal-card .proposal-header { flex-direction: row-reverse; }
+  html[dir='rtl'] .noviq-builder-step.active { animation-name: stepFadeInRtl; }
+  html[dir='rtl'] .noviq-estimator { grid-template-columns: 320px 1fr; }
+  html[dir='rtl'] .noviq-roi { grid-template-columns: 1fr 1fr; }
+}
+
+@keyframes stepFadeInRtl {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ---- HUD ---- */
+html[dir='rtl'] .noviq-hud {
+  left: 22px;
+  right: auto;
+  direction: rtl;
+}
+html[dir='rtl'] .hud-label { right: 20px; left: auto; }
+
+/* ---- Buttons general ---- */
+html[dir='rtl'] .noviq-btn-primary,
+html[dir='rtl'] .noviq-btn-secondary,
+html[dir='rtl'] .noviq-btn-ghost { flex-direction: row-reverse; }
+html[dir='rtl'] .noviq-btn-primary i,
+html[dir='rtl'] .noviq-btn-secondary i,
+html[dir='rtl'] .noviq-btn-ghost i { transform: scaleX(-1); }
+
+/* ---- Toast & misc ---- */
+html[dir='rtl'] .noviq-toast { direction: rtl; }
+
+/* ---- Mobile ---- */
+@media (max-width: 900px) {
+  .noviq-nav-actions { gap: 10px; }
+  .noviq-language-toggle { padding: 7px 11px; }
+  .noviq-language-toggle .lang-globe { width: 14px; height: 14px; }
+  html[dir='rtl'] .noviq-navbar { direction: rtl; }
+  html[dir='rtl'] .noviq-navbar .noviq-logo { margin-left: 0; margin-right: 0; }
+  html[dir='rtl'] .noviq-language-toggle { order: 2; }
+  html[dir='rtl'] .noviq-mobile-toggle { order: 3; }
+  html[dir='rtl'] .noviq-mobile-menu { direction: rtl; text-align: right; }
+  html[dir='rtl'] .noviq-mobile-accordion-trigger {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  html[dir='rtl'] .noviq-mobile-accordion-content { text-align: right; }
+  html[dir='rtl'] .noviq-page-sidebar a { border-right: 0 !important; }
+  html[dir='rtl'] .noviq-search-input { font-size: 16px; }
+  
+  /* Crystal toggle positioning in RTL */
+  html[dir='rtl'] .noviq-crystal-toggle {
+    margin: 0 8px;
+  }
+  @media (max-width: 900px) {
+    html[dir='rtl'] .noviq-crystal-toggle {
+      margin: 0 4px;
+    }
+  }
+  @media (max-width: 560px) {
+    html[dir='rtl'] .noviq-crystal-toggle {
+      margin: 0 2px;
+    }
+  }
+}
+
+/* ---- Prevent text overflow issues in RTL ---- */
+html[dir='rtl'] .noviq-hero-title,
+html[dir='rtl'] .noviq-hero-desc,
+html[dir='rtl'] .noviq-section-header p,
+html[dir='rtl'] .noviq-page-hero p { max-width: 100%; }
+
+/* ---- Intro overlay ---- */
+html[dir='rtl'] .intro-lockup { direction: ltr; }
+html[dir='rtl'] .intro-tagline { font-family: 'Cairo', sans-serif; }

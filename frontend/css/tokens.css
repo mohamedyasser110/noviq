@@ -1,0 +1,120 @@
+/* ============================================================
+   NOVIQ DESIGN TOKENS
+   ------------------------------------------------------------
+   Single source of truth for the visual language.
+   Change a value here and it propagates across the whole site.
+   Nothing outside this file should hard-code a color, radius,
+   shadow or motion curve — always reference a token.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---- Brand color ramp ---- */
+  --primary: #6D28FF;
+  --secondary: #8B5CF6;
+  --accent: #A855F7;
+  --accent-2: #C084FC;
+  --accent-secondary: var(--secondary);
+
+  /* ---- Surfaces ---- */
+  --bg: #0B0817;
+  --surface: #151028;
+  --card: #1B1533;
+  --border: #2A224D;
+
+  /* ---- Text ---- */
+  --text: #FFFFFF;
+  --text-secondary: #B8B8C7;
+  --text-tertiary: #6d6685;
+  --text-inverse: #0B0817;
+
+  /* ---- Adaptive RGB channels ----
+     Updated by the Crystal Energy engine so translucent UI remains
+     legible at every point between the dark and light endpoints. */
+  --bg-rgb: 11, 8, 23;
+  --surface-rgb: 21, 16, 40;
+  --card-rgb: 27, 21, 51;
+  --text-rgb: 255, 255, 255;
+  --text-inverse-rgb: 11, 8, 23;
+  --control-bg: rgba(var(--text-rgb), 0.045);
+  --control-bg-hover: rgba(var(--text-rgb), 0.08);
+  --control-border: rgba(var(--text-rgb), 0.1);
+  --control-border-strong: rgba(var(--text-rgb), 0.16);
+  --input-bg: rgba(var(--card-rgb), 0.72);
+  --nav-bg: rgba(var(--bg-rgb), 0.78);
+  --menu-bg: rgba(var(--bg-rgb), 0.96);
+  --popup-bg: rgba(var(--card-rgb), 0.94);
+  --modal-backdrop: rgba(3, 2, 10, 0.52);
+  --surface-highlight: rgba(var(--text-rgb), 0.035);
+  --surface-highlight-strong: rgba(var(--text-rgb), 0.065);
+  --inset-highlight: rgba(var(--text-rgb), 0.055);
+
+  /* ---- Semantic ---- */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* ---- Glass system ---- */
+  --glass-bg: rgba(27,21,51,0.45);
+  --glass-bg-deep: rgba(27,21,51,0.35);
+  --glass-bg-light: rgba(27,21,51,0.6);
+  --glass-border: rgba(42,34,77,0.6);
+  --glass-shimmer: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
+  --glass-iridescent-1: rgba(168,85,247,0.08);
+  --glass-iridescent-2: rgba(139,92,246,0.05);
+  --glass-iridescent-3: rgba(192,140,255,0.06);
+
+  /* ---- Trace (signature element) ----
+     A thin animated seam that runs along card edges, evoking a
+     circuit trace / signal pulse without using literal PCB iconography. */
+  --trace-color: rgba(180,140,255,0.9);
+  --trace-glow: rgba(139,92,246,0.55);
+
+  /* ---- Shadows & glow ---- */
+  --shadow-sm: 0 4px 24px rgba(0,0,0,0.25);
+  --shadow-md: 0 12px 48px rgba(109,40,255,0.25);
+  --shadow-lg: 0 20px 60px rgba(109,40,255,0.2);
+  --shadow-glow: 0 8px 32px rgba(109,40,255,0.3);
+  --shadow-glow-strong: 0 16px 40px rgba(168,85,247,0.55);
+
+  /* ---- Radii ---- */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.25s;
+  --dur-base: 0.4s;
+  --dur-slow: 0.85s;
+
+  /* ---- Type families ---- */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Space Grotesk', 'Inter', sans-serif;
+
+  /* ---- Fluid type scale ----
+     Every heading/body size in the site pulls from this scale
+     instead of one-off clamp() calls. */
+  --fs-display-xl: clamp(38px, 5.4vw, 68px);
+  --fs-display-lg: clamp(28px, 3.4vw, 42px);
+  --fs-display-md: clamp(24px, 2.6vw, 32px);
+  --fs-display-sm: clamp(18px, 1.6vw, 21px);
+  --fs-body-lg: clamp(16px, 1.2vw, 18px);
+  --fs-body-md: 14.5px;
+  --fs-body-sm: 13.5px;
+  --fs-caption: 12.5px;
+  --fs-eyebrow: 13px;
+
+  /* ---- Layout ---- */
+  --container-max: 1280px;
+  --container-narrow: 720px;
+  --section-pad-x: 6%;
+  --section-pad-y: 120px;
+}

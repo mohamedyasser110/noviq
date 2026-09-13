@@ -1,0 +1,37 @@
+# ============================================================
+# Noviq SPA fallback + caching
+# ------------------------------------------------------------
+# Needed ONLY when the frontend is hosted statically
+# (SERVE_FRONTEND=false, files in public_html).
+# Not needed when the Node app serves everything (default).
+# ============================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # SPA fallback: serve index.html for app routes,
+  # keep real files, images and the API untouched.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(services|industries|solutions|portfolio|team|member|pricing|about|why|toolkit|stack|contact|careers|resources|resource|faq|ai-lab|login|signup|forgot-password|account)(/.*)?$ index.html [L]
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Versioned (?v=...) CSS/JS refresh via new query strings
+  ExpiresByType text/css "access plus 1 day"
+  ExpiresByType application/javascript "access plus 1 day"
+  ExpiresByType image/svg+xml "access plus 1 day"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/pdf "access plus 1 month"
+</IfModule>
+
+# Never expose a backend .env file if one ever lands here
+<Files ".env">
+  Require all denied
+</Files>

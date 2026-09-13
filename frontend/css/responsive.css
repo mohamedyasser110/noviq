@@ -1,0 +1,317 @@
+/* ============================================================
+   RESPONSIVE — breakpoints, loaded last so it wins the cascade
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .noviq-footer-grid { grid-template-columns: 1.5fr repeat(auto-fit, minmax(120px, 1fr)); gap: 28px; }
+  .noviq-timeline { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
+  .noviq-timeline::before { display: none; }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .noviq-mega-menu {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    min-width: 580px !important;
+  }
+  html[dir='rtl'] .noviq-mega-menu {
+    left: auto !important;
+    right: 50% !important;
+    transform: translateX(50%) !important;
+  }
+  .noviq-mega-grid {
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  section[id], section:not([id]) { padding: 80px 5% !important; }
+  .noviq-hero-grid { grid-template-columns: 1fr; gap: 20px; }
+  .noviq-hero-3d { height: 280px; }
+  .noviq-hero-title { font-size: clamp(30px, 7vw, 44px); }
+  .noviq-hero-desc { font-size: 16px; max-width: 100%; }
+  #home { padding: 120px 5% 60px !important; min-height: auto; }
+  
+  .noviq-services-grid,
+  .noviq-solutions-grid,
+  .noviq-why-grid,
+  .noviq-industries-grid,
+  #solutions-full-grid,
+  #services-full-grid,
+  #portfolio-full-grid,
+  #industries-full-grid,
+  #pricing-grid,
+  #ai-lab-grid,
+  .noviq-page-section div[style*="grid-template-columns:repeat(auto-fill"],
+  .noviq-page-section div[style*="grid-template-columns: repeat(auto-fill"] {
+    grid-template-columns: repeat(2,1fr) !important;
+    gap: 16px !important;
+  }
+
+  .noviq-footer-grid { grid-template-columns: repeat(2,1fr); }
+  .noviq-desktop-nav { display: none !important; }
+  .noviq-mobile-toggle { display: block !important; }
+  .noviq-nav-actions { display: none !important; }
+  .noviq-navbar {
+    padding: 18px 5%;
+    justify-content: space-between;
+  }
+  .noviq-navbar.scrolled { padding: 12px 5%; }
+  .noviq-logo {
+    margin-right: 0;
+    gap: 4px;
+  }
+  .noviq-nav-actions {
+    gap: 8px;
+  }
+  .noviq-header-search {
+    width: 160px;
+  }
+  .noviq-header-search:focus-within {
+    width: 200px;
+  }
+  .noviq-glass-card { border-radius: 18px; }
+  .noviq-service-card, .noviq-why-card { padding: 22px; }
+  .noviq-section-header { margin: 0 auto 40px; }
+  .noviq-section-header h2 { font-size: clamp(24px, 5vw, 32px); }
+  .noviq-project-body { padding: 20px; }
+  .noviq-contact-form { padding: 26px; }
+  .noviq-footer { padding: 60px 5% 28px; }
+  .noviq-stats { padding: 50px 5%; }
+  .noviq-stats-grid { gap: 20px; }
+  .noviq-hero-badge { font-size: 12px; padding: 6px 14px; }
+  .noviq-btn-primary, .noviq-btn-secondary { padding: 12px 22px; font-size: 14px; }
+
+  /* Subpages layout responsive adjustments */
+  .noviq-page-hero { padding: 120px 6% 60px !important; }
+  .noviq-page-section, .noviq-page-section-alt { padding: 60px 6% !important; }
+  .noviq-page-body { flex-direction: column !important; gap: 32px !important; }
+  .noviq-page-sidebar {
+    width: 100% !important;
+    position: static !important;
+    margin-bottom: 24px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 16px !important;
+  }
+  .noviq-page-sidebar a {
+    display: inline-block !important;
+    margin-right: 8px !important;
+    margin-bottom: 8px !important;
+    border-left: none !important;
+    border-bottom: 2px solid transparent !important;
+  }
+  .noviq-page-sidebar a:hover,
+  .noviq-page-sidebar a.active {
+    border-left-color: transparent !important;
+    border-bottom-color: var(--accent) !important;
+    background: rgba(109, 40, 255, 0.08) !important;
+  }
+  .noviq-mobile-menu {
+    max-height: calc(100vh - 80px) !important;
+    overflow-y: auto !important;
+  }
+}
+
+@media (max-width: 800px) {
+  section[id], section:not([id]) { padding: 60px 4% !important; }
+  .noviq-projects-grid { grid-template-columns: 1fr !important; gap: 18px !important; }
+  .noviq-project-image { height: 160px; }
+  .noviq-contact-grid { grid-template-columns: 1fr; gap: 28px; }
+  .noviq-testimonial-card { padding: 36px 24px; min-height: 180px; }
+  .noviq-testimonial-card .quote { font-size: 17px; }
+  .noviq-scroll-hint { display: none; }
+  .noviq-contact-info h2 { font-size: clamp(24px, 5vw, 30px); }
+  .noviq-input { padding: 12px 14px; font-size: 16px; }
+  .noviq-hero-3d { height: 240px; }
+}
+
+@media (max-width: 768px) {
+  /* Stack 2-column inline grids (1fr 1fr and 2fr 1fr) */
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="grid-template-columns:2fr 1fr"],
+  div[style*="grid-template-columns: 2fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* About page stats: change 4 columns to 2 columns on tablet */
+  div[style*="repeat(4,1fr)"],
+  div[style*="repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* Case study stats: change 3 columns to 1 column */
+  div[style*="repeat(3,1fr)"],
+  div[style*="repeat(3, 1fr)"] {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Interactive tools overrides */
+  .noviq-estimator,
+  .noviq-roi {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .noviq-estimator-summary,
+  .noviq-roi-result {
+    position: static !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Stepper responsive layout */
+  .noviq-step-line {
+    display: none !important;
+  }
+  .noviq-stepper {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-bottom: 24px !important;
+  }
+  .noviq-step {
+    margin: 0 4px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  section[id], section:not([id]) { padding: 40px 5% !important; }
+  
+  /* ---- Mobile cards: horizontal swipe instead of long vertical stack ---- */
+  .noviq-services-grid,
+  .noviq-solutions-grid,
+  .noviq-why-grid,
+  .noviq-industries-grid,
+  .noviq-projects-grid,
+  .noviq-team-grid,
+  #solutions-full-grid,
+  #services-full-grid,
+  #portfolio-full-grid,
+  #industries-full-grid,
+  #why-full-grid,
+  #team-full-grid,
+  #pricing-grid,
+  #ai-lab-grid,
+  .noviq-page-section div[style*="grid-template-columns:repeat(auto-fill"],
+  .noviq-page-section div[style*="grid-template-columns: repeat(auto-fill"] {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-padding-inline: 5% !important;
+    gap: 12px !important;
+    padding-bottom: 10px !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .noviq-services-grid::-webkit-scrollbar,
+  .noviq-solutions-grid::-webkit-scrollbar,
+  .noviq-why-grid::-webkit-scrollbar,
+  .noviq-industries-grid::-webkit-scrollbar,
+  .noviq-projects-grid::-webkit-scrollbar,
+  #solutions-full-grid::-webkit-scrollbar,
+  #services-full-grid::-webkit-scrollbar,
+  #portfolio-full-grid::-webkit-scrollbar,
+  #industries-full-grid::-webkit-scrollbar,
+  #why-full-grid::-webkit-scrollbar,
+  #team-full-grid::-webkit-scrollbar,
+  #pricing-grid::-webkit-scrollbar,
+  #ai-lab-grid::-webkit-scrollbar {
+    display: none !important;
+  }
+  .noviq-services-grid > *,
+  .noviq-solutions-grid > *,
+  .noviq-why-grid > *,
+  .noviq-industries-grid > *,
+  .noviq-projects-grid > *,
+  #solutions-full-grid > *,
+  #services-full-grid > *,
+  #portfolio-full-grid > *,
+  #industries-full-grid > *,
+  #why-full-grid > *,
+  #team-full-grid > *,
+  #pricing-grid > *,
+  #ai-lab-grid > * {
+    flex: 0 0 82% !important;
+    max-width: 82% !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* ---- Toolkit chips: single swipeable rail (no vertical stack) ---- */
+  .noviq-stack-grid {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    padding-bottom: 10px !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .noviq-stack-grid::-webkit-scrollbar { display: none !important; }
+  .noviq-stack-chip {
+    flex: 0 0 auto !important;
+    animation: none !important;
+    padding: 10px 16px !important;
+    font-size: 13px !important;
+  }
+
+  .noviq-timeline { grid-template-columns: 1fr; gap: 24px; }
+  /* ---- Mobile footer: compact 2-column (brand + newsletter full-width) ---- */
+  .noviq-footer { padding: 36px 5% 20px !important; }
+  .noviq-footer-grid { grid-template-columns: repeat(2,1fr) !important; gap: 16px !important; }
+  .noviq-footer-brand { grid-column: 1 / -1 !important; }
+  .noviq-footer-tagline { display: none !important; }
+  .noviq-footer-brand .noviq-logo { margin-bottom: 0 !important; }
+  .noviq-footer-col h5 { margin: 0 0 10px 0 !important; font-size: 14px !important; }
+  .noviq-footer-col a { margin-bottom: 8px !important; font-size: 13px !important; }
+  .noviq-footer-col-newsletter { grid-column: 1 / -1 !important; }
+  .noviq-newsletter-box { max-width: 100% !important; }
+  .noviq-footer-bottom { margin-top: 20px !important; padding-top: 16px !important; }
+  .noviq-stats-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
+  .noviq-contact-form { padding: 20px; }
+  .noviq-hero-title { font-size: clamp(22px, 7vw, 30px); }
+  .noviq-hero-desc { font-size: 14px; }
+  .noviq-section-header h2 { font-size: clamp(20px, 6vw, 26px); }
+  .noviq-hero-3d { height: 200px; }
+  #home { padding: 100px 5% 40px !important; }
+  .noviq-service-card, .noviq-why-card { padding: 18px; }
+  .noviq-project-image { height: 140px; }
+  .noviq-stats { padding: 40px 5%; }
+  .noviq-btn-primary, .noviq-btn-secondary { padding: 10px 18px; font-size: 13px; }
+
+  /* Subpages layout responsive adjustments */
+  .noviq-page-hero { padding: 100px 5% 40px !important; }
+  .noviq-page-section, .noviq-page-section-alt { padding: 40px 5% !important; }
+}
+
+@media (max-width: 480px) {
+  /* About page stats: change 2 columns to 1 column on phone */
+  div[style*="repeat(4,1fr)"],
+  div[style*="repeat(4, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Nested grids (like first name / email on contact page) */
+  div[style*="grid-template-columns:1fr 1fr"] div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns:1fr 1fr"] div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .noviq-roi-comparison {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  section[id], section:not([id]) { padding: 30px 5% !important; }
+  .noviq-hero-title { font-size: clamp(20px, 6vw, 24px); }
+  .noviq-stats-grid { gap: 12px; }
+  .noviq-stat-number { font-size: clamp(22px, 7vw, 28px); }
+  .noviq-hero-3d { height: 160px; }
+  .noviq-project-image { height: 120px; }
+  .noviq-btn-primary, .noviq-btn-secondary { padding: 8px 16px; font-size: 12px; }
+}

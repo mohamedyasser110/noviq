@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head><title>Noviq Debug</title></head>
+<body style="background:#0B0817;color:#fff;font-family:sans-serif;padding:40px">
+  <h1>Noviq Debug Page</h1>
+  <div id="status">Loading...</div>
+  <div id="content"></div>
+
+  <script>
+    document.getElementById('status').textContent = 'Inline script OK';
+  </script>
+  <script src="data/content.config.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | content.config loaded';
+    document.getElementById('status').textContent += ' (services: ' + (typeof NOVIQ_CONTENT !== 'undefined' ? NOVIQ_CONTENT.services.length : 'UNDEFINED') + ')';
+  </script>
+  <script src="js/engine/utils.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | utils loaded';
+    document.getElementById('status').textContent += ' (createIcon: ' + (typeof createIcon !== 'undefined' ? 'OK' : 'UNDEFINED') + ')';
+  </script>
+  <script src="js/engine/reveal.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | reveal loaded';
+  </script>
+  <script src="js/engine/navigation.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | navigation loaded';
+    document.getElementById('status').textContent += ' (initNavbar: ' + (typeof initNavbar !== 'undefined' ? 'OK' : 'UNDEFINED') + ')';
+  </script>
+  <script src="js/engine/router.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | router loaded';
+    document.getElementById('status').textContent += ' (AppRouter: ' + (typeof AppRouter !== 'undefined' ? 'OK' : 'UNDEFINED') + ')';
+  </script>
+  <script src="js/render/build-static.js"></script>
+  <script src="js/render/build-sections.js"></script>
+  <script src="js/render/build-services.js"></script>
+  <script src="js/render/build-industries.js"></script>
+  <script src="js/render/build-solutions.js"></script>
+  <script src="js/render/build-portfolio.js"></script>
+  <script src="js/render/build-pricing.js"></script>
+  <script src="js/render/build-ai-lab.js"></script>
+  <script src="js/render/build-about.js"></script>
+  <script src="js/render/build-contact.js"></script>
+  <script src="js/render/build-resources.js"></script>
+  <script src="js/render/build-careers.js"></script>
+  <script src="js/render/build-faq.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | render files loaded';
+    document.getElementById('status').textContent += ' (renderServicesPage: ' + (typeof renderServicesPage !== 'undefined' ? 'OK' : 'UNDEFINED') + ')';
+  </script>
+  <script src="js/tools/solution-builder.js"></script>
+  <script src="js/tools/ai-consultant.js"></script>
+  <script src="js/tools/cost-estimator.js"></script>
+  <script src="js/tools/assessment.js"></script>
+  <script src="js/tools/roi-calculator.js"></script>
+  <script>
+    document.getElementById('status').textContent += ' | tools loaded';
+    document.getElementById('status').textContent += ' (SolutionBuilder: ' + (typeof SolutionBuilder !== 'undefined' ? 'OK' : 'UNDEFINED') + ')';
+  </script>
+
+  <h2 style="margin-top:40px;color:#A855F7">Now testing index.html logic:</h2>
+  <div id="test-output"></div>
+  <script>
+    var out = document.getElementById('test-output');
+    var hp = document.getElementById('home-page');
+    var am = document.getElementById('app-main');
+    out.innerHTML = 'home-page: ' + (hp ? 'found (display=' + getComputedStyle(hp).display + ')' : 'NOT FOUND') + ' | ';
+    out.innerHTML += 'app-main: ' + (am ? 'found (display=' + getComputedStyle(am).display + ')' : 'NOT FOUND') + ' | ';
+    out.innerHTML += 'intro-overlay: ' + (document.getElementById('noviq-intro-overlay') ? 'found' : 'NOT FOUND');
+  </script>
+
+  <div id="final" style="margin-top:40px;padding:20px;border:1px solid #6D28FF;border-radius:12px">
+    <p>If you can see this text, the page is rendering. Status above shows JS execution progress.</p>
+  </div>
+</body>
+</html>

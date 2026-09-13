@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noviq Admin — Content Editor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0c0a14; --surface: #161225; --surface2: #1e1a2e;
+      --border: #2a2540; --text: #e8e4f0; --text2: #9890a8;
+      --primary: #8b5cf6; --accent: #06d6a0; --danger: #ef4444;
+      --radius: 10px;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    a { color: var(--primary); text-decoration: none; }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar { width: 230px; background: var(--surface); border-right: 1px solid var(--border); padding: 24px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { padding: 0 24px 20px; font-size: 18px; font-weight: 700; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+    .sidebar-logo span { color: var(--primary); }
+    .nav-item { display: flex; align-items: center; gap: 8px; padding: 10px 24px; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; border-left: 3px solid transparent; transition: all .12s; }
+    .nav-item:hover { color: var(--text); background: rgba(139,92,246,0.06); }
+    .nav-item.active { color: var(--primary); background: rgba(139,92,246,0.1); border-left-color: var(--primary); }
+    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* Main */
+    .main { flex: 1; padding: 32px 40px; max-width: 1000px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .sub { color: var(--text2); font-size: 13px; margin-bottom: 24px; }
+
+    /* Cards */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .card-header h3 { font-size: 14px; font-weight: 600; }
+    .card-body { padding: 16px 20px; }
+    .card-body.empty { color: var(--text2); font-size: 13px; text-align: center; padding: 24px; }
+
+    /* Form fields */
+    .field { margin-bottom: 12px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 4px; font-weight: 500; }
+    .field input, .field textarea, .field select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 12px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; transition: border-color .12s;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--primary); }
+    .field textarea { resize: vertical; min-height: 60px; }
+    .field input[dir="rtl"], .field textarea[dir="rtl"] { text-align: right; }
+
+    /* Row actions */
+    .row-actions { display: flex; gap: 4px; align-items: center; }
+    .btn-icon { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all .12s; background: var(--surface2); color: var(--text2); }
+    .btn-icon:hover { border-color: var(--primary); color: var(--text); }
+    .btn-icon.danger:hover { border-color: var(--danger); color: var(--danger); }
+    .btn-icon svg { width: 14px; height: 14px; }
+
+    /* Buttons */
+    .btn { padding: 9px 18px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .12s; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--primary); }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+    /* Save bar */
+    .save-bar { position: sticky; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 12px 40px; display: flex; gap: 10px; align-items: center; z-index: 10; }
+    .save-msg { font-size: 13px; color: var(--accent); opacity: 0; transition: opacity .3s; }
+    .save-msg.show { opacity: 1; }
+
+    /* Preview (typewriter) */
+    .preview-box { background: linear-gradient(135deg, #1a1530, #12101e); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; margin-bottom: 20px; }
+    .preview-text { font-size: 15px; font-weight: 500; }
+    .preview-cursor { display: inline-block; width: 2px; height: 16px; background: var(--primary); margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Footer link editor */
+    .footer-col { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+    .footer-col-header { display: flex; gap: 8px; margin-bottom: 8px; }
+    .footer-col-header input { flex: 1; }
+    .link-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+    .link-row input { flex: 1; background: transparent; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; color: var(--text); font-size: 12px; }
+    .link-row select { width: 130px; background: transparent; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; color: var(--text); font-size: 12px; }
+
+    /* Denined */
+    .denied { text-align: center; padding: 80px 24px; }
+    .denied h2 { font-size: 20px; margin-bottom: 8px; }
+
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: rgba(139,92,246,0.15); color: var(--primary); font-weight: 600; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="../data/content.config.js"></script>
+  <script src="../data/content.ar.js"></script>
+  <script src="../js/services/content-admin.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    const app = document.getElementById('app');
+
+    /* ---- auth ---- */
+    const user = (() => { try { return JSON.parse(localStorage.getItem('noviq_user') || 'null'); } catch { return null; } })();
+    if (!user || user.role !== 'admin') {
+      app.innerHTML = '<div class="denied"><h2>Access Denied</h2><p>Admin account required. <a href="/">Go home</a></p></div>';
+      return;
+    }
+
+    const CA = window.NoviqContentAdmin;
+    const C = window.NOVIQ_CONTENT || {};
+
+    /* ---- nav config ---- */
+    const NAV = [
+      { id: 'clients', label: 'Clients', icon: 'briefcase' },
+      { id: 'footer', label: 'Footer', icon: 'link' },
+      { id: 'typewriter', label: 'Typewriter', icon: 'type' },
+      { id: 'hero', label: 'Hero Section', icon: 'star' },
+      { id: 'services', label: 'Services', icon: 'grid' },
+      { id: 'industries', label: 'Industries', icon: 'building' },
+      { id: 'why', label: 'Why Us', icon: 'help-circle' },
+      { id: 'stats', label: 'Stats', icon: 'bar-chart' },
+      { id: 'process', label: 'Process', icon: 'git-branch' },
+      { id: 'stack', label: 'Tech Stack', icon: 'cpu' },
+      { id: 'testimonials', label: 'Testimonials', icon: 'quote' },
+      { id: 'brand', label: 'Brand', icon: 'zap' },
+      { id: 'contact', label: 'Contact', icon: 'mail' },
+    ];
+    let activeSection = 'clients';
+
+    /* ---- icons ---- */
+    const IC = {
+      'briefcase': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+      'link': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+      'type': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
+      'star': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+      'grid': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>',
+      'building': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>',
+      'help-circle': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+      'bar-chart': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+      'git-branch': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>',
+      'cpu': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>',
+      'quote': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2-2-2H4c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h2"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2-2-2h-4c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h2"/></svg>',
+      'zap': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+      'mail': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+      'plus': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+      'trash': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>',
+      'up': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>',
+      'down': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>',
+      'save': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',
+      'download': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+      'upload': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
+    };
+
+    function esc(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+    /* ---- route map for footer links ---- */
+    const ROUTES = [
+      '/home', '/services', '/solutions', '/industries', '/portfolio', '/about',
+      '/contact', '/careers', '/faq', '/resources', '/pricing', '/ai-lab',
+      '/solution-builder', '/ai-consultant', '/cost-estimator', '/assessment', '/roi-calculator'
+    ];
+
+    /* ---- state per section ---- */
+    const state = {};
+
+    function getState(id) {
+      if (!state[id]) {
+        const data = CA.getSection(id);
+        state[id] = data ? JSON.parse(JSON.stringify(data)) : null;
+      }
+      return state[id];
+    }
+
+    /* ---- render ---- */
+    function render() {
+      app.innerHTML = `
+        <div class="layout">
+          <aside class="sidebar">
+            <div class="sidebar-logo">Noviq <span>Admin</span></div>
+            ${NAV.map(n => `
+              <div class="nav-item ${activeSection === n.id ? 'active' : ''}" data-section="${n.id}">
+                ${IC[n.icon] || ''} ${n.label}
+              </div>
+            `).join('')}
+          </aside>
+          <main class="main">
+            <div id="section-content"></div>
+          </main>
+        </div>
+        <div class="save-bar">
+          <button class="btn btn-primary" id="save-btn">${IC.save} Save Changes</button>
+          <button class="btn btn-secondary btn-sm" id="reset-btn">Reset Section</button>
+          <button class="btn btn-secondary btn-sm" id="export-btn">${IC.download} Export All</button>
+          <button class="btn btn-secondary btn-sm" id="import-btn">${IC.upload} Import</button>
+          <input type="file" id="import-file" accept=".json" class="hidden" />
+          <span class="save-msg" id="save-msg">Saved!</span>
+        </div>
+      `;
+      document.querySelectorAll('.nav-item').forEach(el => el.addEventListener('click', () => { activeSection = el.dataset.section; render(); }));
+      bindGlobalEvents();
+      renderSection();
+    }
+
+    function bindGlobalEvents() {
+      document.getElementById('save-btn').addEventListener('click', () => {
+        const s = state[activeSection];
+        if (s !== undefined) { CA.saveSection(activeSection, s); showMsg(); }
+      });
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        if (!confirm('Reset this section to defaults?')) return;
+        CA.resetSection(activeSection);
+        delete state[activeSection];
+        render();
+      });
+      document.getElementById('export-btn').addEventListener('click', () => CA.exportAll());
+      document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
+      document.getElementById('import-file').addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = () => { if (CA.importAll(r.result)) { Object.keys(state).forEach(k => delete state[k]); render(); } };
+        r.readAsText(f);
+      });
+    }
+
+    function showMsg() { const m = document.getElementById('save-msg'); m.classList.add('show'); setTimeout(() => m.classList.remove('show'), 2000); }
+
+    /* ============================================================
+       SECTION RENDERERS
+       ============================================================ */
+    function renderSection() {
+      const el = document.getElementById('section-content');
+      switch (activeSection) {
+        case 'clients': el.innerHTML = renderClients(); bindClients(); break;
+        case 'footer': el.innerHTML = renderFooter(); bindFooter(); break;
+        case 'typewriter': el.innerHTML = renderTypewriter(); bindTypewriter(); break;
+        case 'hero': el.innerHTML = renderObject(['badge','titleLead','titleAccent','titleTrail','description','ctaPrimary','ctaSecondary'], [['badge','badgeAr'],['titleLead','titleLeadAr'],['titleAccent','titleAccentAr'],['titleTrail','titleTrailAr'],['description','descriptionAr'],['ctaPrimary','ctaPrimaryAr'],['ctaSecondary','ctaSecondaryAr']]); bindObject(); break;
+        case 'brand': el.innerHTML = renderObject(['name','fullName','tagline','email','phone','locations'], [['fullName','fullNameAr'],['tagline','taglineAr'],['locations','locationsAr']]); bindObject(); break;
+        case 'contact': el.innerHTML = renderObject(['eyebrow','title','desc','ctaLabel','successMessage'], [['eyebrow','eyebrowAr'],['title','titleAr'],['desc','descAr'],['ctaLabel','ctaLabelAr'],['successMessage','successMessageAr']]); bindObject(); break;
+        case 'stats': el.innerHTML = renderArrayItems(['to','suffix','label'], [['label','labelAr']]); bindArrayCommon('stats', ['to','suffix','label','labelAr']); break;
+        case 'services': el.innerHTML = renderArrayItems(['icon','title','desc'], [['title','titleAr'],['desc','descAr']]); bindArrayCommon('services', ['icon','title','titleAr','desc','descAr']); break;
+        case 'industries': el.innerHTML = renderArrayItems(['icon','title'], [['title','titleAr']]); bindArrayCommon('industries', ['icon','title','titleAr']); break;
+        case 'why': el.innerHTML = renderArrayItems(['icon','title','desc'], [['title','titleAr'],['desc','descAr']]); bindArrayCommon('why', ['icon','title','titleAr','desc','descAr']); break;
+        case 'process': el.innerHTML = renderArrayItems(['icon','title','desc'], [['title','titleAr'],['desc','descAr']]); bindArrayCommon('process', ['icon','title','titleAr','desc','descAr']); break;
+        case 'stack': el.innerHTML = renderStringArray('stack'); bindStringArray('stack'); break;
+        case 'testimonials': el.innerHTML = renderArrayItems(['quote','name','role'], [['quote','quoteAr'],['name','nameAr'],['role','roleAr']]); bindArrayCommon('testimonials', ['quote','quoteAr','name','nameAr','role','roleAr']); break;
+        default: el.innerHTML = '<p class="sub">Section not yet implemented.</p>';
+      }
+    }
+
+    /* ---- generic array items editor ---- */
+    /* fields = ['icon','title','desc', ...]
+       arPairs = [['title','titleAr'], ['desc','descAr'], ...] — optional bilingual pairs */
+    function renderArrayItems(fields, arPairs) {
+      const key = activeSection;
+      let arr = getState(key);
+      if (!Array.isArray(arr)) arr = [];
+      if (!state[key]) state[key] = arr;
+      arPairs = arPairs || [];
+      const allFields = fields.slice();
+      arPairs.forEach(p => { if (!allFields.includes(p[1])) allFields.push(p[1]); });
+
+      return `
+        <h1>${key.charAt(0).toUpperCase() + key.slice(1)}</h1>
+        <p class="sub">${arr.length} item(s). English + Arabic fields shown side-by-side. Click Save when done.</p>
+        ${arr.length === 0 ? '<div class="card-body empty">No items. Add one below.</div>' : arr.map((item, i) => `
+          <div class="card" data-idx="${i}">
+            <div class="card-header">
+              <h3>Item ${i + 1}</h3>
+              <div class="row-actions">
+                ${i > 0 ? btn('up', i) : ''}
+                ${i < arr.length - 1 ? btn('down', i) : ''}
+                ${btn('trash', i, 'danger')}
+              </div>
+            </div>
+            <div class="card-body">
+              ${fields.map(f => {
+                if (f === 'to' || f === 'value' || f === 'order') {
+                  return `<div class="field"><label>${f}</label><input data-field="${f}" data-idx="${i}" value="${esc(item[f])}" /></div>`;
+                }
+                const pair = arPairs.find(p => p[0] === f);
+                if (pair) {
+                  return `<div class="field"><label>${f} / ${pair[1]}</label>
+                    <div style="display:flex;gap:8px">
+                      <input data-field="${f}" data-idx="${i}" value="${esc(item[f])}" placeholder="English" style="flex:1" />
+                      <input data-field="${pair[1]}" data-idx="${i}" value="${esc(item[pair[1]])}" dir="rtl" placeholder="العربية" style="flex:1" />
+                    </div></div>`;
+                }
+                return `<div class="field"><label>${f}</label><input data-field="${f}" data-idx="${i}" value="${esc(item[f])}" /></div>`;
+              }).join('')}
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-secondary btn-sm" id="add-item">${IC.plus} Add Item</button>
+      `;
+
+      function btn(action, idx, extra) {
+        return `<button class="btn-icon ${extra || ''}" data-action="${action}" data-idx="${idx}">${IC[action]}</button>`;
+      }
+    }
+
+    /* ---- generic object editor ---- */
+    /* fields = ['badge','titleLead', ...]
+       arPairs = [['badge','badgeAr'], ...] — optional bilingual pairs */
+    function renderObject(fields, arPairs) {
+      let obj = getState(activeSection);
+      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) obj = {};
+      if (!state[activeSection]) state[activeSection] = obj;
+      arPairs = arPairs || [];
+      const allFields = fields.slice();
+      arPairs.forEach(p => { if (!allFields.includes(p[1])) allFields.push(p[1]); });
+
+      return `
+        <h1>${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h1>
+        <p class="sub">English + Arabic fields shown side-by-side. Click Save when done.</p>
+        <div class="card"><div class="card-body">
+          ${fields.map(f => {
+            const pair = arPairs.find(p => p[0] === f);
+            if (pair) {
+              return `<div class="field"><label>${f} / ${pair[1]}</label>
+                <div style="display:flex;gap:8px">
+                  <input data-field="${f}" value="${esc(obj[f])}" placeholder="English" style="flex:1" />
+                  <input data-field="${pair[1]}" value="${esc(obj[pair[1]])}" dir="rtl" placeholder="العربية" style="flex:1" />
+                </div></div>`;
+            }
+            return `<div class="field"><label>${f}</label><input data-field="${f}" value="${esc(obj[f])}" /></div>`;
+          }).join('')}
+        </div></div>
+      `;
+    }
+
+    function bindObject() {
+      document.querySelectorAll('[data-field]').forEach(inp => {
+        inp.addEventListener('input', () => { state[activeSection][inp.dataset.field] = inp.value; });
+      });
+    }
+
+    /* ---- clients editor ---- */
+    function renderClients() {
+      let arr = getState('clients');
+      if (!Array.isArray(arr)) arr = [];
+      state.clients = arr;
+      return `
+        <h1>Clients</h1>
+        <p class="sub">${arr.length} client(s). Each card = logo image OR icon + name (EN + AR).</p>
+        ${arr.map((c, i) => `
+          <div class="card" data-idx="${i}">
+            <div class="card-header">
+              <h3>${esc(c.name) || 'Client ' + (i+1)}</h3>
+              <div class="row-actions">
+                ${i > 0 ? btn('up', i) : ''}
+                ${i < arr.length - 1 ? btn('down', i) : ''}
+                ${btn('trash', i, 'danger')}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="field"><label>Name / Name Arabic</label>
+                <div style="display:flex;gap:8px">
+                  <input data-field="name" data-idx="${i}" value="${esc(c.name)}" placeholder="English" style="flex:1" />
+                  <input data-field="nameAr" data-idx="${i}" value="${esc(c.nameAr)}" dir="rtl" placeholder="الاسم العربي" style="flex:1" />
+                </div></div>
+              <div class="field"><label>Icon (lucide name)</label><input data-field="icon" data-idx="${i}" value="${esc(c.icon)}" placeholder="truck, wallet, etc." /></div>
+              <div class="field"><label>Image URL (optional, overrides icon)</label><input data-field="img" data-idx="${i}" value="${esc(c.img)}" placeholder="images/uploads/..." /></div>
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-secondary btn-sm" id="add-item">${IC.plus} Add Client</button>
+      `;
+      function btn(action, idx, extra) { return `<button class="btn-icon ${extra||''}" data-action="${action}" data-idx="${idx}">${IC[action]}</button>`; }
+    }
+
+    function bindClients() { bindArrayCommon('clients', ['name','nameAr','icon','img']); }
+
+    /* ---- footer editor with editable links ---- */
+    function renderFooter() {
+      let f = getState('footer');
+      if (!f) f = { tagline: '', taglineAr: '', columns: [], social: [], copyright: '', copyrightAr: '' };
+      state.footer = f;
+      return `
+        <h1>Footer</h1>
+        <p class="sub">Edit tagline, columns (each with editable links + routes), social, and copyright. Bilingual EN/AR.</p>
+        <div class="card"><div class="card-body">
+          <div class="field"><label>Tagline / Tagline Arabic</label>
+            <div style="display:flex;gap:8px">
+              <textarea data-footer-field="tagline" placeholder="English" style="flex:1">${esc(f.tagline)}</textarea>
+              <textarea data-footer-field="taglineAr" dir="rtl" placeholder="العربية" style="flex:1">${esc(f.taglineAr)}</textarea>
+            </div></div>
+        </div></div>
+        <h3 style="margin:20px 0 8px;font-size:14px">Columns</h3>
+        ${(f.columns||[]).map((col, ci) => `
+          <div class="footer-col" data-col="${ci}">
+            <div class="footer-col-header">
+              <input data-col-title="${ci}" value="${esc(col.title)}" placeholder="Column title (EN)" style="flex:1" />
+              <input data-col-title-ar="${ci}" value="${esc(col.titleAr)}" dir="rtl" placeholder="عنوان العمود (عربي)" style="flex:1" />
+              <button class="btn-icon danger" data-action="del-col" data-idx="${ci}">${IC.trash}</button>
+            </div>
+            ${(col.links||[]).map((link, li) => `
+              <div class="link-row" data-link="${li}">
+                <input data-link-text data-ci="${ci}" data-li="${li}" value="${esc(typeof link === 'string' ? link : (link.text||link.label||''))}" placeholder="Link text (EN)" style="flex:1" />
+                <input data-link-text-ar data-ci="${ci}" data-li="${li}" value="${esc(typeof link === 'object' ? (link.textAr||'') : '')}" dir="rtl" placeholder="نص الرابط (عربي)" style="flex:1" />
+                <select data-link-route data-ci="${ci}" data-li="${li}" style="width:120px">
+                  ${ROUTES.map(r => `<option value="${r}" ${typeof link === 'object' && link.route === r ? 'selected' : ''}>${r}</option>`).join('')}
+                  <option value="#" ${typeof link === 'string' ? '' : (link.route === '#' ? 'selected' : '')}># (none)</option>
+                </select>
+                <button class="btn-icon danger" data-action="del-link" data-ci="${ci}" data-li="${li}">${IC.trash}</button>
+              </div>
+            `).join('')}
+            <button class="btn btn-secondary btn-sm" data-action="add-link" data-ci="${ci}" style="margin-top:6px">${IC.plus} Add Link</button>
+          </div>
+        `).join('')}
+        <button class="btn btn-secondary btn-sm" id="add-col" style="margin-bottom:20px">${IC.plus} Add Column</button>
+        <div class="card"><div class="card-body">
+          <div class="field"><label>Social (comma-separated)</label><input data-footer-field="social" value="${esc((f.social||[]).join(', '))}" /></div>
+          <div class="field"><label>Copyright / Copyright Arabic</label>
+            <div style="display:flex;gap:8px">
+              <input data-footer-field="copyright" value="${esc(f.copyright)}" placeholder="English" style="flex:1" />
+              <input data-footer-field="copyrightAr" value="${esc(f.copyrightAr)}" dir="rtl" placeholder="العربية" style="flex:1" />
+            </div></div>
+        </div></div>
+      `;
+    }
+
+    function bindFooter() {
+      /* tagline, copyright, social (incl. *Ar fields) */
+      document.querySelectorAll('[data-footer-field]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const k = inp.dataset.footerField;
+          if (k === 'social') state.footer.social = inp.value.split(',').map(s=>s.trim()).filter(Boolean);
+          else state.footer[k] = inp.value;
+        });
+      });
+      /* column titles (EN + AR) */
+      document.querySelectorAll('[data-col-title]').forEach(inp => {
+        inp.addEventListener('input', () => { state.footer.columns[+inp.dataset.colTitle].title = inp.value; });
+      });
+      document.querySelectorAll('[data-col-title-ar]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const ci = +inp.dataset.colTitleAr;
+          if (state.footer.columns[ci]) state.footer.columns[ci].titleAr = inp.value;
+        });
+      });
+      /* link text (EN) */
+      document.querySelectorAll('[data-link-text]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const ci = +inp.dataset.ci, li = +inp.dataset.li;
+          const link = state.footer.columns[ci].links[li];
+          if (typeof link === 'string') state.footer.columns[ci].links[li] = { text: inp.value, textAr: '', route: '#' };
+          else { link.text = inp.value; if (!link.route) link.route = '#'; if (!link.textAr) link.textAr = ''; }
+        });
+      });
+      /* link text (AR) */
+      document.querySelectorAll('[data-link-text-ar]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const ci = +inp.dataset.ci, li = +inp.dataset.li;
+          const link = state.footer.columns[ci].links[li];
+          if (typeof link === 'string') state.footer.columns[ci].links[li] = { text: link, textAr: inp.value, route: '#' };
+          else link.textAr = inp.value;
+        });
+      });
+      /* link route */
+      document.querySelectorAll('[data-link-route]').forEach(sel => {
+        sel.addEventListener('change', () => {
+          const ci = +sel.dataset.ci, li = +sel.dataset.li;
+          const link = state.footer.columns[ci].links[li];
+          if (typeof link === 'string') state.footer.columns[ci].links[li] = { text: link, textAr: '', route: sel.value };
+          else link.route = sel.value;
+        });
+      });
+      /* add link */
+      document.querySelectorAll('[data-action="add-link"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ci = +btn.dataset.ci;
+          if (!state.footer.columns[ci].links) state.footer.columns[ci].links = [];
+          state.footer.columns[ci].links.push({ text: 'New Link', textAr: '', route: '#' });
+          renderSection();
+        });
+      });
+      /* del link */
+      document.querySelectorAll('[data-action="del-link"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ci = +btn.dataset.ci, li = +btn.dataset.li;
+          state.footer.columns[ci].links.splice(li, 1);
+          renderSection();
+        });
+      });
+      /* del col */
+      document.querySelectorAll('[data-action="del-col"]').forEach(btn => {
+        btn.addEventListener('click', () => { state.footer.columns.splice(+btn.dataset.idx, 1); renderSection(); });
+      });
+      /* add col */
+      document.getElementById('add-col')?.addEventListener('click', () => {
+        if (!state.footer.columns) state.footer.columns = [];
+        state.footer.columns.push({ title: 'New Column', titleAr: '', links: [] });
+        renderSection();
+      });
+    }
+
+    /* ---- typewriter editor ---- */
+    function renderTypewriter() {
+      let tw = getState('typewriter');
+      if (!tw) tw = { en: [], ar: [] };
+      state.typewriter = tw;
+      const en = Array.isArray(tw.en) ? tw.en : [];
+      return `
+        <h1>Typewriter</h1>
+        <p class="sub">Rotating hero badge phrases (suffixes after the "N" icon).</p>
+        <div class="preview-box"><span class="preview-text" id="tw-preview"></span><span class="preview-cursor"></span></div>
+        <h3 style="margin-bottom:8px;font-size:14px">English Phrases <span class="badge">${en.length}</span></h3>
+        ${en.map((p, i) => `
+          <div class="card" data-idx="${i}">
+            <div class="card-header">
+              <h3>Phrase ${i+1}</h3>
+              <div class="row-actions">
+                ${btn('up', i)} ${btn('down', i)} ${btn('trash', i, 'danger')}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="field"><input data-tw-idx="${i}" value="${esc(p)}" /></div>
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-secondary btn-sm" id="add-tw">${IC.plus} Add Phrase</button>
+      `;
+      function btn(action, idx, extra) { return `<button class="btn-icon ${extra||''}" data-action="${action}" data-idx="${idx}">${IC[action]}</button>`; }
+    }
+
+    function bindTypewriter() {
+      document.querySelectorAll('[data-tw-idx]').forEach(inp => {
+        inp.addEventListener('input', () => { state.typewriter.en[+inp.dataset.twIdx] = inp.value; });
+      });
+      document.getElementById('add-tw')?.addEventListener('click', () => {
+        if (!state.typewriter.en) state.typewriter.en = [];
+        state.typewriter.en.push('');
+        renderSection();
+      });
+      bindArrayActions('typewriter', 'en');
+      startPreview();
+    }
+
+    function startPreview() {
+      const list = (state.typewriter && state.typewriter.en) || [];
+      if (!list.length) return;
+      let idx = 0, ch = 0, del = false;
+      const el = document.getElementById('tw-preview');
+      function tick() {
+        if (!el || !list.length) return;
+        const cur = list[idx % list.length];
+        if (!del) { ch++; el.textContent = cur.slice(0, ch); if (ch >= cur.length) { del = true; setTimeout(tick, 1200); return; } setTimeout(tick, 60); }
+        else { ch--; el.textContent = cur.slice(0, ch); if (ch <= 0) { del = false; idx++; setTimeout(tick, 300); return; } setTimeout(tick, 30); }
+      }
+      tick();
+    }
+
+    /* ---- common array actions (up/down/delete) ---- */
+    function bindArrayActions(sectionKey, subKey) {
+      document.querySelectorAll('[data-action="up"]').forEach(btn => btn.addEventListener('click', () => {
+        const i = +btn.dataset.idx; const arr = subKey ? state[sectionKey][subKey] : state[sectionKey];
+        if (i > 0) { [arr[i-1], arr[i]] = [arr[i], arr[i-1]]; renderSection(); }
+      }));
+      document.querySelectorAll('[data-action="down"]').forEach(btn => btn.addEventListener('click', () => {
+        const i = +btn.dataset.idx; const arr = subKey ? state[sectionKey][subKey] : state[sectionKey];
+        if (i < arr.length - 1) { [arr[i], arr[i+1]] = [arr[i+1], arr[i]]; renderSection(); }
+      }));
+      document.querySelectorAll('[data-action="trash"]').forEach(btn => btn.addEventListener('click', () => {
+        const i = +btn.dataset.idx; const arr = subKey ? state[sectionKey][subKey] : state[sectionKey];
+        arr.splice(i, 1); renderSection();
+      }));
+    }
+
+    function bindArrayCommon(sectionKey, fields) {
+      /* field edits */
+      document.querySelectorAll('[data-field]').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const i = +inp.dataset.idx;
+          const f = inp.dataset.field;
+          if (state[sectionKey][i]) {
+            /* numeric fields (like stats.to) stay numeric */
+            state[sectionKey][i][f] = (f === 'to' || f === 'value' || f === 'order') ? (parseInt(inp.value, 10) || 0) : inp.value;
+          }
+        });
+      });
+      /* add item */
+      document.getElementById('add-item')?.addEventListener('click', () => {
+        const obj = {}; fields.forEach(f => obj[f] = (f === 'to' || f === 'value' || f === 'order') ? 0 : '');
+        if (!Array.isArray(state[sectionKey])) state[sectionKey] = [];
+        state[sectionKey].push(obj);
+        renderSection();
+      });
+      bindArrayActions(sectionKey);
+    }
+
+    /* ---- string array editor (for stack: ["React", "Node.js", ...]) ---- */
+    function renderStringArray(key) {
+      let arr = getState(key);
+      if (!Array.isArray(arr)) arr = [];
+      state[key] = arr;
+      return `
+        <h1>${key.charAt(0).toUpperCase() + key.slice(1)}</h1>
+        <p class="sub">${arr.length} item(s). Each is a plain string.</p>
+        ${arr.length === 0 ? '<div class="card-body empty">No items. Add one below.</div>' : arr.map((item, i) => `
+          <div class="card" data-idx="${i}">
+            <div class="card-header">
+              <h3>Item ${i + 1}</h3>
+              <div class="row-actions">
+                ${i > 0 ? btn('up', i) : ''}
+                ${i < arr.length - 1 ? btn('down', i) : ''}
+                ${btn('trash', i, 'danger')}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="field"><input data-str-idx="${i}" value="${esc(item)}" /></div>
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-secondary btn-sm" id="add-item">${IC.plus} Add Item</button>
+      `;
+      function btn(action, idx, extra) { return `<button class="btn-icon ${extra||''}" data-action="${action}" data-idx="${idx}">${IC[action]}</button>`; }
+    }
+
+    function bindStringArray(key) {
+      document.querySelectorAll('[data-str-idx]').forEach(inp => {
+        inp.addEventListener('input', () => { state[key][+inp.dataset.strIdx] = inp.value; });
+      });
+      document.getElementById('add-item')?.addEventListener('click', () => {
+        if (!Array.isArray(state[key])) state[key] = [];
+        state[key].push('');
+        renderSection();
+      });
+      bindArrayActions(key);
+    }
+
+    /* ---- init ---- */
+    render();
+  })();
+  </script>
+</body>
+</html>

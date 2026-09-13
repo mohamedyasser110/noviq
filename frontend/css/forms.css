@@ -1,0 +1,432 @@
+/* ============================================================
+   FORMS — input components for tools & pages
+   ============================================================ */
+
+.noviq-textarea,
+.noviq-select {
+  background: var(--input-bg);
+  border: 1px solid var(--control-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.12), inset 0 1px 0 var(--inset-highlight);
+  transition: all 0.25s var(--ease-smooth);
+  width: 100%;
+}
+
+.noviq-textarea:focus,
+.noviq-select:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--secondary) 25%, transparent), 0 0 20px color-mix(in srgb, var(--secondary) 15%, transparent);
+  background: color-mix(in srgb, var(--card) 88%, var(--secondary) 12%);
+}
+
+.noviq-textarea.error {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+}
+
+.noviq-textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.noviq-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B92A6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.noviq-select option {
+  background: var(--card);
+  color: var(--text);
+}
+
+/* Toggle switch */
+.noviq-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.noviq-toggle input {
+  display: none;
+}
+
+.noviq-toggle-track {
+  width: 42px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.3s var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+.noviq-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #6B7280;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.noviq-toggle input:checked + .noviq-toggle-track {
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(109,40,255,0.4);
+}
+
+.noviq-toggle input:checked + .noviq-toggle-track::after {
+  left: 21px;
+  background: #fff;
+}
+
+.noviq-toggle-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+}
+
+/* Slider */
+.noviq-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  outline: none;
+  transition: background 0.3s;
+}
+
+.noviq-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(109,40,255,0.4);
+  border: 2px solid rgba(var(--text-inverse-rgb), 0.16);
+  transition: transform 0.2s;
+}
+
+.noviq-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.noviq-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  cursor: pointer;
+  border: none;
+}
+
+.noviq-slider-value {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+  margin-top: 6px;
+}
+
+/* Checkbox */
+.noviq-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+}
+
+.noviq-checkbox input {
+  display: none;
+}
+
+.noviq-checkbox-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--control-border-strong);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+.noviq-checkbox input:checked + .noviq-checkbox-box {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(109,40,255,0.3);
+}
+
+.noviq-checkbox input:checked + .noviq-checkbox-box::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+
+/* Radio group */
+.noviq-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.noviq-radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+  background: var(--surface-highlight);
+}
+
+.noviq-radio-option:hover {
+  border-color: rgba(109,40,255,0.3);
+  background: rgba(109,40,255,0.05);
+}
+
+.noviq-radio-option input {
+  display: none;
+}
+
+.noviq-radio-option:has(input:checked) {
+  border-color: var(--accent);
+  background: rgba(109,40,255,0.1);
+  color: var(--text);
+  box-shadow: 0 0 16px rgba(109,40,255,0.15);
+}
+
+.noviq-radio-option .radio-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--control-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.noviq-radio-option:has(input:checked) .radio-dot {
+  border-color: var(--accent);
+}
+
+.noviq-radio-option:has(input:checked) .radio-dot::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(109,40,255,0.5);
+}
+
+/* Button group */
+.noviq-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.noviq-btn-option {
+  padding: 8px 18px;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--surface-highlight);
+  color: var(--text-secondary);
+  font-family: 'Inter';
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.noviq-btn-option:hover {
+  border-color: rgba(109,40,255,0.3);
+  color: var(--text);
+}
+
+.noviq-btn-option.active {
+  border-color: var(--accent);
+  background: rgba(109,40,255,0.12);
+  color: var(--text);
+  box-shadow: 0 0 12px rgba(109,40,255,0.2);
+}
+
+/* File upload */
+.noviq-file-upload {
+  border: 2px dashed var(--control-border-strong);
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+  background: var(--surface-highlight);
+}
+
+.noviq-file-upload:hover,
+.noviq-file-upload.dragover {
+  border-color: var(--accent);
+  background: rgba(109,40,255,0.05);
+  box-shadow: 0 0 24px rgba(109,40,255,0.1);
+}
+
+.noviq-file-upload-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: var(--secondary);
+}
+
+.noviq-file-upload-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+}
+
+.noviq-file-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--control-bg);
+  margin-top: 12px;
+}
+
+.noviq-file-preview img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.noviq-file-preview-name {
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'Inter';
+}
+
+.noviq-file-preview-size {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Stepper */
+.noviq-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.noviq-step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.noviq-step-marker {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Space Grotesk';
+  color: var(--text-secondary);
+  background: var(--control-bg);
+  border: 2px solid var(--control-border);
+  transition: all 0.35s var(--ease-smooth);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.noviq-step.active .noviq-step-marker {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(109,40,255,0.4);
+}
+
+.noviq-step.completed .noviq-step-marker {
+  background: rgba(109,40,255,0.2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.noviq-step-line {
+  width: 48px;
+  height: 2px;
+  background: var(--control-border);
+  position: relative;
+  z-index: 1;
+  transition: background 0.35s var(--ease-smooth);
+}
+
+.noviq-step.completed + .noviq-step-line,
+.noviq-step.active + .noviq-step-line {
+  background: var(--accent);
+}
+
+.noviq-step-label {
+  display: none;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+  text-align: center;
+  margin-top: 6px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .noviq-step-marker {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+  .noviq-step-line {
+    width: 80px;
+  }
+  .noviq-step-label {
+    display: block;
+  }
+}

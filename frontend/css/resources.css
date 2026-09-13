@@ -1,0 +1,108 @@
+/* Resources, news, and long-form article pages */
+.noviq-resource-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--control-border);
+}
+
+.noviq-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.noviq-resource-card {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--control-border);
+  border-radius: 18px;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.noviq-resource-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(var(--accent-rgb, 139, 92, 246), .42);
+  box-shadow: var(--shadow-card);
+}
+
+.noviq-resource-card.featured {
+  grid-column: span 2;
+}
+
+.noviq-resource-image {
+  display: block;
+  min-height: 190px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--control-border);
+}
+.noviq-resource-image img { width: 100%; height: 190px; display: block; object-fit: cover; }
+.noviq-resource-card.featured .noviq-resource-image img { height: 260px; }
+
+.noviq-resource-card.featured .noviq-resource-image { min-height: 260px; }
+.noviq-resource-body { padding: 22px; }
+
+.noviq-resource-meta,
+.noviq-resource-footer,
+.noviq-resource-detail-meta,
+.noviq-resource-detail-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.noviq-resource-meta { margin-bottom: 13px; }
+.noviq-resource-meta span {
+  padding: 4px 9px;
+  color: var(--secondary);
+  background: rgba(109, 40, 255, .1);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.noviq-resource-meta time { color: var(--text-secondary); font-size: 12px; }
+.noviq-resource-body h2 { margin: 0; font-size: 1.05rem; line-height: 1.45; }
+.noviq-resource-body h2 a { color: var(--text); text-decoration: none; }
+.noviq-resource-body p { margin: 10px 0 20px; color: var(--text-secondary); font-size: 13px; line-height: 1.7; }
+.noviq-resource-footer { padding-top: 15px; border-top: 1px solid var(--control-border); }
+.noviq-resource-footer small { color: var(--text-secondary); }
+.noviq-resource-footer a { display: inline-flex; align-items: center; gap: 6px; color: var(--secondary); text-decoration: none; font-size: 13px; font-weight: 600; }
+.noviq-resource-footer svg { width: 14px; height: 14px; }
+
+.noviq-resource-empty {
+  padding: 70px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  border: 1px dashed var(--control-border);
+  border-radius: 18px;
+}
+.noviq-resource-empty svg { width: 34px; height: 34px; color: var(--secondary); margin-bottom: 12px; }
+.noviq-resource-empty h3 { color: var(--text); margin-bottom: 7px; }
+
+.noviq-resource-detail-hero { padding-bottom: 64px; }
+.noviq-resource-detail-tag { display: inline-flex; padding: 5px 11px; color: var(--secondary); background: rgba(109, 40, 255, .1); border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+.noviq-resource-detail-meta { justify-content: flex-start; margin-top: 24px; color: var(--text-secondary); font-size: 13px; }
+.noviq-resource-detail-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.noviq-resource-detail-meta svg { width: 15px; height: 15px; color: var(--secondary); }
+.noviq-resource-article { max-width: 850px; margin: 0 auto; }
+.noviq-resource-article > img { width: 100%; max-height: 480px; object-fit: cover; border-radius: 20px; border: 1px solid var(--control-border); margin-bottom: 34px; }
+.noviq-resource-article-copy { color: var(--text-secondary); font-size: 1rem; line-height: 1.9; }
+.noviq-resource-article-copy p { margin: 0 0 22px; }
+.noviq-resource-detail-actions { justify-content: flex-start; flex-wrap: wrap; margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--control-border); }
+.noviq-resource-detail-actions a { text-decoration: none; }
+.noviq-resource-detail-actions svg { width: 16px; height: 16px; }
+
+html[dir='rtl'] .noviq-resource-body,
+html[dir='rtl'] .noviq-resource-article { text-align: right; }
+
+@media (max-width: 760px) {
+  .noviq-resource-card.featured { grid-column: auto; }
+  .noviq-resource-card.featured .noviq-resource-image { min-height: 190px; }
+  .noviq-resource-card.featured .noviq-resource-image img { height: 190px; }
+  .noviq-resource-grid { grid-template-columns: 1fr; }
+  .noviq-resource-detail-meta { align-items: flex-start; flex-direction: column; }
+}

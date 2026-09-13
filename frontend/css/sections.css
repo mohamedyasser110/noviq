@@ -1,0 +1,759 @@
+/* ============================================================
+   SECTIONS — layout & styling for each page section
+   ============================================================ */
+
+section[id], section:not([id]) { padding: var(--section-pad-y) var(--section-pad-x); position: relative; }
+
+/* Prevent any child element (intro canvas, hero3d canvas) from causing horizontal overflow */
+#home-sections,
+#app-main {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* content-visibility for below-fold sections — speeds up initial render */
+.noviq-stats,
+.noviq-section-purple,
+.noviq-section-teal,
+.noviq-section-glow,
+.noviq-projects-grid,
+.noviq-timeline,
+.noviq-contact-grid,
+.noviq-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 400px;
+}
+
+/* ---- Hero ---- */
+#home {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  padding: 140px var(--section-pad-x) 80px; overflow: hidden;
+  background: var(--bg);
+}
+.noviq-mesh {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(109,40,255,0.28), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(168,85,247,0.22), transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(139,92,246,0.18), transparent 50%);
+  animation: noviqMeshShift 14s ease-in-out infinite alternate;
+  will-change: filter;
+}
+/* Light theme — boost hero contrast so it doesn't vanish into --bg */
+html[data-theme-tone="light"] #home {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg) 100%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 85%, var(--surface) 15%) 100%
+    );
+}
+html[data-theme-tone="light"] .noviq-mesh {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(109,40,255,0.18), transparent 50%),
+    radial-gradient(circle at 85% 15%, rgba(168,85,247,0.14), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(139,92,246,0.12), transparent 55%),
+    linear-gradient(180deg, rgba(var(--card-rgb), 0.4) 0%, transparent 60%);
+}
+/* Bottom separator — keeps hero visually distinct from next section */
+#home::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--text-rgb), 0.08), transparent);
+  pointer-events: none;
+}
+@keyframes noviqMeshShift {
+  0% { filter: hue-rotate(0deg) brightness(1); }
+  100% { filter: hue-rotate(12deg) brightness(1.12); }
+}
+.noviq-glow-blob {
+  position: absolute; top: 50%; left: 50%; width: 70%; height: 70%;
+  transform: translate(-50%,-50%) scale(0);
+  background: radial-gradient(circle, rgba(109,40,255,0.35), transparent 70%);
+  filter: blur(60px); z-index: 0; pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+.noviq-hero-grid {
+  position: relative; z-index: 1; max-width: var(--container-max); margin: 0 auto;
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; width: 100%;
+}
+.noviq-hero-badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 20px;
+  border-radius: var(--radius-pill); background: color-mix(in srgb, var(--secondary) 10%, transparent); border: 1px solid var(--border);
+  font-size: 16px; color: var(--secondary); font-family: var(--font-body); font-weight: 600; margin-bottom: 28px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--secondary) 12%, transparent), inset 0 1px 0 rgba(var(--text-rgb), 0.15);
+  transition: transform var(--dur-base) var(--ease-smooth), box-shadow var(--dur-base) var(--ease-smooth), border-color var(--dur-base) var(--ease-smooth);
+}
+.noviq-hero-badge:hover {
+  border-color: color-mix(in srgb, var(--secondary) 60%, transparent);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--secondary) 25%, transparent), inset 0 1px 0 rgba(var(--text-rgb), 0.3);
+}
+.noviq-typewriter-text {
+  display: inline;
+  min-width: 0;
+  margin-left: -2px;
+  direction: ltr;
+}
+html[dir='rtl'] .noviq-typewriter-text { margin-left: 0; margin-right: -2px; }
+html[dir='rtl'] .noviq-hero-badge .noviq-logo-icon { margin: 0; }
+.noviq-typewriter-cursor {
+  display: inline-block;
+  color: var(--secondary);
+  font-weight: 300;
+  margin-left: 1px;
+  animation: twBlink 0.75s step-start infinite;
+  opacity: 1;
+}
+html[dir='rtl'] .noviq-typewriter-cursor { direction: ltr; unicode-bidi: embed; }
+@keyframes twBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.noviq-hero-title {
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-display-xl);
+  line-height: 1.05; letter-spacing: -0.03em; color: var(--text); margin: 0 0 24px;
+}
+.noviq-hero-title .gradient {
+  background: linear-gradient(135deg, var(--secondary), var(--accent), var(--accent-2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200% 200%;
+  animation: gradientShift 6s ease-in-out infinite alternate;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.noviq-hero-desc {
+  font-family: var(--font-body); font-size: var(--fs-body-lg); line-height: 1.7; color: var(--text-secondary);
+  max-width: 520px; margin: 0 0 40px;
+}
+.noviq-hero-3d {
+  position: relative;
+  height: clamp(280px, 38vw, 480px);
+  /* Radial mask: soft, gradual fade to prevent visible square boundaries */
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 75% at 50% 50%,
+    black 35%,
+    rgba(0,0,0,0.75) 50%,
+    rgba(0,0,0,0.40) 68%,
+    rgba(0,0,0,0.12) 80%,
+    transparent 88%
+  );
+  mask-image: radial-gradient(
+    ellipse 75% 75% at 50% 50%,
+    black 35%,
+    rgba(0,0,0,0.75) 50%,
+    rgba(0,0,0,0.40) 68%,
+    rgba(0,0,0,0.12) 80%,
+    transparent 88%
+  );
+}
+#hero-canvas { width: 100% !important; height: 100% !important; cursor: grab; touch-action: manipulation; }
+#hero-canvas:active { cursor: grabbing; }
+.noviq-scroll-hint {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.5;
+  animation: floatHint 3s ease-in-out infinite;
+}
+@keyframes floatHint {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+  50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
+}
+.noviq-scroll-hint span {
+  font-size: 11px; color: var(--text-secondary); font-family: var(--font-body); letter-spacing: 0.12em;
+}
+.noviq-scroll-line { width: 1px; height: 32px; background: linear-gradient(var(--secondary), transparent); }
+
+/* ---- Stats ---- */
+.noviq-stats {
+  padding: 70px var(--section-pad-x); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.noviq-stats::before {
+  content: '';
+  position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+  opacity: 0.3;
+}
+.noviq-stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 32px;
+  max-width: 1200px; margin: 0 auto;
+}
+.noviq-stat { text-align: center; transition: transform var(--dur-base) var(--ease-smooth); }
+.noviq-stat:hover { transform: translateY(-4px); }
+.noviq-stat-number {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(32px,4vw,46px);
+  background: linear-gradient(135deg, var(--text), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.noviq-stat-label { font-family: var(--font-body); font-size: var(--fs-body-sm); color: var(--text-secondary); margin-top: 6px; }
+
+/* ---- Section background variations ---- */
+.noviq-section-purple { position: relative; }
+.noviq-section-purple::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(109,40,255,0.06), transparent 60%);
+  pointer-events: none;
+}
+.noviq-section-teal { position: relative; }
+.noviq-section-teal::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(139,92,246,0.04), transparent 50%),
+              radial-gradient(circle at 70% 30%, rgba(168,85,247,0.05), transparent 50%);
+  pointer-events: none;
+}
+.noviq-section-glow { position: relative; }
+.noviq-section-glow::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(109,40,255,0.05), transparent 60%);
+  pointer-events: none;
+}
+
+/* ---- Section Header ---- */
+.noviq-section-header { max-width: var(--container-narrow); margin: 0 auto 56px; text-align: left; }
+.noviq-section-header .eyebrow {
+  font-size: 12px; color: var(--secondary); font-family: var(--font-body); font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 6px 16px; border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--secondary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--secondary) 24%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(var(--text-rgb), 0.12);
+  margin-bottom: 8px;
+}
+.noviq-section-header .eyebrow::before {
+  content: ''; width: 14px; height: 1.5px;
+  background: var(--secondary);
+  border-radius: 1px; opacity: 0.8;
+}
+.noviq-section-header h2 {
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-display-lg);
+  color: var(--text); margin: 12px 0 14px; letter-spacing: -0.02em; line-height: 1.15;
+  background: linear-gradient(135deg, var(--text) 60%, color-mix(in srgb, var(--text) 20%, var(--secondary) 80%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.noviq-section-header p {
+  font-family: var(--font-body); color: var(--text-secondary); font-size: clamp(17px, 1.3vw, 21px); max-width: 680px; line-height: 1.65; margin: 14px 0 0;
+}
+
+/* ---- Services ---- */
+.noviq-services-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px;
+  max-width: var(--container-max); margin: 0 auto;
+}
+.noviq-service-card { padding: 32px; }
+.noviq-service-card h3 {
+  font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text); margin: 18px 0 8px;
+}
+.noviq-service-card p {
+  font-family: var(--font-body); font-size: var(--fs-body-md); color: var(--text-secondary); line-height: 1.65; margin: 0;
+}
+.noviq-service-card:hover .noviq-icon-badge i { animation: iconPulse 1.2s var(--ease-smooth) infinite; }
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+}
+
+/* ---- Why Grid ---- */
+.noviq-why-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;
+  max-width: var(--container-max); margin: 0 auto;
+}
+.noviq-why-card { padding: 28px; height: 100%; }
+.noviq-why-card h4 {
+  font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--text); margin: 16px 0 6px;
+}
+.noviq-why-card p {
+  font-family: var(--font-body); font-size: var(--fs-body-sm); color: var(--text-secondary); line-height: 1.6; margin: 0;
+}
+
+/* ---- Industries ---- */
+.noviq-industries-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;
+  max-width: var(--container-max); margin: 0 auto;
+}
+.noviq-industry-card {
+  padding: 30px 20px; display: flex; flex-direction: column; align-items: center;
+  text-align: center; cursor: pointer;
+}
+.noviq-industry-card span {
+  font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--text); margin-top: 12px;
+}
+
+/* ---- Projects ---- */
+.noviq-projects-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px;
+  max-width: var(--container-max); margin: 0 auto;
+}
+.noviq-project-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.45s var(--ease-smooth), border-color 0.4s, box-shadow 0.45s var(--ease-smooth);
+  position: relative;
+}
+.noviq-project-card::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 30%, var(--surface-highlight) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+  pointer-events: none;
+  z-index: 2;
+}
+.noviq-project-card:hover::before { transform: translateX(100%); }
+.noviq-project-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(139,92,246,0.47);
+  box-shadow: var(--shadow-lg);
+}
+.noviq-project-image {
+  height: 200px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #1B1533 0%, #2A1266 45%, #6D28FF 100%);
+  background-size: cover;
+  background-position: center;
+}
+.noviq-project-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(168,85,247,0.5), transparent 60%);
+  transition: transform 0.6s var(--ease-smooth);
+}
+.noviq-project-card:hover .noviq-project-overlay { transform: scale(1.25) translate(4%, -4%); }
+.noviq-project-body { padding: 24px 26px 28px; }
+.noviq-project-body .tag {
+  font-size: var(--fs-caption); color: var(--secondary); font-family: var(--font-body); font-weight: 600; letter-spacing: 0.05em;
+}
+.noviq-project-body h3 {
+  font-family: var(--font-display); font-size: 21px; font-weight: 600; color: var(--text); margin: 10px 0;
+}
+.noviq-project-body p {
+  font-family: var(--font-body); font-size: var(--fs-body-md); color: var(--text-secondary); line-height: 1.6; margin: 0 0 16px;
+}
+.noviq-project-body .link {
+  display: inline-flex; align-items: center; gap: 6px; color: var(--text);
+  font-size: 14px; font-family: var(--font-body); font-weight: 500; cursor: pointer; text-decoration: none;
+  transition: gap 0.3s var(--ease-smooth), color 0.25s;
+}
+.noviq-project-body .link:hover { gap: 10px; color: var(--secondary); }
+
+/* ---- Process / Timeline ---- */
+.noviq-timeline {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px;
+  max-width: var(--container-max); margin: 0 auto; position: relative;
+}
+.noviq-timeline::before {
+  content: '';
+  position: absolute; top: 20px; left: 7%; right: 7%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  z-index: 0;
+}
+.noviq-timeline-item {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.noviq-timeline-icon {
+  width: 42px; height: 42px; border-radius: var(--radius-md); margin: 0 auto;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(109,40,255,0.5);
+  transition: transform 0.35s var(--ease-smooth), box-shadow 0.35s;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.noviq-timeline-icon::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.1) 50%, transparent 80%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+.noviq-timeline-item:hover .noviq-timeline-icon::after { transform: translateX(100%); }
+.noviq-timeline-item:hover .noviq-timeline-icon {
+  transform: scale(1.12);
+  box-shadow: 0 0 30px rgba(168,85,247,0.6);
+}
+.noviq-timeline-icon i { color: #fff; width: 18px; height: 18px; }
+.noviq-timeline-item h4 {
+  font-family: var(--font-display); font-size: 15.5px; font-weight: 600; color: var(--text); margin: 14px 0 6px; text-align: center;
+}
+.noviq-timeline-item p {
+  font-family: var(--font-body); font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0; text-align: center;
+}
+
+/* ---- Testimonials ---- */
+.noviq-testimonial-card { padding: 52px 40px; text-align: center; min-height: 220px; position: relative; }
+.noviq-testimonial-card::before,
+.noviq-testimonial-card::after {
+  content: '\201C'; position: absolute;
+  font-family: var(--font-display); font-size: 80px; line-height: 1;
+  color: var(--secondary); opacity: 0.08;
+  pointer-events: none;
+}
+.noviq-testimonial-card::before { top: 8px; left: 24px; }
+.noviq-testimonial-card::after { content: '\201D'; bottom: 0; right: 24px; top: auto; font-size: 80px; }
+.noviq-testimonial-card .quote {
+  font-family: var(--font-display); font-size: 20px; line-height: 1.6; color: var(--text); margin: 0 0 24px;
+  transition: opacity 0.4s var(--ease-smooth);
+}
+.noviq-testimonial-card .name { font-family: var(--font-body); font-size: 14px; color: var(--secondary); font-weight: 600; }
+.noviq-testimonial-card .role { font-family: var(--font-body); font-size: 13px; color: var(--text-secondary); }
+.noviq-dots { display: flex; justify-content: center; gap: 10px; margin-top: 22px; }
+.noviq-dot {
+  width: 8px; height: 8px; border-radius: var(--radius-pill); border: none;
+  background: var(--border); cursor: pointer;
+  transition: all 0.45s var(--ease-smooth); padding: 0;
+}
+.noviq-dot:hover { background: var(--text-secondary); }
+.noviq-dot.active { width: 24px; background: var(--secondary); box-shadow: 0 0 12px rgba(139,92,246,0.4); }
+
+/* ---- Tech Stack ---- */
+.noviq-stack-grid {
+  display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 1000px; margin: 0 auto;
+}
+.noviq-stack-chip {
+  padding: 12px 20px; border-radius: var(--radius-pill); background: var(--glass-bg-light);
+  border: 1px solid var(--border); color: var(--text-secondary); font-family: var(--font-body);
+  font-size: var(--fs-body-sm); font-weight: 500;
+  animation: noviqFloat 4s ease-in-out infinite;
+  transition: border-color 0.3s, color 0.3s, background 0.3s, box-shadow 0.3s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.noviq-stack-chip::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 20%, var(--surface-highlight) 50%, transparent 80%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+.noviq-stack-chip:hover::after { transform: translateX(100%); }
+.noviq-stack-chip:hover {
+  border-color: var(--secondary); color: var(--text);
+  background: var(--popup-bg);
+  box-shadow: 0 0 20px rgba(139,92,246,0.15);
+}
+@keyframes noviqFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* ---- Contact ---- */
+.noviq-contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  max-width: 1100px; margin: 0 auto; align-items: start;
+}
+.noviq-contact-info h2 {
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-display-lg);
+  color: var(--text); margin: 12px 0 16px;
+}
+.noviq-contact-info p {
+  font-family: var(--font-body); color: var(--text-secondary); font-size: var(--fs-body-lg); line-height: 1.7;
+  max-width: 420px; margin-bottom: 32px;
+}
+.noviq-contact-detail {
+  display: flex; align-items: center; gap: 12px; color: var(--text-secondary);
+  font-family: var(--font-body); font-size: var(--fs-body-md); margin-bottom: 16px;
+  transition: color 0.25s, transform 0.3s var(--ease-smooth);
+}
+.noviq-contact-detail:hover { color: var(--text); transform: translateX(4px); }
+
+.noviq-contact-form { padding: 36px; display: flex; flex-direction: column; gap: 16px; position: relative; }
+.noviq-contact-form::before {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    var(--glass-iridescent-1) 60deg,
+    var(--glass-iridescent-2) 120deg,
+    var(--glass-iridescent-3) 180deg,
+    var(--glass-iridescent-2) 240deg,
+    var(--glass-iridescent-1) 300deg,
+    transparent 360deg
+  );
+  opacity: 0.4;
+  z-index: -1;
+  animation: iridescentRotate 6s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1.5px;
+}
+
+/* ---- Footer ---- */
+.noviq-footer {
+  padding: 80px var(--section-pad-x) 32px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: background-color var(--dur-base) var(--ease-smooth), border-color var(--dur-base) var(--ease-smooth);
+}
+.noviq-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.35;
+}
+
+.noviq-footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr) 1.4fr;
+  gap: 36px;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  align-items: start;
+}
+.noviq-footer-brand .noviq-logo {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 18px;
+  text-decoration: none;
+}
+.noviq-footer-tagline {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 270px;
+  margin: 0;
+}
+.noviq-footer-col h5 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 20px 0;
+  letter-spacing: 0.01em;
+}
+.noviq-footer-col a {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: color 0.25s ease, transform 0.25s ease;
+  width: fit-content;
+}
+.noviq-footer-col a:hover {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+.noviq-newsletter-box {
+  display: flex;
+  align-items: center;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  border-radius: 999px;
+  padding: 4px 4px 4px 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+}
+.noviq-newsletter-box:focus-within {
+  border-color: var(--secondary);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--secondary) 35%, transparent);
+}
+.noviq-newsletter-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 13.5px;
+  font-family: var(--font-body);
+}
+.noviq-newsletter-input::placeholder {
+  color: var(--text-tertiary);
+}
+.noviq-newsletter-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 50%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+.noviq-newsletter-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 75%, transparent);
+}
+
+.noviq-footer-bottom {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.noviq-footer-bottom span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.noviq-footer-social {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.noviq-footer-social a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+  position: relative;
+}
+.noviq-footer-social a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--secondary);
+  transform: scaleX(0);
+  transition: transform 0.35s var(--ease-smooth);
+}
+.noviq-footer-social a:hover {
+  color: var(--text);
+  transform: translateY(-2px);
+}
+.noviq-footer-social a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---- Clients grid (logo cards) ---- */
+.noviq-clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.noviq-client-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 30px 20px 26px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--surface-highlight-strong), var(--surface-highlight));
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease-smooth), border-color 0.35s var(--ease-smooth), box-shadow 0.35s var(--ease-smooth);
+}
+.noviq-client-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(139,92,246,0.16), transparent 65%);
+  opacity: 0; transition: opacity 0.35s var(--ease-smooth);
+  pointer-events: none;
+}
+.noviq-client-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139,92,246,0.4);
+  box-shadow: 0 14px 40px rgba(139,92,246,0.16);
+}
+.noviq-client-card:hover::before { opacity: 1; }
+.noviq-client-logo {
+  width: 64px; height: 64px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, rgba(139,92,246,0.16), rgba(109,40,255,0.07));
+  border: 1px solid rgba(139,92,246,0.25);
+  position: relative; z-index: 1;
+  transition: transform 0.35s var(--ease-smooth), box-shadow 0.35s var(--ease-smooth);
+}
+.noviq-client-card:hover .noviq-client-logo {
+  transform: scale(1.08);
+  box-shadow: 0 0 26px rgba(139,92,246,0.35);
+}
+.noviq-client-logo .client-icon {
+  width: 32px; height: 32px; color: var(--secondary);
+  filter: drop-shadow(0 0 8px rgba(139,92,246,0.45));
+  flex-shrink: 0;
+}
+.noviq-client-card:hover .client-icon { color: #A78BFA; }
+.noviq-client-logo img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 15px;
+}
+.noviq-client-name {
+  font-family: var(--font-display); font-weight: 600; font-size: 15.5px;
+  color: var(--text-secondary); letter-spacing: 0.01em; text-align: center;
+  position: relative; z-index: 1;
+  transition: color 0.3s var(--ease-smooth);
+}
+.noviq-client-card:hover .noviq-client-name { color: var(--text); }
+html[dir='rtl'] .noviq-clients-grid { direction: rtl; }
+@media (max-width: 900px) {
+  .noviq-clients-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 480px) {
+  .noviq-client-card { padding: 22px 14px 20px; }
+  .noviq-client-logo { width: 54px; height: 54px; }
+  .noviq-client-logo .client-icon { width: 27px; height: 27px; }
+  .noviq-client-name { font-size: 14px; }
+}
+
+/* Footer Responsive Rules */
+@media (max-width: 1024px) {
+  .noviq-footer-grid {
+    grid-template-columns: 1fr repeat(3, 1fr);
+    gap: 32px;
+  }
+  .noviq-footer-col-newsletter {
+    grid-column: span 3;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .noviq-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .noviq-footer-brand {
+    grid-column: span 2;
+  }
+  .noviq-footer-col-newsletter {
+    grid-column: span 2;
+  }
+  .noviq-footer-bottom {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+}
+@media (max-width: 480px) {
+  .noviq-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .noviq-footer-brand,
+  .noviq-footer-col-newsletter {
+    grid-column: span 1;
+  }
+}

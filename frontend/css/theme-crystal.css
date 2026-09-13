@@ -1,0 +1,497 @@
+/* ============================================================
+   CRYSTAL ENERGY THEME — Premium Theme Toggle
+   Design tokens, accessibility, reduced-motion, state-driven
+   ============================================================ */
+
+/* ---- Navbar trigger ---- */
+.noviq-navbar .noviq-crystal-toggle { margin-inline: 3px; }
+
+/* ============================================================
+   DESIGN TOKENS — Crystal color system (0-100 energy)
+   Updated via JS based on current theme energy level
+   ============================================================ */
+
+:root {
+  /* Core crystal material - interpolated 0-100 */
+  --crystal-t0:  #0d0620;  /* 0%   deep space       */
+  --crystal-t10: #140933;  /* 10%  midnight indigo  */
+  --crystal-t20: #1e0d4a;  /* 20%  night violet     */
+  --crystal-t30: #280f5d;  /* 30%  royal purple     */
+  --crystal-t40: #351270;  /* 40%  deep purple      */
+  --crystal-t50: #4c1d95;  /* 50%  violet core      */
+  --crystal-t60: #6d28d9;  /* 60%  electric violet  */
+  --crystal-t70: #8b5cf6;  /* 70%  bright violet energy violet glow      */
+  --crystal-t80: #a855f7;  /* 80%  cosmic purple    */
+  --crystal-t90: #c084fc;  /* 90%  light violet     */
+  --crystal-t100:#e9d5ff;  /* 100% pearl white      */
+
+  /* Current interpolated stops (JS updates these) */
+  --crystal-s0: var(--crystal-t0);
+  --crystal-s1: var(--crystal-t20);
+  --crystal-s2: var(--crystal-t40);
+  --crystal-s3: var(--crystal-t60);
+  --crystal-s4: var(--crystal-t80);
+  --crystal-s5: var(--crystal-t100);
+
+  /* Glow tokens */
+  --crystal-glow-ring:    rgba(139, 92, 246, 0.35);
+  --crystal-glow-soft:    rgba(168, 85, 247, 0.25);
+  --crystal-glow-strong:  rgba(139, 92, 246, 0.5);
+
+  /* Aura */
+  --crystal-aura-inner:   rgba(139, 92, 246, 0.22);
+  --crystal-aura-outer:   rgba(168, 85, 247, 0.1);
+}
+
+/* ============================================================
+   PREMIUM TOGGLE BUTTON — Accessible, Stateful, Animated
+   ============================================================ */
+
+.noviq-crystal-toggle {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  padding: 0;
+  color: var(--secondary);
+  background:
+    linear-gradient(145deg,
+      rgba(var(--card-rgb), 0.85) 0%,
+      rgba(var(--card-rgb), 0.55) 100%
+    );
+  border: 1px solid color-mix(in srgb, var(--secondary) 18%, transparent);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.08),
+    0 2px 8px rgba(13, 6, 32, 0.1),
+    0 0 0 1px rgba(139, 92, 246, 0.06);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    transform 200ms var(--ease-smooth),
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+/* Hover — lifted, brighter border, stronger glow */
+.noviq-crystal-toggle:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+  background:
+    linear-gradient(145deg,
+      rgba(var(--card-rgb), 0.95) 0%,
+      rgba(var(--card-rgb), 0.65) 100%
+    );
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.12),
+    0 4px 16px rgba(88, 42, 158, 0.15),
+    0 0 0 1px rgba(139, 92, 246, 0.12),
+    0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Active — pressed down */
+.noviq-crystal-toggle:active {
+  transform: translateY(0) scale(0.96);
+  transition-duration: 100ms;
+}
+
+/* Focus visible — keyboard accessible */
+.noviq-crystal-toggle:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+}
+
+/* Open panel state */
+.noviq-crystal-toggle[aria-expanded='true'] {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--secondary) 55%, transparent);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.12),
+    0 0 0 4px rgba(109, 40, 255, 0.12),
+    0 6px 20px rgba(88, 42, 158, 0.2),
+    0 0 24px rgba(139, 92, 246, 0.15);
+}
+
+/* ============================================================
+   CRYSTAL GEM COMPONENT — Composable, Token-driven
+   Used in: navbar toggle (24px), theme panel (150px)
+   ============================================================ */
+
+.crystal-scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+/* Size variants */
+.crystal-scene.sm  { width: 24px; height: 24px; }  /* navbar */
+.crystal-scene.lg  { width: 150px; height: 150px; } /* panel */
+
+.crystal-gem {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  max-width: 18px;  max-height: 18px;
+  clip-path: polygon(22% 0, 78% 0, 100% 34%, 50% 100%, 0 34%);
+
+  background:
+    linear-gradient(145deg,
+      var(--crystal-s0) 0%,
+      var(--crystal-s1) 18%,
+      var(--crystal-s2) 36%,
+      var(--crystal-s3) 55%,
+      var(--crystal-s4) 74%,
+      var(--crystal-s5) 100%
+    );
+
+  box-shadow:
+    0 0 0 1px var(--crystal-glow-ring),
+    0 0 8px 2px var(--crystal-glow-soft),
+    0 0 16px 4px var(--crystal-glow-strong),
+    inset 0 0 4px rgba(255,255,255,0.25);
+
+  filter: brightness(calc(0.55 + var(--energy-progress, 0.2) * 0.85));
+
+  animation: var(--crystal-animation, gemFloat 5.5s ease-in-out infinite);
+  transition: filter 280ms ease, transform 200ms var(--ease-smooth);
+}
+
+.crystal-scene.lg .crystal-gem {
+  max-width: none; max-height: none;
+  width: 74px; height: 68px;
+}
+
+/* Breathing animation - respects prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .crystal-gem,
+  .crystal-aura {
+    animation: none !important;
+  }
+}
+
+@keyframes crystalBreath {
+  0%, 100% { transform: scale(1); filter: brightness(calc(0.55 + var(--energy-progress, 0.2) * 0.85)); }
+  50% { transform: scale(1.025); filter: brightness(calc(0.65 + var(--energy-progress, 0.2) * 0.9)); }
+}
+
+@keyframes gemFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-1.5px) scale(1.015); }
+  50% { transform: translateY(0) scale(1.025); }
+  75% { transform: translateY(1px) scale(1.01); }
+}
+
+/* Aura — energy field */
+.crystal-aura {
+  position: absolute;
+  inset: -4px;
+  z-index: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center,
+      var(--crystal-aura-inner) 0%,
+      var(--crystal-aura-outer) 40%,
+      transparent 70%
+    );
+  animation: auraPulse 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.crystal-scene.lg .crystal-aura {
+  inset: 16px;
+  filter: blur(20px);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.48), transparent 68%);
+}
+
+@keyframes auraPulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.12); opacity: 0.85; }
+}
+
+/* Energy particles — removed, replaced by facet highlight */
+.crystal-spark {
+  display: none;
+}
+
+/* ============================================================
+   THEME PANEL DIALOG — Premium Modal
+   ============================================================ */
+
+body.theme-panel-open { overflow: hidden; }
+
+.noviq-theme-panel {
+  position: fixed; inset: 0; z-index: 100000;
+  display: grid; place-items: center;
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  opacity: 0; visibility: hidden; pointer-events: none;
+  overscroll-behavior: contain;
+  transition: opacity 260ms ease, visibility 260ms ease;
+}
+.noviq-theme-panel.hidden { display: none; }
+.noviq-theme-panel.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+
+.panel-backdrop {
+  position: absolute; inset: 0;
+  background: var(--modal-backdrop);
+  backdrop-filter: blur(16px) saturate(0.8);
+  -webkit-backdrop-filter: blur(16px) saturate(0.8);
+}
+
+.panel-container {
+  position: relative; isolation: isolate;
+  width: min(620px, 94vw);
+  max-height: min(720px, 92dvh);
+  overflow: auto;
+  padding: 38px 42px 34px;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 80% 2%, rgba(168, 85, 247, 0.13), transparent 36%),
+    linear-gradient(145deg, rgba(var(--text-rgb), 0.055), transparent 42%),
+    var(--popup-bg);
+  border: 1px solid rgba(var(--text-rgb), 0.13);
+  border-radius: 28px;
+  box-shadow:
+    0 36px 110px rgba(20, 9, 45, 0.3),
+    0 10px 34px rgba(69, 31, 128, 0.16),
+    inset 0 1px 0 rgba(var(--text-rgb), 0.13);
+  transform: translateY(18px) scale(0.97);
+  opacity: 0;
+  transition: transform 300ms var(--ease-smooth), opacity 220ms ease;
+}
+
+.noviq-theme-panel.visible .panel-container {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.panel-container::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;
+  background:
+    linear-gradient(rgba(var(--text-rgb), 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--text-rgb), 0.018) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+  pointer-events: none;
+}
+
+.panel-close {
+  position: absolute; top: 18px; right: 18px;
+  display: grid; place-items: center;
+  width: 40px; height: 40px; padding: 0;
+  color: var(--text-secondary);
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  border-radius: 13px;
+  cursor: pointer; touch-action: manipulation;
+  transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease, transform 200ms var(--ease-smooth);
+}
+.panel-close svg { width: 19px; height: 19px; }
+.panel-close:hover { color: var(--text); background: var(--control-bg-hover); border-color: var(--control-border-strong); transform: rotate(4deg); }
+.panel-close:focus-visible { outline: 2px solid var(--secondary); outline-offset: 3px; }
+
+.panel-copy {
+  max-width: 350px;
+  padding-inline-end: 48px;
+}
+.panel-kicker {
+  display: block; margin-bottom: 8px;
+  color: var(--secondary);
+  font: 600 11px/1.2 var(--font-mono);
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+.panel-copy h2 {
+  margin: 0;
+  color: var(--text);
+  font: 700 clamp(25px, 4vw, 34px)/1.05 var(--font-display);
+  letter-spacing: -0.035em; text-wrap: balance;
+}
+.panel-copy p {
+  margin: 11px 0 0;
+  color: var(--text-secondary);
+  font: 400 13.5px/1.65 var(--font-body);
+  text-wrap: pretty;
+}
+
+/* Large crystal in panel */
+.panel-crystal-container {
+  display: grid; place-items: center;
+  min-height: 174px;
+  margin: -32px 0 2px;
+  pointer-events: none;
+}
+.panel-crystal { --crystal-brightness: 1; filter: brightness(var(--crystal-brightness)); transition: filter 180ms linear; }
+
+/* Energy slider */
+.panel-slider {
+  position: relative;
+  padding: 26px 24px 22px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(139,92,246,0.05) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 20px rgba(139, 92, 246, 0.05);
+}
+
+.slider-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 20px; margin-bottom: 18px;
+}
+.slider-stage { min-width: 0; overflow: hidden; color: var(--text); font: 600 14px/1.3 var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
+.slider-value { color: var(--secondary); font: 600 13px/1 var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.slider-track {
+  position: relative; height: 48px; margin-inline: 4px;
+  direction: ltr; cursor: pointer; touch-action: none; user-select: none;
+}
+
+.track-base,
+.track-energy,
+.track-flow {
+  position: absolute; top: 50%; left: 0; height: 6px; border-radius: 999px;
+  transform: translateY(-50%); pointer-events: none;
+}
+.track-base { width: 100%; background: rgba(var(--text-rgb), 0.1); box-shadow: inset 0 1px 2px rgba(0,0,0,0.18); }
+.track-energy { width: var(--slider-position, 0%); background: linear-gradient(90deg, var(--primary), var(--accent), var(--accent-2)); box-shadow: 0 0 12px rgba(139, 92, 246, 0.38); transition: width 0.2s ease-out; }
+.track-flow { width: var(--slider-position, 0%); overflow: hidden; }
+.track-flow::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 12%, rgba(255,255,255,0.7) 50%, transparent 88%);
+  transform: translateX(-100%); animation: energyFlow 2.4s ease-in-out infinite;
+}
+@keyframes energyFlow { to { transform: translateX(100%); } }
+
+.track-node {
+  position: absolute; top: 50%; left: var(--node-position);
+  z-index: 2; display: grid; place-items: center;
+  width: 34px; height: 34px; padding: 0;
+  color: var(--text-secondary); background: transparent; border: 0; border-radius: 50%;
+  transform: translate(-50%, -50%); cursor: pointer; touch-action: manipulation;
+}
+.node-gem {
+  display: block; width: 12px; height: 12px;
+  background: linear-gradient(135deg, var(--crystal-s0) 0%, var(--crystal-s3) 50%, var(--crystal-s5) 100%);
+  border: 2px solid rgba(255,255,255,0.3); border-radius: 4px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px rgba(139, 92, 246, 0.6), 0 0 12px rgba(168, 85, 247, 0.4);
+  transition: transform 180ms var(--ease-smooth), background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+.track-node.passed .node-gem {
+  background: linear-gradient(135deg, var(--crystal-s3) 0%, var(--crystal-s4) 50%, var(--crystal-s5) 100%);
+  border-color: rgba(255,255,255,0.5);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.8), 0 0 16px rgba(139, 92, 246, 0.6);
+}
+.track-node:hover .node-gem,
+.track-node:focus-visible .node-gem {
+  transform: rotate(45deg) scale(1.3);
+  border-color: var(--secondary);
+}
+.track-node:focus-visible { outline: 2px solid var(--secondary); outline-offset: 0; }
+.track-node.active .node-gem { opacity: 0; }
+
+/* Handle gem - main slider thumb */
+.track-handle {
+  position: absolute;
+  top: 50%;
+  left: var(--slider-position, 0%);
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  touch-action: none;
+  transition: transform 180ms var(--ease-smooth);
+}
+.track-handle:active { cursor: grabbing; }
+.handle-gem {
+  display: block;
+  width: 18px; height: 18px;
+  background: linear-gradient(135deg, var(--crystal-s0) 0%, var(--crystal-s3) 50%, var(--crystal-s5) 100%);
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  transform: rotate(45deg);
+  box-shadow:
+    0 0 0 2px rgba(139, 92, 246, 0.3),
+    0 0 8px rgba(168, 85, 247, 0.6),
+    0 4px 12px rgba(13, 6, 32, 0.3),
+    inset 0 -1px 2px rgba(255,255,255,0.2),
+    inset 0 1px 1px rgba(0,0,0,0.1);
+  transition: transform 180ms var(--ease-smooth), box-shadow 180ms ease;
+}
+.track-handle:hover .handle-gem,
+.track-handle:focus-visible .handle-gem {
+  transform: rotate(45deg) scale(1.15);
+  box-shadow:
+    0 0 0 3px rgba(139, 92, 246, 0.4),
+    0 0 12px rgba(168, 85, 247, 0.8),
+    0 6px 16px rgba(13, 6, 32, 0.4),
+    inset 0 -1px 2px rgba(255,255,255,0.25),
+    inset 0 1px 1px rgba(0,0,0,0.1);
+}
+.track-handle:focus-visible { outline: 2px solid var(--secondary); outline-offset: 3px; }
+
+.node-label {
+  position: absolute; top: 35px; left: 50%;
+  max-width: 100px; padding: 5px 7px;
+  color: var(--text); background: var(--popup-bg);
+  border: 1px solid var(--control-border); border-radius: 7px;
+  box-shadow: var(--shadow-sm);
+  font: 500 9px/1 var(--font-body);
+  text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+  opacity: 0; transform: translateX(-50%) translateY(4px);
+  transition: opacity 180ms ease, transform 180ms ease; pointer-events: none;
+}
+.track-node:hover .node-label,
+.track-node:focus-visible .node-label { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Preset stops */
+.slider-presets { display: flex; gap: 10px; justify-content: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(var(--text-rgb), 0.07); }
+.preset-btn {
+  display: grid; place-items: center; gap: 6px;
+  padding: 8px 14px; color: var(--text-secondary);
+  background: var(--control-bg); border: 1px solid var(--control-border); border-radius: 999px;
+  font: 500 12px/1 var(--font-body); cursor: pointer; touch-action: manipulation;
+  transition: all 200ms ease;
+}
+.preset-btn:hover { color: var(--text); border-color: var(--secondary); background: rgba(139, 92, 246, 0.1); }
+.preset-btn.active { color: var(--secondary); border-color: var(--secondary); background: rgba(139, 92, 246, 0.15); }
+.preset-btn kbd { font: 500 10px/1 var(--font-mono); background: rgba(var(--text-rgb), 0.08); padding: 1px 5px; border-radius: 4px; }
+
+.slider-extremes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 4px;
+  color: var(--text-tertiary);
+  font: 500 11px/1 var(--font-body);
+  user-select: none;
+}
+
+/* Panel actions */
+.panel-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 28px; padding-top: 22px; border-top: 1px solid rgba(var(--text-rgb), 0.07); }
+.panel-actions .noviq-btn-primary { padding: 12px 24px; font-size: 14px; }
+
+/* RTL support */
+html[dir='rtl'] .panel-copy { padding-inline-start: 48px; padding-inline-end: 0; }
+html[dir='rtl'] .slider-track { direction: ltr; }
+html[dir='rtl'] .slider-extremes { direction: ltr; }
+html[dir='rtl'] .node-label { left: auto; right: 50%; transform: translateX(50%) translateY(4px); }
+html[dir='rtl'] .track-node:hover .node-label,
+html[dir='rtl'] .track-node:focus-visible .node-label { transform: translateX(50%) translateY(0); }
+html[dir='rtl'] .panel-close { left: 18px; right: auto; }
+html[dir='rtl'] .panel-close:hover { transform: rotate(-4deg); }
