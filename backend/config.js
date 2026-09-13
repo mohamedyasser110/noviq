@@ -41,8 +41,10 @@ const config = {
      false → backend is API-only (frontend hosted separately) */
   SERVE_FRONTEND: (process.env.SERVE_FRONTEND || 'true').toLowerCase() !== 'false',
 
-  /* Frontend directory (used for static serving + content.config.js rebuild) */
-  FRONTEND_DIR: process.env.FRONTEND_DIR || path.join(__dirname, '..', 'frontend'),
+  /* Frontend directory (used for static serving + content.config.js rebuild).
+     frontend/ lives INSIDE the backend folder so the whole app ships as one
+     unit — works on shared hosts whose deploy snapshots only take the app root. */
+  FRONTEND_DIR: process.env.FRONTEND_DIR || path.join(__dirname, 'frontend'),
 
   NODE_ENV: process.env.NODE_ENV || 'development',
 };

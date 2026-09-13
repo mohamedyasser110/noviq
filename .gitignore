@@ -9,9 +9,9 @@ backend/.env
 backend/data/
 
 # --- Runtime data (regenerated on the server) ---
-frontend/data/content.config.js
-frontend/images/uploads/
-frontend/analytics-visits.json
+backend/frontend/data/content.config.js
+backend/frontend/images/uploads/
+backend/frontend/analytics-visits.json
 
 # --- Logs ---
 *.log
