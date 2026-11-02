@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "name": "solutionbuilder.list",
+  "summary": "List solution builds (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/solution-builder",
+  "request": {
+    "query": {
+      "limit": {
+        "type": "integer",
+        "optional": true
+      },
+      "offset": {
+        "type": "integer",
+        "optional": true
+      }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "object",
+      "fields": {
+        "id": {
+          "type": "integer",
+          "optional": false
+        }
+      }
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

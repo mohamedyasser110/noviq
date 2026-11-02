@@ -1,0 +1,133 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R /Annots [7 0 R 8 0 R 9 0 R 10 0 R] >>
+endobj
+4 0 obj
+<< /Length 4036 >>
+stream
+0.10 0.10 0.12 rg
+BT /F2 23 Tf 56 792 Td (SAMA USAMA IBRAHIM) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 11.5 Tf 56 768 Td (Software Engineer  Full-Stack \(MERN\) & Artificial Intelligence Developer) Tj ET
+0.35 0.36 0.38 rg
+BT /F1 9.5 Tf 56 751 Td (Kafr El Sheikh, Egypt   "   +201069622367   "   samausama889@gmail.com) Tj ET
+0.35 0.36 0.38 rg
+BT /F1 10 Tf 56 736 Td (Portfolio: ) Tj ET
+0.898 0.663 0.235 rg
+BT /F2 10 Tf 113.2 736 Td (https://sama-portfolio.surge.sh/) Tj ET
+0.35 0.36 0.38 rg
+BT /F1 9.5 Tf 56 721 Td (GitHub: github.com/samausama318      LinkedIn: linkedin.com/in/sama-usama-ibrahim) Tj ET
+0.898 0.663 0.235 RG
+2 w
+56 713 m 539 713 l S
+0.898 0.663 0.235 rg
+BT /F2 12 Tf 56 695 Td (PROFESSIONAL SUMMARY) Tj ET
+0.898 0.663 0.235 RG
+0.8 w
+56 689 m 539 689 l S
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 674 Td (Motivated AI undergraduate \(Delta University, 20222027\) and commercial Software Engineer at) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 660.5 Td (NOVIQ startup \(2026\). Builds full-stack MERN products end to end  secure JWT REST APIs,) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 647 Td (MongoDB architectures, cinematic responsive interfaces  and ships ML-powered features) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 633.5 Td (with Python / Scikit-Learn \(Random Forest, SVC\). English B2, Arabic native.) Tj ET
+0.898 0.663 0.235 rg
+BT /F2 12 Tf 56 616 Td (EXPERIENCE) Tj ET
+0.898 0.663 0.235 RG
+0.8 w
+56 610 m 539 610 l S
+0.10 0.10 0.12 rg
+BT /F2 10 Tf 56 595 Td (Software Engineer  NOVIQ \(Startup\), Egypt  |  2026) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 581.5 Td ("  Built responsive web apps with React.js front-ends and Node.js backend services.) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 568 Td ("  Engineered secure RESTful APIs with JWT authentication and role authorization.) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 554.5 Td ("  Architected full CRUD systems for user records, registration, and activity logs.) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 541 Td ("  Delivered modern cinematic UI/UX workflows; integrated ML inference microservices.) Tj ET
+0.10 0.10 0.12 rg
+BT /F2 10 Tf 56 523.5 Td (AI & Full-Stack Researcher  Delta University, Faculty of AI  |  2022  Present) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 510 Td ("  Custom ML classifiers with Random Forest and Support Vector Classifiers \(SVC\).) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 496.5 Td ("  Cross-platform Flutter apps with offline caching for heritage tourism.) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 62 483 Td ("  Led collaborative student teams for simulation and algorithmic modeling.) Tj ET
+0.898 0.663 0.235 rg
+BT /F2 12 Tf 56 465.5 Td (EDUCATION) Tj ET
+0.898 0.663 0.235 RG
+0.8 w
+56 459.5 m 539 459.5 l S
+0.10 0.10 0.12 rg
+BT /F2 10 Tf 56 444.5 Td (B.Sc. in Artificial Intelligence \(Expected 2027\)  Delta University for Science and Technology, Gamasa) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 431 Td (Faculty of Artificial Intelligence. Focus: intelligent systems, ML architectures, algorithms, modern SWE.) Tj ET
+0.898 0.663 0.235 rg
+BT /F2 12 Tf 56 413.5 Td (TECHNICAL SKILLS) Tj ET
+0.898 0.663 0.235 RG
+0.8 w
+56 407.5 m 539 407.5 l S
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 392.5 Td (Frontend:  React.js  "  JavaScript \(ES6+\)  "  HTML5 / CSS3  "  Tailwind CSS  "  Responsive UI/UX) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 379 Td (Backend:  Node.js  "  Express  "  RESTful APIs  "  JWT Auth & Security  "  MongoDB  "  CRUD design) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 365.5 Td (AI / Mobile:  Python  "  Scikit-Learn \(RF / SVC\)  "  Data Preprocessing  "  Flutter \(Dart\)) Tj ET
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 352 Td (Tools:  Git & GitHub  "  Postman / API Testing  "  VS Code  "  Team Leadership) Tj ET
+0.898 0.663 0.235 rg
+BT /F2 12 Tf 56 334.5 Td (LANGUAGES) Tj ET
+0.898 0.663 0.235 RG
+0.8 w
+56 328.5 m 539 328.5 l S
+0.10 0.10 0.12 rg
+BT /F1 10 Tf 56 313.5 Td (Arabic \(Native\)  "  English \(B2 Working Proficiency\)) Tj ET
+0.35 0.36 0.38 rg
+BT /F1 9.5 Tf 56 298 Td (Full interactive portfolio: https://sama-portfolio.surge.sh/) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+7 0 obj
+<< /Type /Annot /Subtype /Link /Rect [113.2 733.0 279.6 745.0] /Border [0 0 0] /A << /S /URI /URI (https://sama-portfolio.surge.sh/) >> >>
+endobj
+8 0 obj
+<< /Type /Annot /Subtype /Link /Rect [95.5 718.0 209.1 729.0] /Border [0 0 0] /A << /S /URI /URI (https://github.com/samausama318) >> >>
+endobj
+9 0 obj
+<< /Type /Annot /Subtype /Link /Rect [288.2 718.0 456.1 729.0] /Border [0 0 0] /A << /S /URI /URI (https://www.linkedin.com/in/sama-usama-ibrahim-4401293aa/) >> >>
+endobj
+10 0 obj
+<< /Type /Annot /Subtype /Link /Rect [194.3 295.0 352.4 306.0] /Border [0 0 0] /A << /S /URI /URI (https://sama-portfolio.surge.sh/) >> >>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000286 00000 n 
+0000004373 00000 n 
+0000004443 00000 n 
+0000004518 00000 n 
+0000004672 00000 n 
+0000004824 00000 n 
+0000005003 00000 n 
+trailer
+<< /Size 11 /Root 1 0 R >>
+startxref
+5158
+%%EOF

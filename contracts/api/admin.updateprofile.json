@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "name": "admin.updateprofile",
+  "summary": "Update own username email password, current password required (auth: admin JWT)",
+  "method": "PUT",
+  "path": "/api/admin/profile",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "username": {
+          "type": "string",
+          "optional": true
+        },
+        "email": {
+          "type": "string",
+          "optional": true
+        },
+        "currentPassword": {
+          "type": "string",
+          "optional": false
+        },
+        "newPassword": {
+          "type": "string",
+          "optional": true
+        }
+      },
+      "name": "AdminProfileBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "AdminProfileResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 409,
+      "code": "CONFLICT"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

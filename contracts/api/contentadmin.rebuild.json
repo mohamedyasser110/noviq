@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "contentadmin.rebuild",
+  "summary": "Rebuild static content config from DB (auth: admin JWT)",
+  "method": "POST",
+  "path": "/api/admin/content/rebuild",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "fileWritten": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "ContentRebuildResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

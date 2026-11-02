@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "name": "newsletter.subscribe",
+  "summary": "Public newsletter subscribe, idempotent re-subscribe (auth: none)",
+  "method": "POST",
+  "path": "/api/newsletter/subscribe",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "email": {
+          "type": "string",
+          "optional": false,
+          "format": "email"
+        }
+      },
+      "name": "NewsletterSubscribeBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": true
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "subscribed": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "NewsletterSubscribeResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "contentadmin.keys",
+  "summary": "Allowed content key allowlist (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/content/keys",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "string"
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

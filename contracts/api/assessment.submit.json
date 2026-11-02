@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "name": "assessment.submit",
+  "summary": "Public assessment quiz submit (auth: none)",
+  "method": "POST",
+  "path": "/api/assessment",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "name": {
+          "type": "string",
+          "optional": true
+        },
+        "email": {
+          "type": "string",
+          "optional": true
+        },
+        "company": {
+          "type": "string",
+          "optional": true
+        },
+        "answers": {
+          "type": "object",
+          "optional": false,
+          "fields": {}
+        },
+        "score": {
+          "type": "integer",
+          "optional": true
+        },
+        "level": {
+          "type": "string",
+          "optional": true
+        }
+      },
+      "name": "AssessmentSubmitBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": false
+      },
+      "score": {
+        "type": "integer",
+        "optional": false
+      },
+      "level": {
+        "type": "string",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "AssessmentSubmitResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

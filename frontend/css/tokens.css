@@ -1,0 +1,174 @@
+/* ============================================================
+   NOVIQ DESIGN TOKENS — CORPORATE WHITE IDENTITY (SIMPLE)
+   ------------------------------------------------------------
+   Base = White (ministries & enterprises).
+   Brand purple kept: --primary #6D28FF.
+   Dark mode = explicit via [data-theme="dark"].
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  color-scheme: light;
+
+  /* ---- Brand (kept) ---- */
+  --primary: #6D28FF;
+  --secondary: #5B21B6;
+  --accent: #7C3AED;
+  --accent-2: #8B5CF6;
+  --accent-secondary: var(--secondary);
+
+  /* ---- Surfaces — PURE WHITE IDENTITY (explicit #FFFFFF) ---- */
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --card: #FFFFFF;
+  --border: #E7E2F5;
+
+  /* ---- Text — high contrast on white ---- */
+  --text: #131022;
+  --text-secondary: #4E4C61;
+  --text-tertiary: #6E6C84;
+  --text-placeholder: #6E6C84;
+  --text-inverse: #FFFFFF;
+
+  /* ---- Focus & interaction ---- */
+  --ring: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+  --header-h: 68px;
+  --touch-min: 44px;
+
+  /* ---- RGB channels ---- */
+  --bg-rgb: 255, 255, 255;
+  --surface-rgb: 255, 255, 255;
+  --card-rgb: 255, 255, 255;
+  --text-rgb: 19, 16, 34;
+  --text-inverse-rgb: 255, 255, 255;
+  --control-bg: rgba(19, 16, 34, 0.04);
+  --control-bg-hover: rgba(19, 16, 34, 0.07);
+  --control-border: rgba(19, 16, 34, 0.10);
+  --control-border-strong: rgba(19, 16, 34, 0.16);
+  --input-bg: #FFFFFF;
+  --nav-bg: rgba(255, 255, 255, 0.90);
+  --menu-bg: rgba(255, 255, 255, 0.98);
+  --popup-bg: rgba(255, 255, 255, 0.98);
+  --modal-backdrop: rgba(19, 16, 34, 0.45);
+  --surface-highlight: rgba(19, 16, 34, 0.03);
+  --surface-highlight-strong: rgba(19, 16, 34, 0.06);
+  --inset-highlight: rgba(255, 255, 255, 0.9);
+
+  /* ---- Semantic ---- */
+  --success: #15803D;
+  --warning: #B45309;
+  --danger: #DC2626;
+
+  /* ---- Glass → flattened for corporate (kept names for compat) ---- */
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-bg-deep: rgba(255, 255, 255, 0.96);
+  --glass-bg-light: rgba(255, 255, 255, 0.86);
+  --glass-border: rgba(19, 16, 34, 0.08);
+  --glass-shimmer: none;
+  --glass-iridescent-1: transparent;
+  --glass-iridescent-2: transparent;
+  --glass-iridescent-3: transparent;
+
+  /* ---- Trace — restrained, brand only on focus ---- */
+  --trace-color: rgba(109, 40, 255, 0.55);
+  --trace-glow: rgba(109, 40, 255, 0.18);
+
+  /* ---- Shadows — corporate, no neon glow ---- */
+  --shadow-sm: 0 1px 2px rgba(19, 16, 34, 0.06), 0 1px 3px rgba(19, 16, 34, 0.08);
+  --shadow-md: 0 4px 16px rgba(19, 16, 34, 0.08);
+  --shadow-lg: 0 12px 32px rgba(19, 16, 34, 0.10);
+  --shadow-glow: 0 4px 16px rgba(109, 40, 255, 0.12);
+  --shadow-glow-strong: 0 8px 24px rgba(109, 40, 255, 0.16);
+
+  /* ---- Radii — corporate ---- */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+
+  /* ---- Motion — calm ---- */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.3, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.2s;
+  --dur-base: 0.3s;
+  --dur-slow: 0.6s;
+
+  /* ---- Type ---- */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Space Grotesk', 'Inter', sans-serif;
+
+  --fs-display-xl: clamp(34px, 4.2vw, 56px);
+  --fs-display-lg: clamp(26px, 3vw, 38px);
+  --fs-display-md: clamp(22px, 2.2vw, 30px);
+  --fs-display-sm: clamp(18px, 1.6vw, 21px);
+  --fs-body-lg: clamp(16px, 1.2vw, 18px);
+  --fs-body-md: 14.5px;
+  --fs-body-sm: 13.5px;
+  --fs-caption: 12.5px;
+  --fs-eyebrow: 13px;
+
+  /* ---- Layout ---- */
+  --container-max: 1280px;
+  --container-narrow: 720px;
+  --section-pad-x: 6%;
+  --section-pad-y: 88px;
+}
+
+/* ============================================================
+   DARK MODE — explicit, muted corporate dark (no neon)
+   ============================================================ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --secondary: #8B5CF6;
+  --accent: #A855F7;
+  --accent-2: #C084FC;
+
+  --bg: #0B0817;
+  --surface: #141026;
+  --card: #191332;
+  --border: #2A224D;
+
+  --text: #FFFFFF;
+  --text-secondary: #B8B8C7;
+  --text-tertiary: #7A7594;
+  --text-inverse: #0B0817;
+
+  --bg-rgb: 11, 8, 23;
+  --surface-rgb: 20, 16, 38;
+  --card-rgb: 25, 19, 50;
+  --text-rgb: 255, 255, 255;
+  --text-inverse-rgb: 11, 8, 23;
+  --control-bg: rgba(255, 255, 255, 0.05);
+  --control-bg-hover: rgba(255, 255, 255, 0.09);
+  --control-border: rgba(255, 255, 255, 0.10);
+  --control-border-strong: rgba(255, 255, 255, 0.16);
+  --input-bg: rgba(25, 19, 50, 0.9);
+  --nav-bg: rgba(11, 8, 23, 0.88);
+  --menu-bg: rgba(11, 8, 23, 0.97);
+  --popup-bg: rgba(25, 19, 50, 0.97);
+  --modal-backdrop: rgba(3, 2, 10, 0.55);
+  --surface-highlight: rgba(255, 255, 255, 0.035);
+  --surface-highlight-strong: rgba(255, 255, 255, 0.065);
+  --inset-highlight: rgba(255, 255, 255, 0.06);
+
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  --glass-bg: rgba(25, 19, 50, 0.88);
+  --glass-bg-deep: rgba(25, 19, 50, 0.94);
+  --glass-bg-light: rgba(25, 19, 50, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 4px 18px rgba(109, 40, 255, 0.22);
+  --shadow-glow-strong: 0 8px 28px rgba(109, 40, 255, 0.28);
+}

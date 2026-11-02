@@ -1,0 +1,80 @@
+/* ============================================================
+   A11Y-PRO — accessibility layer (loads after corporate-polish)
+   Token-only (var(--*) + color-mix), no hardcoded colors.
+   NOTE: generic :focus-visible already exists in base.css +
+   corporate-polish.css (a/button/input/[tabindex]) and covers
+   .noviq-dot buttons + nav links, so nothing is duplicated here.
+   This file adds ONLY what was genuinely missing:
+     1. skip-link show-on-focus pattern
+     2. silent programmatic focus for SPA route headings
+   ============================================================ */
+
+/* ---- 1. Skip link: visually hidden until keyboard focus ---- */
+.noviq-skip-link {
+  position: fixed;
+  top: 12px;
+  inset-inline-start: 12px;
+  z-index: 1000000;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body-md);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-300%);
+  transition: transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.noviq-skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: var(--ring), var(--shadow-md);
+}
+
+/* Keyboard-only reveal: mouse users never see layout shift */
+@media (hover: none) {
+  .noviq-skip-link:not(:focus-visible) {
+    transform: translateY(-300%);
+  }
+}
+
+/* ---- 2. SPA route headings: focusable for AT, ring-free visually ----
+   Programmatic focus (tabindex=-1 at runtime) must NOT paint a
+   focus ring — :focus-visible keeps the ring for real keyboard
+   tabbing, unlike a blanket outline:none. */
+[data-a11y-heading]:focus:not(:focus-visible),
+.noviq-page-hero h1:focus:not(:focus-visible),
+#hero-title:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+/* High-contrast mode backstop: keep the skip link legible */
+@media (forced-colors: active) {
+  .noviq-skip-link {
+    border: 2px solid ButtonText;
+  }
+}
+
+/* ---- Reduced motion: instant skip-link, no transitions ---- */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-skip-link {
+    transition: none;
+  }
+}
+
+/* ---- Programmatic focus (route change / skip link): announce without ring ----
+   The .noviq-quiet-focus mark is removed on blur, so keyboard Tab users
+   still get their normal :focus-visible indication afterwards. */
+.noviq-quiet-focus:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}

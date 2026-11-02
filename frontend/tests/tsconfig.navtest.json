@@ -1,0 +1,17 @@
+{
+  "_comment": "Compiles the two pure-logic nav modules to CommonJS so tests/nav-admin.test.cjs can require them. Uses the project's own tsc — no hand-rolled transform, so the tests exercise the real shipped code.",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
+    "outDir": "../.navtest-out",
+    "rootDir": "..",
+    "baseUrl": "..",
+    "paths": { "@/*": ["./*"] },
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noEmitOnError": true
+  },
+  "files": ["../lib/nav-admin.ts", "../data/nav.ts"]
+}

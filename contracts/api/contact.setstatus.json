@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "name": "contact.setstatus",
+  "summary": "Set contact message status new read replied archived (auth: admin JWT)",
+  "method": "PATCH",
+  "path": "/api/contact/{id}/status",
+  "request": {
+    "query": {},
+    "params": {
+      "id": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": {
+      "type": "object",
+      "fields": {
+        "status": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "name": "ContactStatusBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": false
+      },
+      "status": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "ContactStatusResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

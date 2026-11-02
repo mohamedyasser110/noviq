@@ -1,0 +1,18 @@
+{
+  "resource": "design-tokens",
+  "version": 1,
+  "etag": "seed-v1-tokens",
+  "schema": {
+    "type": "object",
+    "description": "Design token system for UI consistency. Synced from frontend/src/styles/globals.css and md3-surfaces.css.",
+    "properties": {
+      "colors": { "type": "object", "description": "Base + semantic color tokens" },
+      "typography": { "type": "object", "description": "Font sizes, weights, line heights" },
+      "spacing": { "type": "object", "description": "Spacing scale" },
+      "elevation": { "type": "object", "description": "Shadow tokens" },
+      "borderRadius": { "type": "object", "description": "Border radius tokens" }
+    },
+    "required": ["colors"]
+  },
+  "updated_at": "2026-09-26T00:00:00.000Z"
+}

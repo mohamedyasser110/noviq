@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "ratelimits.get",
+  "summary": "Current rate limit configuration (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/rate-limits",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "limits": {
+        "type": "object",
+        "optional": false,
+        "fields": {}
+      }
+    },
+    "name": "RateLimitsResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

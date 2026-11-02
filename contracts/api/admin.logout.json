@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "admin.logout",
+  "summary": "Admin logout, revokes current token (auth: admin JWT)",
+  "method": "POST",
+  "path": "/api/admin/logout",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "AdminLogoutResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

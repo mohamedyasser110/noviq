@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "chats.get",
+  "summary": "Messages of one session (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/chats/{sessionId}",
+  "request": {
+    "query": {},
+    "params": {
+      "sessionId": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "sessionId": {
+        "type": "string",
+        "optional": false
+      },
+      "messages": {
+        "type": "array",
+        "optional": false
+      }
+    },
+    "name": "ChatSessionResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

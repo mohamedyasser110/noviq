@@ -1,0 +1,112 @@
+/* ============================================================
+   INTRO OVERLAY — cinematic entrance sequence
+   ============================================================ */
+
+body.intro-active { overflow: hidden !important; height: 100vh !important; }
+
+#noviq-intro-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: var(--bg);
+  z-index: 99999;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: all;
+  transition: opacity 1s var(--ease-smooth), visibility 1s;
+  max-width: 100vw;
+}
+#noviq-intro-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.intro-nebula { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.intro-nebula .nebula-1 {
+  position: absolute;
+  left: calc(50% - 700px); top: calc(50% - 480px);
+  width: 1400px; height: 960px;
+  background: radial-gradient(closest-side, rgba(109,40,255,0.28), transparent 70%);
+  transform-origin: center;
+}
+.intro-nebula .nebula-2 {
+  position: absolute;
+  left: calc(72% - 400px); top: calc(20% - 300px);
+  width: 800px; height: 600px;
+  background: radial-gradient(closest-side, rgba(168,85,247,0.16), transparent 70%);
+  transform-origin: center;
+}
+.intro-nebula .intro-grid {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(180deg, transparent 62%, rgba(139,92,246,0.05) 100%);
+}
+
+#intro-canvas {
+  position: absolute; left: 50%; top: 50%;
+  width: 1920px; height: 1080px;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+.intro-lockup {
+  position: absolute; width: 1920px; height: 1080px;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1);
+  left: 50%; top: 50%;
+  transform-origin: 50% 50%;
+}
+
+.intro-n-icon { position: absolute; width: 420px; height: 420px; perspective: 1400px; transform-origin: 50% 50%; background: transparent; }
+.n-layer-container { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform-origin: 50% 50%; }
+.n-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; }
+.n-layer svg { background: transparent !important; border: none !important; outline: none !important; }
+.n-layer-depth { transform-style: preserve-3d; overflow: visible; }
+.n-layer-face { filter: drop-shadow(0 0 0px rgba(139,92,246,0)); overflow: visible; }
+
+.intro-wordmark {
+  position: absolute; left: 805px; top: 412px;
+  width: 560px; height: 260px;
+  display: flex; align-items: baseline;
+  overflow: hidden;
+}
+.intro-letter {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 600; font-size: 230px; letter-spacing: -0.03em;
+  color: #7c3aed; line-height: 0.9;
+  background: linear-gradient(145deg, #4c1d95 5%, #8b5cf6 52%, #0f766e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform-origin: 0% 50%;
+  text-shadow:
+    0 2px 0 rgba(90,40,180,0.8),
+    0 4px 0 rgba(70,30,150,0.6),
+    0 7px 0 rgba(50,22,110,0.45),
+    0 12px 30px rgba(0,0,0,0.5);
+}
+
+.intro-underline {
+  position: absolute; height: 6px; border-radius: 6px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  box-shadow: 0 0 24px rgba(139,92,246,0.5);
+  opacity: 0; top: 688px;
+}
+
+.intro-tagline {
+  position: absolute; left: 0; right: 0; top: 736px;
+  text-align: center;
+  font-family: var(--font-body); font-weight: 300; font-size: 42px;
+  color: var(--text-secondary); letter-spacing: 0.04em;
+  opacity: 0;
+}
+
+.intro-vignette {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(40,18,80,0.28) 100%);
+}
+:root[data-theme-tone='light'] .intro-vignette {
+  background: radial-gradient(120% 120% at 50% 50%, transparent 60%, rgba(90,50,160,0.12) 100%);
+}
+:root[data-theme-tone='light'] .intro-nebula .intro-grid {
+  background: linear-gradient(180deg, transparent 62%, rgba(139,92,246,0.08) 100%);
+}

@@ -1,0 +1,17 @@
+{
+  "_comment": "Compiles the pure-logic social helper to CommonJS so tests/social-handles.test.cjs can require it. Mirrors tests/tsconfig.navtest.json exactly — the project's own tsc, no hand-rolled transform — so the test exercises the real shipped lib/social.ts that Contact.tsx and Footer.tsx both import.",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
+    "outDir": "../.navtest-out",
+    "rootDir": "..",
+    "baseUrl": "..",
+    "paths": { "@/*": ["./*"] },
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noEmitOnError": true
+  },
+  "files": ["../lib/social.ts"]
+}

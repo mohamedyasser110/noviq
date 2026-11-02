@@ -1,0 +1,350 @@
+/* ============================================================
+   NOVIQ APPLE CONTROLS — HIG control refinements (CSS only)
+   ------------------------------------------------------------
+   Apple HIG brief: continuous corners, 44px touch targets,
+   clear pressed/disabled/focus states, grouped-form
+   backgrounds, search-field idiom. Deference: quiet chrome.
+   - Token-only: var(--*) + color-mix() for alpha.
+   - Logical properties (margin-inline / padding-inline /
+     inset-inline-start) for RTL mirroring.
+   - NO markup / JS changes. Loads LAST (after a11y-pro).
+   - `!important` below exists ONLY to outrank an earlier
+     `!important` (corporate-polish) or an inline style
+     (career filters gap); each case is commented.
+   ============================================================ */
+
+/* ---- 1. Continuous corners: one step up, pills stay pills ----
+   Token ladder: sm 8 / md 10 / lg 14 / xl 18 / pill 999px.
+   HIG: larger controls earn larger radii (squircle feel). */
+
+/* Base buttons md(10) -> lg(14). `!important` beats the
+   corporate-polish `border-radius: 10px !important`. */
+.noviq-btn-primary,
+.noviq-btn-secondary,
+.noviq-btn-ghost {
+  border-radius: var(--radius-lg) !important;
+}
+/* Size steps follow the ladder: sm 8 -> md(10), lg 12 -> lg(14). */
+.noviq-btn-sm,
+.noviq-btn-primary.noviq-btn-sm,
+.noviq-btn-secondary.noviq-btn-sm {
+  border-radius: var(--radius-md) !important;
+}
+.noviq-btn-lg,
+.noviq-btn-primary.noviq-btn-lg,
+.noviq-btn-secondary.noviq-btn-lg {
+  border-radius: var(--radius-lg) !important;
+}
+
+/* Text controls md(10) -> lg(14) for the grouped-form feel. */
+.noviq-input,
+.noviq-textarea,
+.noviq-select {
+  border-radius: var(--radius-lg) !important;
+}
+
+/* Option / radio chips: 8/10 -> md/lg; selected segment
+   becomes a pill in section 4. */
+.noviq-btn-option {
+  border-radius: var(--radius-md);
+}
+.noviq-radio-option {
+  border-radius: var(--radius-lg);
+}
+/* Check box stays near-square (checkmark affordance): 5 -> sm(8). */
+.noviq-checkbox-box {
+  border-radius: var(--radius-sm);
+}
+
+/* Search idiom: fully rounded field, icon-leading. */
+.noviq-search-input {
+  border-radius: var(--radius-pill);
+}
+/* Pills keep their pills (HIG: no change, reaffirmed). */
+.noviq-newsletter-box,
+.noviq-stack-chip {
+  border-radius: var(--radius-pill);
+}
+.noviq-newsletter-btn {
+  border-radius: 50%;
+}
+
+/* Icon-only / compact actions: md(10/12) -> lg(14). */
+.noviq-mobile-action {
+  border-radius: var(--radius-lg);
+}
+.noviq-login-icon,
+.noviq-language-toggle,
+.noviq-mobile-toggle {
+  border-radius: var(--radius-lg);
+}
+
+/* ---- 2. Unified focus ring: every text control uses --ring ----
+   HIG: obvious, identical focus affordance everywhere. These
+   beat the older neon glows (non-`!important`, so no flag needed). */
+.noviq-input:focus,
+.noviq-search-input:focus,
+.noviq-newsletter-box:focus-within {
+  border-color: var(--primary);
+  box-shadow: var(--ring);
+}
+
+/* ---- 3. Pressed states: translateY(0) scale(.98) ----
+   HIG: immediate tactile confirmation. `!important` outranks the
+   corporate-polish `:active` rule on primary/secondary. */
+.noviq-btn-primary:active,
+.noviq-btn-secondary:active,
+.noviq-btn-ghost:active,
+.noviq-btn-option:active,
+.noviq-newsletter-btn:active,
+.noviq-mobile-action:active,
+.noviq-mobile-accordion-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+  transition-duration: var(--dur-fast);
+}
+
+/* ---- 4. Disabled states: dimmed, flat, non-interactive ----
+   HIG: disabled reads static (opacity .6, no shadow, no lift).
+   `box-shadow: none !important` beats the newsletter hover glow. */
+.noviq-btn-primary:disabled,
+.noviq-btn-secondary:disabled,
+.noviq-btn-ghost:disabled,
+.noviq-btn-option:disabled,
+.noviq-newsletter-btn:disabled,
+.noviq-mobile-action:disabled,
+.noviq-btn-primary[aria-disabled="true"],
+.noviq-btn-secondary[aria-disabled="true"],
+.noviq-btn-ghost[aria-disabled="true"],
+.noviq-newsletter-btn[aria-disabled="true"],
+.noviq-mobile-action[aria-disabled="true"] {
+  opacity: 0.6;
+  box-shadow: none !important;
+  filter: none;
+  transform: none !important;
+  cursor: not-allowed;
+}
+/* Disabled never re-lifts on hover. */
+.noviq-btn-primary:disabled:hover,
+.noviq-btn-secondary:disabled:hover,
+.noviq-btn-ghost:disabled:hover,
+.noviq-newsletter-btn:disabled:hover,
+.noviq-mobile-action:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+/* Loading stays distinguishable from disabled: the spinner keeps
+   full opacity and keeps spinning (motion cue vs. static dim),
+   and busy buttons show a progress cursor. */
+.noviq-btn-primary:disabled .noviq-spinner,
+.noviq-btn-secondary:disabled .noviq-spinner,
+.noviq-newsletter-btn:disabled .noviq-spinner {
+  opacity: 1;
+}
+.noviq-btn-primary[aria-busy="true"],
+.noviq-btn-secondary[aria-busy="true"],
+.noviq-btn-ghost[aria-busy="true"],
+.noviq-newsletter-btn[aria-busy="true"] {
+  cursor: progress;
+}
+
+/* ---- 5. Career filters -> segmented control ----
+   HIG segmented look: one joined quiet-chrome container, flush
+   segments, selected segment = raised pill with shadow.
+   Covers BOTH the live wrapper (.noviq-career-filters, which
+   carries an inline `gap:8px` -> needs `!important`) and the
+   generic group pattern. */
+.noviq-career-filters,
+.noviq-btn-group:has(> .noviq-btn-option) {
+  gap: 0 !important;
+  row-gap: 4px;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-pill);
+}
+.noviq-career-filters .noviq-btn-option,
+.noviq-btn-group:has(> .noviq-btn-option) > .noviq-btn-option {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  box-shadow: none;
+  min-height: 40px;
+  padding-block: 8px;
+  padding-inline: 18px;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+/* Joined feel: collapse the double border between segments.
+   Logical margin mirrors automatically in RTL. */
+.noviq-career-filters .noviq-btn-option + .noviq-btn-option,
+.noviq-btn-group:has(> .noviq-btn-option) > .noviq-btn-option + .noviq-btn-option {
+  margin-inline-start: -1px;
+}
+.noviq-career-filters .noviq-btn-option:hover,
+.noviq-btn-group:has(> .noviq-btn-option) > .noviq-btn-option:hover {
+  background: var(--control-bg-hover);
+  border-color: transparent;
+  color: var(--text);
+}
+/* Selected segment: raised pill (quiet chrome, not loud tint).
+   `!important` outranks the corporate-polish `.active` tint. */
+.noviq-career-filters .noviq-btn-option.active,
+.noviq-btn-group:has(> .noviq-btn-option) > .noviq-btn-option.active {
+  background: var(--card) !important;
+  border-color: var(--control-border-strong) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* ---- 6. Search field refinement: icon-leading, logical ----
+   Physical `left` from components.css is kept for LTR while
+   `inset-inline-start` mirrors the icon in RTL; identical 13px
+   value, so LTR rendering is unchanged. Input keeps a matching
+   38px icon clearance on the inline-start side. */
+.noviq-search-icon {
+  inset-inline-start: 13px;
+  flex-shrink: 0;
+}
+/* Explicit physical reset: in RTL the icon docks to the right
+   via inset-inline-start; never keep both offsets. */
+html[dir="rtl"] .noviq-search-icon {
+  left: auto;
+}
+.noviq-search-input {
+  padding-block: 9px;
+  padding-inline-start: 38px;
+  padding-inline-end: 14px;
+}
+
+/* ---- 7. Newsletter box refinement ----
+   Pill kept; logical padding so the 6px leading inset mirrors
+   in RTL; input gets flex minimums so long placeholders never
+   push the circular button out of the pill. */
+.noviq-newsletter-box {
+  align-items: center;
+  padding: 4px;
+  padding-inline-start: 6px;
+}
+.noviq-newsletter-input {
+  min-width: 0;
+  padding-block: 10px;
+  padding-inline: 14px;
+}
+.noviq-newsletter-btn {
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ---- 8. Select: logical padding + RTL chevron flip ----
+   Chevron is a physical `right` background; mirror it under RTL
+   and swap the clearance to the inline-end side in both modes. */
+.noviq-select {
+  padding-inline-start: 16px;
+  padding-inline-end: 40px;
+}
+html[dir="rtl"] .noviq-select {
+  background-position: left 12px center;
+}
+
+/* ---- 9. Coarse pointers: 44px minimum targets (HIG) ----
+   Visuals stay compact; hit areas grow to var(--touch-min).
+   Toggle / checkbox visuals are small by design, so the 44px
+   floor lands on the label row (the real hit area). */
+@media (pointer: coarse) {
+  .noviq-btn-primary,
+  .noviq-btn-secondary,
+  .noviq-btn-ghost,
+  .noviq-btn-option,
+  .noviq-mobile-action,
+  .noviq-input,
+  .noviq-textarea,
+  .noviq-select,
+  .noviq-search-input,
+  .noviq-newsletter-input,
+  .noviq-radio-option,
+  .noviq-mobile-search {
+    min-height: var(--touch-min);
+  }
+  /* 16px blocks iOS focus-zoom on these compact fields. */
+  .noviq-search-input,
+  .noviq-newsletter-input {
+    font-size: 16px;
+  }
+  /* Segmented options keep their 40px optical height inside the
+     pill but accept a 44px row when wrapped / tapped. */
+  .noviq-career-filters .noviq-btn-option,
+  .noviq-btn-group:has(> .noviq-btn-option) > .noviq-btn-option {
+    min-height: var(--touch-min);
+  }
+  /* Circular newsletter action: 40 -> 44px; pill grows with it. */
+  .noviq-newsletter-btn {
+    width: var(--touch-min);
+    height: var(--touch-min);
+  }
+  .noviq-newsletter-box {
+    min-height: calc(var(--touch-min) + 8px);
+  }
+  /* Toggle + checkbox: floor on the label row, visuals untouched. */
+  .noviq-toggle,
+  .noviq-checkbox {
+    min-height: var(--touch-min);
+    align-items: center;
+  }
+  /* Small icon buttons reach full target size. */
+  .noviq-mobile-accordion-btn {
+    width: var(--touch-min);
+    height: var(--touch-min);
+  }
+  /* Footer link rows: one per line, so they carry the full target
+     rather than the 24px desktop floor. margin goes to 0 so the row
+     height becomes the rhythm instead of stacking on top of it. */
+  .noviq-footer-col a {
+    min-height: 40px;
+    margin-bottom: 0;
+  }
+  .noviq-footer-social a {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  .noviq-login-icon,
+  .noviq-mobile-toggle {
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+  /* Slider: 44px hit strip via padding + clipped track, thumb up
+     to 28px so the grab point matches the finger. */
+  .noviq-slider {
+    min-height: var(--touch-min);
+    padding-block: 19px;
+    background-clip: content-box;
+  }
+  .noviq-slider::-webkit-slider-thumb {
+    width: 28px;
+    height: 28px;
+  }
+  .noviq-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* ---- 10. Reduced motion: press feedback without scale ----
+   Transitions are already near-instant globally; drop the
+   scale transform too so press = color only. */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-btn-primary:active,
+  .noviq-btn-secondary:active,
+  .noviq-btn-ghost:active,
+  .noviq-btn-option:active,
+  .noviq-newsletter-btn:active,
+  .noviq-mobile-action:active,
+  .noviq-mobile-accordion-btn:active {
+    transform: none !important;
+  }
+}

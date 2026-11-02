@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "name": "newsletter.unsubscribe",
+  "summary": "Public newsletter unsubscribe (auth: none)",
+  "method": "POST",
+  "path": "/api/newsletter/unsubscribe",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "email": {
+          "type": "string",
+          "optional": false,
+          "format": "email"
+        }
+      },
+      "name": "NewsletterUnsubscribeBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "subscribed": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "NewsletterUnsubscribeResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "name": "users.list",
+  "summary": "Registered site users, max 500 (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/users",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "object",
+      "fields": {
+        "id": {
+          "type": "integer",
+          "optional": false
+        },
+        "email": {
+          "type": "string",
+          "optional": false
+        },
+        "role": {
+          "type": "string",
+          "optional": false
+        }
+      }
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

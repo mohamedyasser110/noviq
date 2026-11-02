@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "name": "admin.upload",
+  "summary": "Base64 file upload, returns frontend path (auth: admin JWT, max 5MB)",
+  "method": "POST",
+  "path": "/api/admin/upload",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "filename": {
+          "type": "string",
+          "optional": true
+        },
+        "data": {
+          "type": "string",
+          "optional": false,
+          "description": "data URI base64"
+        }
+      },
+      "name": "UploadBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "path": {
+        "type": "string",
+        "optional": false
+      },
+      "mime": {
+        "type": "string",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "UploadResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

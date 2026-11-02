@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "name": "solutionbuilder.submit",
+  "summary": "Public solution build save (auth: none)",
+  "method": "POST",
+  "path": "/api/solution-builder",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "name": {
+          "type": "string",
+          "optional": true
+        },
+        "email": {
+          "type": "string",
+          "optional": true
+        },
+        "company": {
+          "type": "string",
+          "optional": true
+        },
+        "steps": {
+          "type": "object",
+          "optional": false,
+          "fields": {}
+        },
+        "summary": {
+          "type": "string",
+          "optional": true
+        }
+      },
+      "name": "SolutionBuildBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "SolutionBuildResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

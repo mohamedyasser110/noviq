@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "content.testimonials",
+  "summary": "Public site content slice testimonials (auth: none)",
+  "method": "GET",
+  "path": "/api/content/testimonials",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "value": {
+        "type": "object",
+        "optional": true,
+        "fields": {}
+      }
+    },
+    "name": "ContentSliceResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

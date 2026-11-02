@@ -1,0 +1,1211 @@
+/* ============================================================
+   INTERACTIVE — tools, calculators, builders, chat
+   ============================================================ */
+
+/* ============== CHAT (Noviq Assistant) ============== */
+/* AI Lab page */
+.ai-lab-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-bottom: 62px !important;
+}
+
+.ai-lab-hero-glow {
+  position: absolute;
+  z-index: -1;
+  width: min(760px, 82vw);
+  height: 380px;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 45%, rgba(109,40,255,0.24), transparent 48%),
+    radial-gradient(circle at 68% 55%, rgba(6,182,212,0.12), transparent 45%);
+  filter: blur(32px);
+  pointer-events: none;
+}
+
+.ai-lab-hero-copy {
+  max-width: 900px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+.ai-lab-hero-copy .noviq-hero-badge {
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.ai-lab-hero-copy .noviq-hero-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ai-lab-hero-copy h1 {
+  max-width: 850px;
+  margin-inline: auto;
+}
+
+.ai-lab-hero-copy > p {
+  max-width: 720px;
+  margin: 18px auto 0;
+}
+
+.ai-lab-metrics {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.ai-lab-metrics > span {
+  min-width: 142px;
+  padding: 11px 16px;
+  border: 1px solid var(--control-border);
+  border-radius: 14px;
+  background: var(--control-bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(14px);
+}
+
+.ai-lab-metrics strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+  margin-bottom: 2px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.ai-lab-metrics strong svg {
+  width: 16px;
+  height: 16px;
+  color: var(--secondary);
+}
+
+.ai-lab-workspace {
+  padding-top: 34px !important;
+}
+
+.ai-lab-layout {
+  display: grid;
+  grid-template-columns: minmax(270px, 330px) minmax(0, 1fr);
+  gap: 22px;
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  align-items: start;
+}
+
+.ai-lab-console {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid var(--control-border);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(var(--card-rgb), 0.82), rgba(var(--bg-rgb), 0.72)),
+    radial-gradient(circle at 0 0, rgba(139,92,246,0.15), transparent 45%);
+  box-shadow: var(--shadow-lg);
+}
+
+.ai-lab-console::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.7), transparent);
+}
+
+.ai-lab-console-head {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--control-border);
+}
+
+.ai-lab-kicker {
+  display: block;
+  margin-bottom: 9px;
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ai-lab-console h2 {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.ai-lab-console-head p {
+  margin-top: 9px;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.ai-lab-tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.ai-lab-tool {
+  min-width: 0;
+  padding: 12px 10px;
+  border: 1px solid var(--control-border);
+  border-radius: 14px;
+  background: var(--surface-highlight);
+}
+.ai-lab-tool-button { width: 100%; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.ai-lab-tool-button:hover { border-color: rgba(139,92,246,.35); background: rgba(139,92,246,.07); }
+
+.ai-lab-tool > span {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  margin-bottom: 9px;
+  border-radius: 9px;
+  background: rgba(139,92,246,0.12);
+  color: #a78bfa;
+}
+
+.ai-lab-tool svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ai-lab-tool strong,
+.ai-lab-tool small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-lab-tool strong {
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.ai-lab-tool small {
+  margin-top: 3px;
+  color: var(--text-tertiary);
+  font-size: 9.5px;
+}
+
+.ai-lab-starters {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 22px;
+}
+
+.ai-lab-starters > span {
+  margin-bottom: 2px;
+  color: var(--text-tertiary);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ai-lab-prompt {
+  display: grid;
+  grid-template-columns: 17px minmax(0, 1fr) 14px;
+  gap: 9px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid rgba(139,92,246,0.13);
+  border-radius: 12px;
+  background: rgba(109,40,255,0.045);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 11.5px;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .25s, background .25s, color .25s, transform .25s;
+}
+
+.ai-lab-prompt:hover {
+  border-color: rgba(139,92,246,0.42);
+  background: rgba(109,40,255,0.11);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.ai-lab-prompt svg {
+  width: 15px;
+  height: 15px;
+  color: #a78bfa;
+}
+
+.ai-lab-prompt-arrow {
+  opacity: .45;
+}
+
+.ai-lab-private-note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--control-border);
+  color: var(--text-tertiary);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.ai-lab-private-note svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #34d399;
+}
+
+.ai-lab-contact-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  max-width: 820px;
+  margin: 16px auto 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-align: center;
+}
+
+.ai-lab-contact-tip svg {
+  width: 13px;
+  height: 13px;
+  color: var(--secondary);
+}
+
+/* Legacy container (older embedded tools) */
+.noviq-chat-container {
+  max-width: 700px;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: var(--surface-highlight);
+  border: 1px solid var(--control-border);
+  overflow: hidden;
+}
+
+.nv-chat-shell {
+  max-width: 820px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: linear-gradient(180deg, var(--surface-highlight-strong), var(--surface-highlight));
+  border: 1px solid var(--control-border);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(139,92,246,0.06);
+  overflow: hidden;
+}
+
+.ai-lab-layout .nv-chat-shell {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-color: rgba(139,92,246,0.15);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(var(--card-rgb), 0.92), rgba(var(--bg-rgb), 0.92)),
+    radial-gradient(circle at 100% 0, rgba(6,182,212,0.08), transparent 34%);
+  box-shadow: var(--shadow-lg), 0 0 50px rgba(109,40,255,0.05);
+}
+
+.ai-lab-layout .nv-chat-shell::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, var(--surface-highlight), transparent 22%);
+  pointer-events: none;
+}
+
+.ai-lab-layout .nv-chat-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Header inside the card ---- */
+.nv-chat-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--control-border);
+  background: var(--surface-highlight);
+}
+.nv-chat-id { display: flex; align-items: center; gap: 12px; }
+.nv-bot-avatar {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), #9333EA);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 17px; color: #fff;
+  box-shadow: 0 4px 14px rgba(109,40,255,0.4);
+  position: relative;
+  flex-shrink: 0;
+}
+.nv-bot-avatar svg { width: 19px; height: 19px; }
+@keyframes nvAvatarOrbit { to { transform: rotate(360deg); } }
+.nv-bot-name { font-weight: 600; font-size: 14.5px; color: var(--text); }
+.nv-bot-status {
+  font-size: 11.5px; color: var(--secondary);
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;
+}
+.nv-bot-status.offline { color: #F59E0B; }
+.nv-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+}
+.nv-chat-actions { display: flex; gap: 6px; }
+.nv-icon-btn {
+  width: 34px; height: 34px; border-radius: 10px;
+  border: 1px solid var(--control-border);
+  background: var(--control-bg);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.nv-icon-btn:hover { color: var(--text); border-color: rgba(139,92,246,0.4); background: rgba(139,92,246,0.1); }
+.nv-icon-btn.active { color: var(--secondary); border-color: rgba(139,92,246,0.5); background: rgba(139,92,246,0.14); }
+.nv-icon-btn svg, .nv-icon-btn i { width: 15px; height: 15px; }
+
+/* ---- Capability chips strip ---- */
+.nv-chat-caps {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--control-border);
+}
+.nv-cap {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px; border-radius: 999px;
+  background: rgba(139,92,246,0.07);
+  color: var(--text-secondary); font-size: 11px;
+}
+.nv-cap svg, .nv-cap i { width: 11px; height: 11px; }
+.nv-cap-stat { background: rgba(34,197,94,0.08); color: #4ADE80; }
+
+/* ---- Messages ---- */
+.noviq-chat-messages {
+  padding: 22px 20px;
+  height: 480px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+.ai-lab-layout .noviq-chat-messages {
+  height: 535px;
+  background:
+    linear-gradient(rgba(var(--text-rgb), 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--text-rgb), 0.018) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 100%);
+}
+.noviq-chat-messages::-webkit-scrollbar { width: 5px; }
+.noviq-chat-messages::-webkit-scrollbar-track { background: transparent; }
+.noviq-chat-messages::-webkit-scrollbar-thumb { background: rgba(109,40,255,0.3); border-radius: 3px; }
+
+.nv-msg { display: flex; align-items: flex-end; gap: 9px; max-width: 100%; }
+.nv-msg.user { justify-content: flex-end; }
+.nv-msg-avatar {
+  width: 28px; height: 28px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), #9333EA);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 700; color: #fff;
+}
+
+.chat-bubble {
+  max-width: 78%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-family: 'Inter';
+  line-height: 1.65;
+  animation: chatFadeIn 0.3s ease;
+  overflow-wrap: break-word;
+  position: relative;
+}
+html[lang='ar'] .chat-bubble { font-family: 'Cairo', 'Inter', sans-serif; }
+
+.chat-time {
+  display: block;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 5px;
+  text-align: end;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.chat-bubble.user .chat-time { color: rgba(var(--text-inverse-rgb), 0.65); }
+.chat-img-caption {
+  font-size: 11.5px; color: var(--text-secondary);
+  margin-top: 6px; font-style: italic;
+}
+
+@keyframes chatFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-bubble.user {
+  background: linear-gradient(135deg, var(--accent), #9333EA);
+  color: #fff;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 4px 16px rgba(109,40,255,0.25);
+}
+
+.chat-bubble.ai {
+  background: var(--surface-highlight-strong);
+  border: 1px solid var(--control-border);
+  color: var(--text);
+  border-bottom-left-radius: 5px;
+}
+.ai-lab-layout .chat-bubble.ai {
+  background: rgba(var(--card-rgb), 0.86);
+  border-color: rgba(167,139,250,0.18);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- Source cards (related results) ---- */
+.nv-sources {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: -4px 0 2px 37px;
+}
+.nv-source-card {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 13px; border-radius: 11px;
+  background: rgba(139,92,246,0.08);
+  border: 1px solid rgba(139,92,246,0.22);
+  color: var(--secondary); font-size: 12px; text-decoration: none;
+  transition: all 0.2s; max-width: 100%;
+}
+.nv-source-card:hover {
+  background: rgba(139,92,246,0.16);
+  border-color: rgba(139,92,246,0.45);
+  transform: translateY(-1px);
+}
+.nv-source-card svg, .nv-source-card i { width: 13px; height: 13px; flex-shrink: 0; }
+.nv-source-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+.nv-source-host { font-size: 10px; color: var(--text-secondary); }
+
+.typing-indicator {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  margin-left: 37px;
+  background: var(--surface-highlight-strong);
+  border: 1px solid var(--control-border);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  animation: chatFadeIn 0.3s ease;
+}
+.typing-dots { display: inline-flex; gap: 4px; }
+.typing-indicator .typing-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+.typing-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.typing-indicator .typing-dots span:nth-child(1) { animation-delay: 0s; }
+.typing-indicator .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+.chat-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 20px 14px;
+}
+
+.chat-quick-reply {
+  padding: 8px 15px;
+  border: 1px solid rgba(109,40,255,0.22);
+  border-radius: 999px;
+  background: rgba(109,40,255,0.06);
+  color: var(--secondary);
+  font-size: 12.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chat-quick-reply:hover {
+  background: rgba(109,40,255,0.14);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.chat-input-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 14px;
+  border-top: 1px solid var(--control-border);
+  background: var(--surface-highlight);
+}
+
+.ai-lab-layout .chat-input-bar {
+  padding: 14px 16px 10px;
+  background: rgba(var(--bg-rgb), 0.5);
+  backdrop-filter: blur(14px);
+}
+
+.nv-chat-shell.drag-active {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 4px rgba(139,92,246,.14), var(--shadow-glow);
+}
+
+.nv-chat-shell.drag-active .noviq-chat-messages::after {
+  content: 'Drop file to attach';
+  position: absolute;
+  inset: 14px;
+  display: grid;
+  place-items: center;
+  z-index: 4;
+  border: 1px dashed var(--secondary);
+  border-radius: 14px;
+  color: var(--secondary);
+  background: rgba(var(--bg-rgb), .88);
+  backdrop-filter: blur(8px);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.noviq-chat-messages { position: relative; }
+.nv-file-bubble { display: flex; align-items: center; gap: 10px; }
+.nv-file-bubble > svg { width: 22px; height: 22px; flex-shrink: 0; }
+.nv-file-bubble > span { display: flex; flex-direction: column; min-width: 0; }
+.nv-file-bubble strong { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.nv-file-bubble small { margin-top: 2px; opacity: .72; font-size: 10px; }
+html[dir='rtl'] .nv-chat-shell.drag-active .noviq-chat-messages::after { content: 'أفلت الملف لإرفاقه'; }
+
+.nv-composer-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-input-bar .nv-composer-field input {
+  width: 100%;
+  padding-right: 58px;
+}
+
+.nv-composer-hint {
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  transform: translateY(-50%);
+  padding: 3px 6px;
+  border: 1px solid var(--control-border);
+  border-radius: 6px;
+  color: var(--text-tertiary);
+  font-size: 8.5px;
+  letter-spacing: .04em;
+  pointer-events: none;
+}
+
+.nv-tool-btn {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border: 1px solid var(--control-border);
+  border-radius: 11px;
+  background: var(--control-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.nv-tool-btn:hover { color: var(--secondary); border-color: rgba(139,92,246,0.4); background: rgba(139,92,246,0.08); }
+.nv-tool-btn.recording { color: #EF4444; border-color: rgba(239,68,68,0.5); animation: nvPulse 1s infinite; }
+.nv-tool-btn svg, .nv-tool-btn i { width: 16px; height: 16px; }
+
+.chat-input-bar input {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1px solid var(--control-border);
+  border-radius: 12px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.chat-input-bar input:focus {
+  border-color: rgba(139,92,246,0.5);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.12);
+}
+
+.chat-input-bar input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.nv-send-btn {
+  width: 40px; height: 40px; flex-shrink: 0;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), #9333EA);
+  color: #fff;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(109,40,255,0.3);
+}
+.nv-send-btn:hover { box-shadow: 0 0 20px rgba(109,40,255,0.5); transform: translateY(-1px); }
+.nv-send-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.nv-send-btn svg, .nv-send-btn i { width: 16px; height: 16px; }
+
+.nv-chat-statusline {
+  font-size: 12px; color: var(--text-secondary);
+  padding: 6px 16px 10px; text-align: center; min-height: 18px;
+}
+
+@media (max-width: 640px) {
+  .nv-chat-shell { border-radius: 14px; }
+  .noviq-chat-messages { height: 420px; padding: 16px 12px; }
+  .chat-bubble { max-width: 86%; font-size: 13.5px; }
+  .nv-chat-caps { display: none; }
+  .nv-sources { margin-left: 0; }
+  .nv-bot-name { font-size: 13.5px; }
+}
+
+@media (max-width: 980px) {
+  .ai-lab-layout { grid-template-columns: 1fr; }
+  .ai-lab-console { padding: 21px; }
+  .ai-lab-tools { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ai-lab-starters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ai-lab-starters > span { grid-column: 1 / -1; }
+  .ai-lab-prompt { height: 100%; }
+}
+
+@media (max-width: 700px) {
+  .ai-lab-hero { padding-bottom: 36px !important; }
+  .ai-lab-hero-copy { margin-top: 18px; }
+  .ai-lab-metrics { flex-wrap: wrap; }
+  .ai-lab-metrics > span { flex: 1; min-width: 105px; padding-inline: 10px; }
+  .ai-lab-workspace { padding-top: 18px !important; }
+  .ai-lab-tools { grid-template-columns: 1fr 1fr; }
+  .ai-lab-starters { display: flex; }
+  .ai-lab-layout .nv-chat-shell { border-radius: 17px; }
+  .ai-lab-layout .noviq-chat-messages { height: min(490px, 58vh); }
+  .ai-lab-layout .nv-chat-caps {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .ai-lab-layout .nv-chat-caps::-webkit-scrollbar { display: none; }
+  .ai-lab-layout .nv-cap { flex-shrink: 0; }
+  .nv-composer-hint { display: none; }
+  .chat-input-bar .nv-composer-field input { padding-right: 12px; }
+}
+
+@media (max-width: 430px) {
+  .ai-lab-console { padding: 18px 15px; border-radius: 17px; }
+  .ai-lab-metrics { gap: 6px; }
+  .ai-lab-metrics > span { min-width: 92px; font-size: 9.5px; }
+  .ai-lab-layout .nv-chat-head { padding: 12px; }
+  .ai-lab-layout .nv-chat-actions { gap: 4px; }
+  .ai-lab-layout .nv-icon-btn { width: 31px; height: 31px; }
+  .ai-lab-layout .nv-chat-caps { padding-inline: 12px; }
+  .ai-lab-layout .noviq-chat-messages { padding-inline: 10px; }
+  .ai-lab-layout .chat-input-bar { gap: 5px; padding-inline: 9px; }
+  .ai-lab-layout .nv-tool-btn { width: 34px; height: 36px; }
+  .ai-lab-layout .nv-send-btn { width: 37px; height: 38px; }
+  .ai-lab-layout .chat-input-bar input { min-width: 0; padding-inline: 10px; font-size: 16px; }
+  .ai-lab-contact-tip { align-items: flex-start; }
+}
+
+/* ============== BUILDER ============== */
+.noviq-builder {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.noviq-builder-step {
+  display: none;
+  animation: stepFadeIn 0.4s ease;
+}
+
+.noviq-builder-step.active {
+  display: block;
+}
+
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.noviq-builder-step h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.noviq-builder-step p {
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.noviq-builder-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.noviq-builder-card {
+  padding: 22px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--control-border-strong);
+  background: var(--surface-highlight);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 var(--inset-highlight), 0 4px 16px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.35s var(--ease-smooth);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.noviq-builder-card:hover {
+  border-color: color-mix(in srgb, var(--secondary) 50%, transparent);
+  background: color-mix(in srgb, var(--secondary) 8%, var(--surface-highlight));
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--secondary) 15%, transparent), inset 0 1px 0 rgba(var(--text-rgb), 0.2);
+}
+
+.noviq-builder-card.selected {
+  border-color: color-mix(in srgb, var(--secondary) 80%, transparent);
+  background: color-mix(in srgb, var(--secondary) 16%, var(--surface-highlight));
+  box-shadow: 0 0 24px color-mix(in srgb, var(--secondary) 30%, transparent), inset 0 1px 0 rgba(var(--text-rgb), 0.3);
+}
+
+.builder-remove-option {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px;
+  display: grid; place-items: center;
+  background: var(--control-bg); border: 1px solid var(--control-border);
+  border-radius: 6px; color: var(--danger, #EF4444);
+  cursor: pointer; opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s;
+}
+.builder-remove-option:hover { opacity: 1; background: rgba(239,68,68,0.12); }
+
+.builder-admin-tools {
+  margin-top: 16px; padding-top: 16px;
+  border-top: 1px dashed var(--control-border);
+}
+
+.noviq-builder-card .card-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.noviq-builder-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.noviq-builder-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 36px;
+  gap: 12px;
+}
+
+.noviq-builder-summary {
+  position: sticky;
+  top: 100px;
+}
+
+.noviq-builder-summary-card {
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--surface-highlight);
+  border: 1px solid var(--control-border);
+}
+
+.noviq-builder-summary-card h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.noviq-builder-summary-card .summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--control-border);
+}
+
+.noviq-builder-summary-card .summary-item .value {
+  color: var(--text);
+}
+
+/* ============== ESTIMATOR ============== */
+.noviq-estimator {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+.noviq-estimator-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.noviq-estimator-feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: var(--surface-highlight);
+  border: 1px solid var(--control-border);
+  transition: all 0.25s;
+}
+
+.noviq-estimator-feature.active {
+  background: rgba(109,40,255,0.05);
+  border-color: rgba(109,40,255,0.2);
+}
+
+.noviq-estimator-feature .feature-cost {
+  font-family: 'Space Grotesk';
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.noviq-estimator-summary {
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--surface-highlight);
+  border: 1px solid var(--control-border);
+  position: sticky;
+  top: 100px;
+}
+
+.noviq-estimator-total {
+  font-family: 'Space Grotesk';
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 8px 0;
+}
+
+.noviq-estimator-chart {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  height: 120px;
+  align-items: flex-end;
+}
+
+.noviq-estimator-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(to top, var(--accent), #9333EA);
+  min-height: 4px;
+  transition: height 0.5s var(--ease-smooth);
+  opacity: 0.6;
+}
+
+.noviq-estimator-bar.active {
+  opacity: 1;
+}
+
+/* ============== QUIZ ============== */
+.noviq-quiz {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.noviq-quiz-progress {
+  margin-bottom: 32px;
+}
+
+.noviq-quiz-progress-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--control-border);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.noviq-quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #9333EA);
+  border-radius: 2px;
+  transition: width 0.5s var(--ease-smooth);
+}
+
+.noviq-quiz-progress-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+}
+
+.noviq-quiz-question {
+  animation: stepFadeIn 0.35s ease;
+}
+
+.noviq-quiz-question h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.noviq-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.noviq-quiz-option {
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--control-border);
+  background: var(--surface-highlight);
+  cursor: pointer;
+  transition: all 0.25s;
+  font-size: 14px;
+  font-family: 'Inter';
+  color: var(--text-secondary);
+}
+
+.noviq-quiz-option:hover {
+  border-color: rgba(109,40,255,0.3);
+  background: rgba(109,40,255,0.04);
+}
+
+.noviq-quiz-option.selected {
+  border-color: var(--accent);
+  background: rgba(109,40,255,0.1);
+  color: var(--text);
+}
+
+/* ============== ROI CALCULATOR ============== */
+.noviq-roi {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.noviq-roi-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.noviq-roi-control-group label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: 'Inter';
+  display: block;
+  margin-bottom: 6px;
+}
+
+.noviq-roi-result {
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--surface-highlight);
+  border: 1px solid var(--control-border);
+  position: sticky;
+  top: 100px;
+}
+
+.noviq-roi-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.noviq-roi-col {
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.noviq-roi-col.manual {
+  background: rgba(239,68,68,0.05);
+  border: 1px solid rgba(239,68,68,0.15);
+}
+
+.noviq-roi-col.ai {
+  background: rgba(34,197,94,0.05);
+  border: 1px solid rgba(34,197,94,0.15);
+}
+
+.noviq-roi-col h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.noviq-roi-col .value {
+  font-family: 'Space Grotesk';
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.noviq-roi-col.manual .value { color: #EF4444; }
+.noviq-roi-col.ai .value { color: #22C55E; }
+
+/* ============== RESULT CARD ============== */
+.noviq-result-card {
+  padding: 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(109,40,255,0.08), rgba(147,51,234,0.04));
+  border: 1px solid rgba(109,40,255,0.2);
+  box-shadow: 0 0 40px rgba(109,40,255,0.08);
+  animation: stepFadeIn 0.5s ease;
+  text-align: center;
+}
+
+.noviq-result-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.noviq-result-card p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.noviq-proposal-card {
+  text-align: left;
+  padding: 36px;
+}
+
+.noviq-proposal-card .proposal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--control-border);
+}
+
+.noviq-proposal-card .proposal-section {
+  margin-bottom: 20px;
+}
+
+.noviq-proposal-card .proposal-section h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--secondary);
+  margin-bottom: 8px;
+}
+
+.noviq-proposal-card .proposal-section p,
+.noviq-proposal-card .proposal-section li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ============== PRICE DISPLAY ============== */
+.noviq-price-display {
+  font-family: 'Space Grotesk';
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.noviq-price-display .currency {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.noviq-price-display .period {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ============== AI LAB DEMOS ============== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.chat-quick-reply.selected {
+  border-color: var(--accent) !important;
+  background: rgba(109,40,255,0.15) !important;
+  color: var(--text) !important;
+}
+
+#demo-chat-msgs,
+#chat-messages {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109,40,255,0.3) transparent;
+}
+
+#demo-chat-msgs::-webkit-scrollbar,
+#chat-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+#demo-chat-msgs::-webkit-scrollbar-track,
+#chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#demo-chat-msgs::-webkit-scrollbar-thumb,
+#chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(109,40,255,0.3);
+  border-radius: 2px;
+}

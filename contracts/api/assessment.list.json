@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "name": "assessment.list",
+  "summary": "List assessments (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/assessment",
+  "request": {
+    "query": {
+      "limit": {
+        "type": "integer",
+        "optional": true,
+        "default": 50
+      },
+      "offset": {
+        "type": "integer",
+        "optional": true,
+        "default": 0
+      }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "object",
+      "fields": {
+        "id": {
+          "type": "integer",
+          "optional": false
+        },
+        "score": {
+          "type": "integer",
+          "optional": false
+        },
+        "level": {
+          "type": "string",
+          "optional": false
+        }
+      }
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+/* ============================================================
+   CARDS-PRO — unified card language (Agent-2, Cards & Sections)
+   ------------------------------------------------------------
+   OVERRIDES ONLY — no base card styles live here.
+   Token-only: var(--*) + color-mix(). No hardcoded colors,
+   no global resets. Load AFTER corporate-polish.css.
+   ============================================================ */
+
+/* ---- 1. Unified calm hover: -4px lift, secondary tint, md→glow ----
+   Beats glass.css (-6px/scale), sections.css (-8px project lift)
+   and corporate-polish §22 (-2px) via higher specificity + order. */
+.noviq-glass-card.noviq-service-card:hover,
+.noviq-glass-card.noviq-why-card:hover,
+.noviq-glass-card.noviq-industry-card:hover,
+.noviq-glass-card.noviq-card:hover,
+.noviq-project-card:hover,
+.noviq-timeline-item.noviq-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: color-mix(in srgb, var(--secondary) 45%, transparent) !important;
+  box-shadow: var(--shadow-md), var(--shadow-glow) !important;
+}
+
+/* ---- 2. Spotlight content layer for timeline cards ----
+   Mirrors the glass.css .noviq-card > * pattern so the mouse-
+   follower glow (glass.css ::before) renders behind the text. */
+.noviq-timeline-item.noviq-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- 3. Portfolio: calm image zoom (scale 1.04, clipped) ----
+   .noviq-project-image is a background-image block; scaling it
+   inside the card's overflow:hidden keeps edges covered. */
+.noviq-project-card .noviq-project-image {
+  overflow: hidden;
+  transition: transform var(--dur-slow) var(--ease-smooth);
+}
+.noviq-project-card:hover .noviq-project-image {
+  transform: scale(1.04);
+}
+
+/* ---- 4. Case-study arrow slide on card hover (RTL-aware) ----
+   Uses the independent `translate` property so it composes with
+   the rtl.css scaleX(-1) flip and lucide svg replacement. */
+.noviq-project-card .noviq-case-link svg,
+.noviq-project-card .noviq-case-link i {
+  transition: translate var(--dur-fast) var(--ease-smooth);
+}
+.noviq-project-card:hover .noviq-case-link svg,
+.noviq-project-card:hover .noviq-case-link i {
+  translate: 4px 0;
+}
+html[dir="rtl"] .noviq-project-card:hover .noviq-case-link svg,
+html[dir="rtl"] .noviq-project-card:hover .noviq-case-link i {
+  translate: -4px 0;
+}
+
+/* ---- 5. Reduced motion: still cards, no travel ---- */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-glass-card.noviq-service-card:hover,
+  .noviq-glass-card.noviq-why-card:hover,
+  .noviq-glass-card.noviq-industry-card:hover,
+  .noviq-glass-card.noviq-card:hover,
+  .noviq-project-card:hover,
+  .noviq-timeline-item.noviq-card:hover {
+    transform: none !important;
+  }
+  .noviq-project-card .noviq-project-image,
+  .noviq-project-card:hover .noviq-project-image {
+    transform: none;
+  }
+  .noviq-project-card:hover .noviq-case-link svg,
+  .noviq-project-card:hover .noviq-case-link i {
+    translate: 0 0;
+  }
+}

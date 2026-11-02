@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "name": "admin.login",
+  "summary": "Admin login with username or email, returns JWT (rate-limited)",
+  "method": "POST",
+  "path": "/api/admin/login",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "username": {
+          "type": "string",
+          "optional": false
+        },
+        "password": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "name": "AdminLoginBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "token": {
+        "type": "string",
+        "optional": false
+      },
+      "user": {
+        "type": "object",
+        "optional": false,
+        "fields": {
+          "id": {
+            "type": "integer",
+            "optional": false
+          },
+          "username": {
+            "type": "string",
+            "optional": false
+          }
+        }
+      }
+    },
+    "name": "AdminLoginResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

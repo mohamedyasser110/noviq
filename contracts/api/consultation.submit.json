@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "name": "consultation.submit",
+  "summary": "Public consultation request submit (auth: none)",
+  "method": "POST",
+  "path": "/api/consultation",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "name": {
+          "type": "string",
+          "optional": false
+        },
+        "email": {
+          "type": "string",
+          "optional": false,
+          "format": "email"
+        },
+        "company": {
+          "type": "string",
+          "optional": true
+        },
+        "industry": {
+          "type": "string",
+          "optional": true
+        },
+        "budget": {
+          "type": "string",
+          "optional": true
+        },
+        "timeline": {
+          "type": "string",
+          "optional": true
+        },
+        "message": {
+          "type": "string",
+          "optional": true
+        }
+      },
+      "name": "ConsultationSubmitBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "ConsultationSubmitResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

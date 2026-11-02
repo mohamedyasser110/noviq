@@ -1,0 +1,10 @@
+{
+  "version": "9.9.9",
+  "title": "Test Schema",
+  "type": "object",
+  "properties": {
+    "test": {
+      "type": "string"
+    }
+  }
+}

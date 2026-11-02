@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "name": "contentadmin.get",
+  "summary": "Get one content key with updated_at (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/content/{key}",
+  "request": {
+    "query": {},
+    "params": {
+      "key": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "key": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "ContentKeyResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

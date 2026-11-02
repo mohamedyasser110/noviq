@@ -1,0 +1,7 @@
+# Agent system runtime data — do not track in git
+events/
+*.log
+*.pid
+
+# SQLite lock files
+*.lock

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "name": "chats.list",
+  "summary": "Chat sessions aggregated, max 200 (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/chats",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "object",
+      "fields": {
+        "session_id": {
+          "type": "string",
+          "optional": false
+        },
+        "messages": {
+          "type": "integer",
+          "optional": false
+        }
+      }
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

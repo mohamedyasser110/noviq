@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "content.stats",
+  "summary": "Public site content slice stats (auth: none)",
+  "method": "GET",
+  "path": "/api/content/stats",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "value": {
+        "type": "object",
+        "optional": true,
+        "fields": {}
+      }
+    },
+    "name": "ContentSliceResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

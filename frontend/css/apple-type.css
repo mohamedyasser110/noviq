@@ -1,0 +1,116 @@
+/* ============================================================
+   NOVIQ APPLE TYPE — HIG clarity layer (Agent-A)
+   ------------------------------------------------------------
+   Apple HIG "Clarity" pass, CSS-only, token-only.
+   Uses var(--*) + color-mix() only — no hardcoded colors,
+   no new font loads, no global resets. Low-specificity
+   refinements; existing theme files keep the final word
+   wherever they use !important.
+   Scope: large-title hierarchy, section rhythm, body
+   measure + leading, tabular numerals, eyebrow legibility.
+   ============================================================ */
+
+/* ---- 1. Large title: .noviq-page-hero h1 -------------------
+   HIG: large titles are bold, tight-leading, tightly tracked
+   Latin display type. Fluid clamp tops at ~44px so the hero
+   keeps hierarchy without overwhelming at desktop widths. */
+.noviq-page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+/* ---- 2. Section h2 rhythm tightening -----------------------
+   HIG: section titles sit tighter than body copy; balanced
+   wrapping keeps two-line headings even. Gradient-text rules
+   elsewhere are untouched (no color/background here). */
+.noviq-section-header h2 {
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.noviq-page-section h2,
+.noviq-page-section-alt h2 {
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+/* ---- 3. Body copy measure + generous leading ---------------
+   HIG: 1.55–1.7 body leading; ~68ch measure where no ceiling
+   exists yet. Only the two selectors below gain a max-width. */
+.noviq-page-body p {
+  line-height: 1.7;
+  max-width: 68ch;
+  overflow-wrap: break-word;
+}
+
+.noviq-hero-desc {
+  line-height: 1.65;
+  max-width: 68ch;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+/* ---- 4. Tabular numerals for stats / prices / KPIs ---------
+   HIG: data (stats, prices, KPI readouts) uses tabular
+   figures so digits align and counters don't jitter. */
+.noviq-stat b,
+.noviq-stat-number,
+.noviq-stat-number span,
+.mock-kpi b,
+.noviq-price-display,
+#pricing-grid span {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- 5. Eyebrow micro-refinement (no redesign) -------------
+   Keep the existing pill/uppercase treatment; only guard
+   legibility: readable line-height, no overflow at 320px. */
+.noviq-section-header .eyebrow {
+  line-height: 1.4;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* ---- 6. RTL guards: Arabic joins must never be spaced ------
+   Any negative Latin tracking would split Arabic joins, and
+   1.08 leading clips Arabic diacritics — both reset here.
+   Font-family stays owned by rtl.css. */
+html[dir="rtl"] .noviq-page-hero h1,
+html[dir="rtl"] .noviq-section-header h2,
+html[dir="rtl"] .noviq-page-section h2,
+html[dir="rtl"] .noviq-page-section-alt h2,
+html[dir="rtl"] .noviq-section-header .eyebrow {
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] .noviq-page-hero h1 {
+  line-height: 1.35;
+}
+
+html[dir="rtl"] .noviq-section-header h2 {
+  line-height: 1.35;
+}
+
+/* ---- 7. Small-viewport guard (320px legibility) ------------
+   Clamp floor already holds 28px; this keeps tracked Latin
+   display type from overflowing ultra-narrow screens and
+   lets the eyebrow wrap instead of clipping. */
+@media (max-width: 380px) {
+  .noviq-page-hero h1,
+  .noviq-section-header h2 {
+    letter-spacing: -0.01em;
+  }
+
+  .noviq-section-header .eyebrow {
+    white-space: normal;
+  }
+}

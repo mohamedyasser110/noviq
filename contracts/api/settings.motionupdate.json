@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "name": "settings.motionupdate",
+  "summary": "Update motion mode and reduction level (auth: admin JWT)",
+  "method": "PUT",
+  "path": "/api/admin/settings/motion",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "mode": {
+          "type": "string",
+          "optional": false
+        },
+        "reductionLevel": {
+          "type": "integer",
+          "optional": true
+        }
+      },
+      "name": "MotionSettingsBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "fileWritten": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "MotionSettingsResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

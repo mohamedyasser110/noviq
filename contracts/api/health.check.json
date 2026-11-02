@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "health.check",
+  "summary": "Public health check (auth: none)",
+  "method": "GET",
+  "path": "/api/health",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "status": {
+        "type": "string",
+        "optional": false,
+        "enum": [
+          "ok"
+        ]
+      },
+      "timestamp": {
+        "type": "string",
+        "optional": false,
+        "format": "date-time"
+      }
+    },
+    "name": "HealthResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

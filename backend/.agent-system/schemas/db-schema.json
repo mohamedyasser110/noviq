@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.1.0",
+  "title": "Noviq Database Schema",
+  "description": "Centralized database schema for Backend and Debugger agents. SQLite with Prisma-compatible structure.",
+  "type": "object",
+  "properties": {
+    "tables": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string", "enum": ["INTEGER", "TEXT", "REAL", "BLOB", "TIMESTAMP"] },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "unique": { "type": "boolean" },
+                  "default": { "type": ["string", "null"] },
+                  "references": { "type": ["object", "null"], "properties": { "table": { "type": "string" }, "column": { "type": "string" } } }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "chats": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "default": { "type": ["string", "null"] }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "chat_replies": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "references": { "type": ["object", "null"], "properties": { "table": { "type": "string" }, "column": { "type": "string" } } }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "assessments": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            }
+          },
+          "required": ["columns"]
+        },
+        "consultations": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "default": { "type": ["string", "null"] }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "contacts": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "default": { "type": ["string", "null"] }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "newsletter_subscribers": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "unique": { "type": "boolean" }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "analytics_visits": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        },
+        "solution_builder": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "default": { "type": ["string", "null"] }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            }
+          },
+          "required": ["columns"]
+        },
+        "site_monitor": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "default": { "type": ["string", "null"] }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            }
+          },
+          "required": ["columns"]
+        },
+        "rate_limits": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" },
+                  "unique": { "type": "boolean" }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            }
+          },
+          "required": ["columns"]
+        },
+        "system_logs": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "type": { "type": "string" },
+                  "nullable": { "type": "boolean" },
+                  "primary": { "type": "boolean" }
+                },
+                "required": ["name", "type", "nullable"]
+              }
+            },
+            "indexes": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["columns"]
+        }
+      },
+      "required": ["users", "chats", "chat_replies", "assessments", "consultations", "contacts", "newsletter_subscribers", "analytics_visits", "solution_builder", "site_monitor", "rate_limits", "system_logs"]
+    },
+    "migrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "applied_at": { "type": "string", "format": "date-time" },
+          "checksum": { "type": "string" }
+        },
+        "required": ["version", "name", "applied_at"]
+      }
+    }
+  },
+  "required": ["tables", "migrations"]
+}

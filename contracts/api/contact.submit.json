@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "name": "contact.submit",
+  "summary": "Public contact form submit (auth: none, rate-limited)",
+  "method": "POST",
+  "path": "/api/contact",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "name": {
+          "type": "string",
+          "optional": false
+        },
+        "email": {
+          "type": "string",
+          "optional": false,
+          "format": "email"
+        },
+        "company": {
+          "type": "string",
+          "optional": true
+        },
+        "message": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "name": "ContactSubmitBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "ContactSubmitResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

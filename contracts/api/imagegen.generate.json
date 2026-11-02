@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "name": "imagegen.generate",
+  "summary": "Image proxy, returns image bytes (auth: none, strict rate limit)",
+  "method": "GET",
+  "path": "/api/imagegen",
+  "request": {
+    "query": {
+      "prompt": {
+        "type": "string",
+        "optional": false
+      },
+      "seed": {
+        "type": "integer",
+        "optional": true
+      }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "image": {
+        "type": "string",
+        "optional": true,
+        "description": "binary image bytes"
+      }
+    },
+    "name": "ImageGenResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 502,
+      "code": "UPSTREAM_ERROR"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

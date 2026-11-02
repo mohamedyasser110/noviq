@@ -1,0 +1,266 @@
+/* ============================================================
+   NOVIQ × ANTIGRAVITY TOUCHES — 2026-09-26
+   ------------------------------------------------------------
+   Corporate-safe design touches inspired by antigravity.google:
+   - Technical precision typography (tabular-nums, monospace accents)
+   - Breathing room (generous section rhythm)
+   - Terminal-inspired micro details (code fence, inline code)
+   - Split-character hero word (opt-in, desktop only)
+   - "Command line" footer detail
+   - All rules scoped to preserve corporate-white identity & RTL
+
+   Loaded AFTER design-upgrade.css (last in cascade)
+   ============================================================ */
+
+/* ---- 0. Tokens (append-only) ---- */
+:root {
+  --mono: var(--font-mono);
+  --fs-mono-sm: 12.5px;
+  --fs-mono-md: 13.5px;
+  --code-bg: rgba(19, 16, 34, 0.04);
+  --code-border: rgba(19, 16, 34, 0.08);
+  --terminal-green: #15803D;  /* reused --success */
+  --terminal-dim: var(--text-tertiary);
+}
+:root[data-theme="dark"] {
+  --code-bg: rgba(255, 255, 255, 0.05);
+  --code-border: rgba(255, 255, 255, 0.10);
+}
+
+/* ---- 1. Hero: split-character accent word (desktop ≥901px) ---- */
+/* antigravity splits "Experience liftoff" into spaced chars.
+   We apply to the .gradient word (e.g. "Future" / "المستقبل") */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .noviq-hero-title .gradient {
+    display: inline-flex !important;
+    gap: 0.08em !important; /* tight but visible split */
+  }
+  .noviq-hero-title .gradient > span {
+    display: inline-block !important;
+    will-change: transform, opacity;
+  }
+  /* Staggered entrance handled by pro.js heroTitleWords GSAP */
+}
+
+/* RTL: Arabic chars must NOT be letter-spaced (breaks joins).
+   The split is visual only — each char wrapped in its own span. */
+html[dir='rtl'] .noviq-hero-title .gradient {
+  gap: 0.04em !important; /* tighter for Arabic */
+}
+
+/* ---- 2. Technical typography: inline code, code fences ---- */
+/* Used in AI Lab, tools, docs — gives "terminal" feel */
+code, .noviq-code, .noviq-inline-code {
+  font-family: var(--mono) !important;
+  font-size: var(--fs-mono-sm) !important;
+  background: var(--code-bg) !important;
+  border: 1px solid var(--code-border) !important;
+  border-radius: 6px !important;
+  padding: 0.15em 0.4em !important;
+  color: var(--text) !important;
+}
+pre, .noviq-code-block {
+  font-family: var(--mono) !important;
+  font-size: var(--fs-mono-md) !important;
+  line-height: 1.6 !important;
+  background: var(--code-bg) !important;
+  border: 1px solid var(--code-border) !important;
+  border-radius: 10px !important;
+  padding: 16px 20px !important;
+  overflow-x: auto !important;
+  tab-size: 2 !important;
+}
+.noviq-code-block code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+
+/* ---- 3. Section rhythm: extra breathing room (persuade) ---- */
+@media (min-width: 901px) {
+  :root {
+    --section-pad-y: 120px; /* was 88px — more vertical whitespace */
+  }
+  section[id], main[id] { scroll-margin-top: 104px; }
+}
+
+/* ---- 4. Card: subtle terminal corner mark (hover only) ---- */
+/* Top-left corner bracket on service/industry cards — reads as "code block" */
+.noviq-service-card,
+.noviq-industry-card {
+  position: relative;
+}
+.noviq-service-card::before,
+.noviq-industry-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 16px; height: 16px;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-lg) 0 0 0;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  pointer-events: none;
+}
+html[dir='rtl'] .noviq-service-card::before,
+html[dir='rtl'] .noviq-industry-card::before {
+  left: auto; right: 0;
+  border-left: none; border-right: 2px solid transparent;
+  border-radius: 0 var(--radius-lg) 0 0;
+}
+.noviq-service-card:hover::before,
+.noviq-industry-card:hover::before {
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--primary) 60%, transparent);
+}
+
+/* ---- 5. Stats: tabular numerals + mono label ---- */
+.noviq-stat-number { font-variant-numeric: tabular-nums; }
+.noviq-stat-label {
+  font-family: var(--mono) !important;
+  font-size: 11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: var(--text-tertiary) !important;
+}
+html[dir='rtl'] .noviq-stat-label {
+  text-transform: none !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* ---- 6. Navbar: terminal-style active indicator ---- */
+/* A subtle ">" prefix on the active nav item */
+.noviq-desktop-nav a[aria-current="page"]::before,
+.noviq-desktop-nav a.active::before {
+  content: "> ";
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--primary);
+  opacity: 0.7;
+  margin-right: 6px;
+  transition: opacity 0.2s;
+}
+html[dir='rtl'] .noviq-desktop-nav a[aria-current="page"]::before,
+html[dir='rtl'] .noviq-desktop-nav a.active::before {
+  content: " <";
+  margin-right: 0; margin-left: 6px;
+}
+
+/* ---- 7. Buttons: terminal-style secondary (ghost with bracket) ---- */
+.noviq-btn-terminal {
+  font-family: var(--mono) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.02em !important;
+  background: transparent !important;
+  border: 1px solid var(--control-border-strong) !important;
+  color: var(--text-secondary) !important;
+  border-radius: 6px !important;
+  padding: 8px 14px !important;
+}
+.noviq-btn-terminal::before { content: "[ "; color: var(--text-tertiary); }
+.noviq-btn-terminal::after { content: " ]"; color: var(--text-tertiary); }
+.noviq-btn-terminal:hover {
+  border-color: var(--primary) !important;
+  color: var(--primary-strong) !important;
+}
+.noviq-btn-terminal:hover::before,
+.noviq-btn-terminal:hover::after { color: var(--primary); }
+
+/* ---- 8. Footer: "command line" detail ---- */
+.noviq-footer-bottom::before {
+  content: "$ noviq --version";
+  display: block;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  opacity: 0.6;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+html[dir='rtl'] .noviq-footer-bottom::before {
+  content: "$ noviq --version";
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ---- 9. Input: terminal caret color + mono placeholder ---- */
+.noviq-input,
+.noviq-textarea {
+  caret-color: var(--primary) !important;
+}
+.noviq-input::placeholder,
+.noviq-textarea::placeholder {
+  font-family: var(--mono) !important;
+  font-size: 13px !important;
+  color: var(--text-tertiary) !important;
+  opacity: 0.7;
+}
+
+/* ---- 10. Toast: terminal-style prefix ---- */
+.noviq-toast::before {
+  content: "[OK] ";
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--success);
+  margin-right: 8px;
+}
+html[dir='rtl'] .noviq-toast::before {
+  margin-right: 0; margin-left: 8px;
+}
+
+/* ---- 11. Reduced motion: disable split-char stagger ---- */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-hero-title .gradient { gap: 0 !important; }
+  .noviq-service-card::before,
+  .noviq-industry-card::before { display: none !important; }
+}
+
+/* ---- 11b. Inverse button (CTA band) — dark on light, light on dark ---- */
+.noviq-btn-inverse {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: var(--touch-min) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  font-size: 14.5px !important;
+  letter-spacing: 0.005em !important;
+  border-radius: 10px !important;
+  padding: 12px 22px !important;
+  background: var(--text) !important;
+  border: 1px solid var(--text) !important;
+  color: var(--text-inverse) !important;
+  transition: background .2s var(--ease-out), border-color .2s var(--ease-out), color .2s, box-shadow .2s, transform .15s var(--ease-out) !important;
+}
+.noviq-btn-inverse:hover {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-md) !important;
+  transform: translateY(-2px) !important;
+}
+.noviq-btn-inverse:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+:root[data-theme="dark"] .noviq-btn-inverse {
+  background: var(--text-inverse) !important;
+  border-color: var(--text-inverse) !important;
+  color: var(--text) !important;
+}
+:root[data-theme="dark"] .noviq-btn-inverse:hover {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--text-inverse) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
+/* ---- 12. Coarse pointer (touch): disable hover-only details ---- */
+@media (pointer: coarse) {
+  .noviq-service-card::before,
+  .noviq-industry-card::before { display: none !important; }
+  .noviq-desktop-nav a[aria-current="page"]::before,
+  .noviq-desktop-nav a.active::before { display: none !important; }
+}

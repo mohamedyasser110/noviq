@@ -1,0 +1,21 @@
+{
+  "resource": "content",
+  "version": 1,
+  "etag": "seed-v1-content",
+  "schema": {
+    "type": "object",
+    "description": "Unified content schema for frontend/backend collaboration. Single source of truth for all site content.",
+    "properties": {
+      "brand": { "type": "object", "description": "Brand identity: name, logo, contact" },
+      "hero": { "type": "object", "description": "Homepage hero section" },
+      "services": { "type": "array", "description": "Service listings" },
+      "industries": { "type": "array", "description": "Industry verticals" },
+      "team": { "type": "object", "description": "Team member profiles" },
+      "testimonials": { "type": "array", "description": "Client testimonials" },
+      "contact": { "type": "object", "description": "Contact form config" },
+      "footer": { "type": "object", "description": "Footer content" }
+    },
+    "required": ["brand", "hero"]
+  },
+  "updated_at": "2026-09-26T00:00:00.000Z"
+}

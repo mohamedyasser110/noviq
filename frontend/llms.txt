@@ -1,0 +1,56 @@
+# Noviq Solutions
+
+> Global software and AI engineering company. We build custom AI solutions, ERP and CRM systems, SaaS platforms, cloud infrastructure, and web & mobile applications for ambitious businesses. Fully bilingual (English & Arabic) with 480+ projects delivered across 32 countries since 2014.
+
+## What we do
+
+- **AI Solutions**: Custom AI models, LLM integrations, chatbots, NLP, computer vision, and intelligent automation (Python, TensorFlow, PyTorch, OpenAI).
+- **Custom Software**: Bespoke systems engineered around client workflows, from replacing spreadsheets to full legacy modernization.
+- **ERP Systems**: Unified operations platforms connecting finance, inventory, procurement, and HR.
+- **CRM Platforms**: Sales and support tooling with lead management, pipelines, and ticketing.
+- **Cloud Solutions**: Resilient, auto-scaling infrastructure across AWS, Azure, and Google Cloud with DevOps and Kubernetes.
+- **SaaS Development**: Multi-tenant products with subscriptions, billing, and analytics.
+- **Web & Mobile Apps**: React/Next.js web applications and native-feel iOS/Android apps from a single codebase.
+- **API Development & Integrations**: REST/GraphQL APIs, payment gateways, WhatsApp/SMS integrations.
+- **Business Automation & Digital Transformation**: Workflow automation and end-to-end modernization strategy.
+
+## Key facts
+
+- Founded: 2014 (12+ years of experience)
+- Projects delivered: 480+
+- Countries served: 32
+- Enterprise clients: 140+
+- Offices: San Francisco, London, Singapore
+- Languages: English and Arabic (full RTL support and Arabic-speaking AI assistant)
+- Typical timelines: landing pages 2-4 weeks; web/mobile MVP 6-12 weeks; full ERP/CRM 3-6 months
+- Pricing: Starter, Growth, and Enterprise plans; milestone-based payments
+- Security: encryption, penetration testing, NDAs, full source-code ownership on delivery
+- Support: SLAs up to 24/7 with 99.9% uptime
+
+## Industries
+
+Healthcare (HIPAA-compliant platforms), Finance & FinTech (4M+ daily transactions processed), Manufacturing, Education, Real Estate, Retail & E-commerce, Government, Logistics.
+
+## Pages
+
+- [Home](https://noviqsolutions.com/): Company overview, services, stats, portfolio highlights.
+- [Services](https://noviqsolutions.com/services): Full service catalog with details.
+- [Industries](https://noviqsolutions.com/industries): Sector-specific experience and solutions.
+- [Solutions](https://noviqsolutions.com/solutions): Pre-engineered packages ready to deploy.
+- [Portfolio](https://noviqsolutions.com/portfolio): Case studies with measurable results.
+- [Pricing](https://noviqsolutions.com/pricing): Plans and cost estimator.
+- [About](https://noviqsolutions.com/about): Story, values, and team.
+- [Contact](https://noviqsolutions.com/contact): Email hello@noviqsolutions.com, phone +1 (415) 555-0182. Response within one business day.
+- [FAQ](https://noviqsolutions.com/faq): Common questions about technology, timelines, pricing, and security.
+- [AI Lab](https://noviqsolutions.com/ai-lab): Free interactive AI assistant with image generation, OCR, voice, and translation.
+
+## Notable case studies
+
+- Predictive Ops for a Logistics Network: demand-forecasting engine that cut idle fleet time by 31% across six countries.
+- Unified Ledger for a Digital Bank: real-time reconciliation processing 4M+ transactions daily.
+- Patient Intelligence Suite: HIPAA-compliant platform connecting 200+ clinics on one care record.
+- Omnichannel Commerce Engine: inventory and CRM unification behind a single storefront.
+
+## Contact
+
+Email: hello@noviqsolutions.com — Phone: +1 (415) 555-0182 — Free consultation available; we reply within one business day.

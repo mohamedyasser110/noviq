@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "name": "auth.login",
+  "summary": "User login, returns JWT (auth: none, rate-limited)",
+  "method": "POST",
+  "path": "/api/auth/login",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "email": {
+          "type": "string",
+          "optional": false,
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "name": "LoginBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "token": {
+        "type": "string",
+        "optional": false
+      },
+      "user": {
+        "type": "object",
+        "optional": false,
+        "fields": {
+          "id": {
+            "type": "integer",
+            "optional": false
+          },
+          "email": {
+            "type": "string",
+            "optional": false
+          }
+        }
+      }
+    },
+    "name": "LoginResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

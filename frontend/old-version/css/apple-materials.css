@@ -1,0 +1,136 @@
+/* ============================================================
+   APPLE-MATERIALS — HIG depth pass (Agent-B: Materials & Depth)
+   ------------------------------------------------------------
+   Layered hierarchy via materials (translucency + blur +
+   hairlines) and a restrained 3-level shadow scale. Deference:
+   chrome recedes, content leads.
+   LOAD ORDER: import LAST in styles.css (after corporate-polish
+   + cards-pro) so this finish wins without specificity wars.
+   Token-only: var(--*) + color-mix(). No hardcoded colors,
+   no new assets, no identity restyles, no ::before/::after
+   hijacks (spotlight / sheen / trace layers stay intact).
+   ============================================================ */
+
+/* ---- 1. Navbar material (chrome that recedes) ----
+   HIG: frosted bar with a saturate boost so content scrolling
+   underneath keeps contrast; one hairline separates chrome
+   from content. The unscrolled state stays transparent
+   (deference — content leads). Reclaims the 24px frost that
+   corporate-polish flattened to 8px. */
+.noviq-navbar.scrolled {
+  background: var(--nav-bg);
+  backdrop-filter: blur(24px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.5) !important;
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- 2. Card material unification (rest state) ----
+   HIG Depth: ONE recipe — hairline border + inner top-light +
+   level-1 shadow — across glass/service/project/why/industry
+   identities. Widths, accent bars, images and layout (owned by
+   sections.css / corporate-polish) are untouched; only the
+   material finish is unified. border-color carries !important
+   solely to meet corporate-polish's !important 3px service
+   top-bar (width preserved, color unified). */
+.noviq-glass-card.noviq-service-card,
+.noviq-glass-card.noviq-why-card,
+.noviq-glass-card.noviq-industry-card,
+.noviq-glass-card.noviq-card,
+.noviq-project-card,
+.noviq-timeline-item.noviq-card {
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 var(--inset-highlight);
+}
+
+/* Glass identities share one frost recipe. Opaque project /
+   timeline cards are excluded here: blur on opaque paint only
+   costs GPU and adds zero depth. Beats glass.css 18px/1.1. */
+.noviq-glass-card.noviq-service-card,
+.noviq-glass-card.noviq-why-card,
+.noviq-glass-card.noviq-industry-card,
+.noviq-glass-card.noviq-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+/* ---- 3. Hover: keep the top-light, preserve shadow scale ----
+   HIG: elevation change reads via shadow level (sm → md), not
+   new effects. Shadow values mirror the cards-pro.css hover
+   recipe (shadow-md + glow) so its cascade intent is preserved;
+   !important is required because that recipe is !important —
+   any future change there must be mirrored here. This layer's
+   only addition is the inset highlight a shadow override
+   would otherwise drop. */
+.noviq-glass-card.noviq-service-card:hover,
+.noviq-glass-card.noviq-why-card:hover,
+.noviq-glass-card.noviq-industry-card:hover,
+.noviq-glass-card.noviq-card:hover,
+.noviq-project-card:hover,
+.noviq-timeline-item.noviq-card:hover {
+  box-shadow: var(--shadow-md), var(--shadow-glow),
+    inset 0 1px 0 var(--inset-highlight) !important;
+}
+
+/* ---- 4. Frosted overlay surfaces ----
+   HIG: menus / dropdowns / toasts are transient chrome — same
+   frost as the navbar, one level above page content (shadow
+   level 2), hairline + top-light so they sit above cards.
+   Backgrounds stay token-owned (menu-bg / popup-bg flip per
+   theme). !important beats the corporate-polish blur(8/12px)
+   flattening. Also retunes the search dropdown's hardcoded
+   purple border back to a neutral hairline. */
+.noviq-mobile-menu,
+.noviq-mega-menu,
+.noviq-search-dropdown,
+.noviq-toast {
+  backdrop-filter: blur(24px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.4) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--shadow-md), inset 0 1px 0 var(--inset-highlight) !important;
+}
+
+/* Modal backdrop: keep its 16px large-area blur (cost), add the
+   saturate leg so dimmed content keeps contrast. The dialog
+   panel itself (.panel-container) keeps its bespoke shadow +
+   radius — identity owned by theme-crystal.css, untouched. */
+.panel-backdrop {
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* ---- 5. Dark-mode material check ----
+   HIG: frost on dark needs a firmer hairline + deeper drop, or
+   chrome melts into the background. Every token below already
+   flips via :root[data-theme="dark"]; these rules only firm up
+   separation where white-on-dark blur goes quiet. */
+:root[data-theme="dark"] .noviq-navbar.scrolled {
+  border-bottom-color: color-mix(in srgb, var(--border) 75%, transparent);
+  box-shadow: var(--shadow-md);
+}
+:root[data-theme="dark"] .noviq-mobile-menu,
+:root[data-theme="dark"] .noviq-mega-menu,
+:root[data-theme="dark"] .noviq-search-dropdown,
+:root[data-theme="dark"] .noviq-toast {
+  border-color: color-mix(in srgb, var(--border) 75%, transparent);
+}
+
+/* ---- 6. Robustness: reduced-transparency preference ----
+   Frost is decorative; users who ask for less transparency get
+   solid token surfaces (still correct per theme). Nothing in
+   this file animates, so no motion guard is needed. */
+@media (prefers-reduced-transparency: reduce) {
+  .noviq-navbar.scrolled,
+  .noviq-mobile-menu,
+  .noviq-mega-menu,
+  .noviq-search-dropdown,
+  .noviq-toast,
+  .noviq-glass-card.noviq-service-card,
+  .noviq-glass-card.noviq-why-card,
+  .noviq-glass-card.noviq-industry-card,
+  .noviq-glass-card.noviq-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

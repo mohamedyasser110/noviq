@@ -1,0 +1,240 @@
+/* ============================================================
+   NOVIQ × ANTIGRAVITY FUTURISTIC LAYER — 2026-09-26
+   ------------------------------------------------------------
+   Opt-in futuristic interactions (disabled by default):
+   - Custom cursor (pill + ring + trail)
+   - Ambient particles (subtle, non-distracting)
+   - Smooth scroll (lenis-style)
+   - Magnetic elements (buttons, cards)
+   - Accessible dialog/focus trap
+
+   GUARDS (all must pass to activate):
+   1. NOT prefers-reduced-motion
+   2. pointer: fine (mouse/trackpad)
+   3. NOT body.noviq-no-futuristic (feature flag)
+   4. Desktop viewport (≥901px)
+
+   This file ONLY declares CSS; JS (antigravity-futuristic.js)
+   adds .noviq-futuristic-active to <html> when guards pass.
+   ============================================================ */
+
+/* Guard: feature flag off = nothing renders */
+html:not(.noviq-futuristic-active) .noviq-cursor-dot,
+html:not(.noviq-futuristic-active) .noviq-cursor-ring,
+html:not(.noviq-futuristic-active) .noviq-cursor-trail,
+html:not(.noviq-futuristic-active) .noviq-particle,
+html:not(.noviq-futuristic-active) .noviq-magnetic {
+  display: none !important;
+}
+
+/* ============================================================
+   CURSOR — pill + ring (antigravity-style)
+   ============================================================ */
+html.noviq-futuristic-active {
+  cursor: none !important;
+}
+html.noviq-futuristic-active * {
+  cursor: none !important;
+}
+html.noviq-futuristic-active a,
+html.noviq-futuristic-active button,
+html.noviq-futuristic-active input,
+html.noviq-futuristic-active textarea,
+html.noviq-futuristic-active select,
+html.noviq-futuristic-active [role="button"],
+html.noviq-futuristic-active [tabindex="0"] {
+  cursor: none !important;
+}
+
+/* Dot — the precise point */
+.noviq-cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: width 0.15s var(--ease-out), height 0.15s var(--ease-out),
+              background 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+/* Ring — expands on interactive */
+.noviq-cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  will-change: transform, width, height, border-color, opacity;
+  transition: width 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
+              height 0.3s cubic-bezier(0.34, 1.4, 0.64, 1),
+              border-color 0.2s var(--ease-out), opacity 0.2s var(--ease-out);
+  opacity: 0.5;
+}
+
+/* Trail — short history for smoothness */
+.noviq-cursor-trail {
+  position: fixed;
+  top: 0; left: 0;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 40%, transparent);
+  pointer-events: none;
+  z-index: 99997;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+/* Hover state: ring expands, dot brightens */
+html.noviq-futuristic-active.noviq-cursor-hover .noviq-cursor-ring {
+  width: 56px; height: 56px;
+  border-color: color-mix(in srgb, var(--primary) 80%, transparent);
+  opacity: 1;
+}
+html.noviq-futuristic-active.noviq-cursor-hover .noviq-cursor-dot {
+  width: 8px; height: 8px;
+  box-shadow: 0 0 12px var(--primary);
+}
+
+/* Click state: brief scale */
+html.noviq-futuristic-active.noviq-cursor-click .noviq-cursor-dot {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+/* ============================================================
+   PARTICLES — subtle ambient float (antigravity hero vibe)
+   ============================================================ */
+.noviq-particle {
+  position: fixed;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+  animation: noviq-particle-float 20s linear infinite;
+}
+@keyframes noviq-particle-float {
+  0%   { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-10vh) translateX(var(--dx, 0)) scale(1); opacity: 0; }
+}
+
+/* ============================================================
+   MAGNETIC — elements pull toward cursor (buttons, cards)
+   ============================================================ */
+.noviq-magnetic {
+  will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* ============================================================
+   SMOOTH SCROLL — lenis-style (CSS-only fallback)
+   ============================================================ */
+html.noviq-futuristic-active {
+  scroll-behavior: auto; /* JS handles it */
+}
+
+/* ============================================================
+   DIALOG / MODAL — accessible focus trap (styles only)
+   ============================================================ */
+.noviq-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--modal-backdrop);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: noviq-dialog-fade-in 0.2s var(--ease-out);
+}
+@keyframes noviq-dialog-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.noviq-dialog {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  max-width: 520px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: noviq-dialog-slide-up 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+@keyframes noviq-dialog-slide-up {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.noviq-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.noviq-dialog-title {
+  font: 600 18px var(--font-display);
+  color: var(--text);
+}
+.noviq-dialog-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+}
+.noviq-dialog-close:hover {
+  background: var(--control-bg-hover);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.noviq-dialog-body {
+  padding: 24px;
+  overflow-y: auto;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.noviq-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+}
+html[dir='rtl'] .noviq-dialog-footer { justify-content: flex-start; }
+
+/* ============================================================
+   REDUCED MOTION / COARSE POINTER — disable all motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-particle { animation: none !important; display: none !important; }
+  .noviq-cursor-ring { transition: none !important; }
+  .noviq-cursor-dot { transition: none !important; }
+  .noviq-magnetic { transition: none !important; }
+  .noviq-dialog { animation: none !important; }
+  .noviq-dialog-overlay { animation: none !important; }
+}
+@media (pointer: coarse) {
+  .noviq-cursor-dot, .noviq-cursor-ring, .noviq-cursor-trail { display: none !important; }
+  .noviq-particle { display: none !important; }
+  .noviq-magnetic { transition: none !important; }
+  html { cursor: auto !important; }
+  html * { cursor: auto !important; }
+}

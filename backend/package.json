@@ -1,0 +1,54 @@
+{
+  "name": "noviq-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "production": "NODE_ENV=production node index.js",
+    "test": "node tests/run-all.js",
+    "test:all": "node tests/run-all.js",
+    "test:security": "node tests/security.test.js",
+    "test:content": "node tests/admin-content.test.js",
+    "test:chatbot": "node tests/chatbot.test.js",
+    "test:prompt": "node tests/prompt-builder.test.js",
+    "test:agentbus": "node tests/agent-bus-smoke.test.js",
+    "test:i18n-seed": "node tests/i18n-seed.test.js",
+    "audit:content": "node scripts/content-audit.js",
+    "sync:i18n-seed": "node scripts/sync-i18n-seed.js",
+    "backup": "node scripts/backup.js",
+    "restore": "node scripts/restore.js",
+    "dev": "nodemon index.js",
+    "security": "node scripts/security-sandbox.js",
+    "security:audit": "npm audit --omit=dev",
+    "security:signatures": "npm audit signatures",
+    "security:sbom": "npm sbom --sbom-format cyclonedx > noviq-sbom.json",
+    "security:all": "npm run security:audit && npm run security:signatures && npm run security"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Noviq backend API — Express + SQLite, deployable standalone on shared hosting",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^12.11.1",
+    "compression": "^1.8.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.12.1",
+    "nodemailer": "^10.0.15",
+    "proxy-addr": "^2.0.8",
+    "qs": "^6.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "overrides": {
+    "ip-address": "^10.7.3"
+  }
+}

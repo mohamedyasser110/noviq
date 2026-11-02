@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "analytics.visit",
+  "summary": "Record a visit, aggregated per day path lang (auth: none)",
+  "method": "POST",
+  "path": "/api/analytics/visit",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "path": {
+          "type": "string",
+          "optional": true
+        },
+        "language": {
+          "type": "string",
+          "optional": true
+        },
+        "visitorId": {
+          "type": "string",
+          "optional": true
+        }
+      },
+      "name": "VisitBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "ok": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "VisitResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

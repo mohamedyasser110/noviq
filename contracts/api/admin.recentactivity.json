@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "name": "admin.recentactivity",
+  "summary": "Latest 5 rows per lead table (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/recent-activity",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "recentContacts": {
+        "type": "array",
+        "optional": false
+      },
+      "recentConsultations": {
+        "type": "array",
+        "optional": false
+      },
+      "recentNewsletter": {
+        "type": "array",
+        "optional": false
+      },
+      "recentAssessments": {
+        "type": "array",
+        "optional": false
+      }
+    },
+    "name": "RecentActivityResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

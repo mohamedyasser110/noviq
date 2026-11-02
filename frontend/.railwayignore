@@ -1,0 +1,31 @@
+# Uploaded to Railway from this directory — keep the payload small.
+# (`.gitignore` already covers most of this; `.railwayignore` is the
+#  explicit, host-independent guarantee.)
+#
+# NOTE: the Dockerfile and .dockerignore MUST stay — Railway builds the
+# image remotely from this uploaded context.
+node_modules
+.next
+.next-dev
+.next-verify
+.next-build
+.next-run
+out
+.dist
+.navtest-out
+.21st
+old-version
+tests
+test-results
+playwright-report
+*.tsbuildinfo
+.env
+.env.local
+.env.production
+.env.development
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.git
+.gitignore

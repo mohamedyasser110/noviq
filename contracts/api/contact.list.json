@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "name": "contact.list",
+  "summary": "List contact messages, optional status filter (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/contact",
+  "request": {
+    "query": {
+      "status": {
+        "type": "string",
+        "optional": true,
+        "enum": [
+          "new",
+          "read",
+          "replied",
+          "archived"
+        ]
+      },
+      "limit": {
+        "type": "integer",
+        "optional": true,
+        "default": 50
+      },
+      "offset": {
+        "type": "integer",
+        "optional": true,
+        "default": 0
+      }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "object",
+      "fields": {
+        "id": {
+          "type": "integer",
+          "optional": false
+        },
+        "name": {
+          "type": "string",
+          "optional": false
+        },
+        "email": {
+          "type": "string",
+          "optional": false
+        },
+        "company": {
+          "type": "string",
+          "optional": false
+        },
+        "message": {
+          "type": "string",
+          "optional": false
+        },
+        "status": {
+          "type": "string",
+          "optional": false
+        },
+        "createdAt": {
+          "type": "string",
+          "optional": false
+        }
+      }
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

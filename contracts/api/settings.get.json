@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "settings.get",
+  "summary": "All site settings as key value object (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/settings",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "motion": {
+        "type": "object",
+        "optional": true,
+        "fields": {}
+      }
+    },
+    "name": "SettingsResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

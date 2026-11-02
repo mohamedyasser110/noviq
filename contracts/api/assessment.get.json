@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "name": "assessment.get",
+  "summary": "Get one assessment (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/assessment/{id}",
+  "request": {
+    "query": {},
+    "params": {
+      "id": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "id": {
+        "type": "integer",
+        "optional": false
+      },
+      "score": {
+        "type": "integer",
+        "optional": false
+      },
+      "level": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "AssessmentResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

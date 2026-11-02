@@ -1,0 +1,23 @@
+{
+  "resource": "db-schema",
+  "version": 1,
+  "etag": "seed-v1-dbschema",
+  "schema": {
+    "type": "object",
+    "description": "Database schema definition. Synced from backend/db/init.js migrations.",
+    "properties": {
+      "tables": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "columns": { "type": "array", "items": { "type": "object" } },
+            "indexes": { "type": "array", "items": { "type": "object" } }
+          }
+        }
+      }
+    }
+  },
+  "updated_at": "2026-09-26T00:00:00.000Z"
+}

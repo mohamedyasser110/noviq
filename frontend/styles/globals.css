@@ -1,0 +1,4166 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@config "../tailwind.config.js";
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *, .dark, .dark *));
+
+@keyframes canopy-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes canopy-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+/* ============================================================
+   NOVIQ — MD3 Design Tokens (consolidated CSS)
+   Replaces: tokens.css, theme-simple.css, glass.css, base.css,
+             components.css, sections.css, motion.css, layout.css,
+             forms.css, interactive.css, image-prompt-builder.css,
+             resources.css, team.css, rtl.css, responsive.css,
+             corporate-polish.css, cards-pro.css, hero-pro.css,
+             hero-capability.css, a11y-pro.css, apple-*.css
+   ============================================================ */
+
+/* ####################################################################
+   ## PALETTE — RESOLVED (2026-09-26). READ BEFORE EDITING COLOURS.   ##
+   ####################################################################
+
+   The site is now ORANGE + BLUE. This resolves the old conflict where
+   the stylesheet painted blue+gold (borrowed from the Egyptian
+   Industrial Initiatives project) while every brand asset painted
+   orange+purple+blue.
+
+   FINAL TWO-COLOUR IDENTITY
+     PRIMARY  = orange  #EA580C   structure: buttons, links, icons, fills
+     ACCENT   = blue    #2563EB   signal only: eyebrows, ghost numerals,
+                                     ticks, top-rules, hover borders
+   PURPLE IS RETIRED. It was the ACCENT value and carried the whole
+   signal layer; it read too loud next to the orange and split the
+   identity into three. Every purple stop was replaced with blue or a
+   deeper orange across: globals.css tokens, --signal, the brand text
+   gradient, Navbar/Footer/TypewriterBadge/Loading logo gradients, the
+   Hero ambient + backlight glows, the Testimonials quote gradient, and
+   public/favicon.svg.
+
+   CONTRAST ON WHITE (WCAG)
+     #EA580C is 3.56:1 — clears the 3.0 large-text/UI floor only, so
+       small text must use --color-primary-strong #BB3D0A (5.55:1).
+     #2563EB is 5.17:1 and is safe for text at any size.
+   Dark steps live in the [data-theme="dark"] block below
+   (primary #FB923C, accent #60A5FA).
+
+   Qodix discipline in force: PRIMARY carries structure; ACCENT carries
+   signal only (eyebrows, ghost numerals, ticks, top-rules) and never
+   body text or large fields.
+   #################################################################### */
+
+/* ---- Design Tokens (OKLCH + HSL) ---- */
+:root {
+  /* Core palette — Noviq brand identity (orange + blue) */
+  --color-noviq-orange: 22 90% 51%;
+  --color-noviq-blue: 221 83% 53%;
+  
+  /* Semantic colors — light mode */
+  --color-background: 0 0% 100%;
+  --color-surface: 0 0% 98%;
+  --color-surface-container: 0 0% 95%;
+  --color-surface-high: 0 0% 100%;
+  
+  --color-text: 210 20% 10%;
+  --color-text-secondary: 210 20% 40%;
+  --color-text-disabled: 210 20% 60%;
+  
+  --color-border: 210 20% 88%;
+  --color-border-strong: 210 20% 80%;
+  
+  /* PRIMARY = structure (links, icons, fills). Uses the brand orange
+     with a darkened variant for small-text WCAG compliance (5.55:1). */
+  --color-primary: 22 90% 51%;              /* #EA580C — brand orange */
+  --color-primary-hover: 22 85% 42%;        /* #C2410C — deeper on press */
+  --color-primary-container: 22 85% 92%;
+  --color-primary-strong: 22 75% 38%;       /* #BB3D0A — 5.55:1 small text */
+  --color-primary-glow: 22 90% 62%;         /* glows + icons on dark surfaces */
+
+  /* ACCENT = signal only (eyebrows, numerals, ghost rules, ticks).
+     Now the brand BLUE. Purple is demoted to a tertiary tint — it was
+     carrying the whole signal layer and read too loud next to the
+     orange primary, so the two-color identity is now orange + blue. */
+  --color-accent: 221 83% 53%;              /* #2563EB — brand blue */
+  --color-accent-hover: 221 78% 44%;
+  --color-accent-action: 221 83% 48%;       /* bold/large elements */
+  --color-accent-bright: 221 88% 70%;       /* text/icons on dark surfaces */
+  --color-accent-container: 221 80% 94%;    /* tinted chips, eyebrows on light */
+  
+  --color-secondary: 221 83% 53%;           /* #2563EB — brand blue */
+  --color-secondary-container: 221 75% 92%;
+
+  --color-success: 140 50% 45%;
+  --color-warning: 38 85% 50%;
+  --color-error: 0 80% 55%;
+  
+  --shadow-elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-elevation-2: 0 1px 4px 0 rgba(0, 0, 0, 0.06), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  --shadow-elevation-3: 0 2px 8px 0 rgba(0, 0, 0, 0.08), 0 4px 8px 0 rgba(0, 0, 0, 0.12);
+  --shadow-elevation-4: 0 4px 16px 0 rgba(0, 0, 0, 0.10), 0 8px 16px 0 rgba(0, 0, 0, 0.16);
+  
+  /* MD3 surfaces (replaces glass.css) */
+  --md-surface: 0 0% 100%;
+  --md-surface-container: 0 0% 96%;
+  --md-surface-high: 0 0% 100%;
+  --md-surface-low: 0 0% 98%;
+  --md-elev-1: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --md-elev-2: 0 1px 4px 0 rgba(0, 0, 0, 0.06);
+  --md-elev-3: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  
+  /* Layout */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Typography */
+  --font-inter: 'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-cairo: 'Cairo', 'Tajawal', sans-serif;
+  
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  
+  /* Animations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- Dark mode ---- */
+[data-theme='dark'],
+.dark {
+  --color-background: 222 30% 7%;
+  --color-surface: 222 25% 10%;
+  --color-surface-container: 222 22% 14%;
+  --color-surface-high: 222 25% 10%;
+  
+  --color-text: 0 0% 95%;
+  --color-text-secondary: 222 12% 73%;
+  --color-text-disabled: 222 10% 55%;
+  
+  --color-border: 222 10% 25%;
+  --color-border-strong: 222 10% 35%;
+
+  /* Dark surfaces: orange brightens, blue glows (purple retired) */
+  --color-primary: 22 90% 58%;              /* #FB923C — warm orange */
+  --color-primary-hover: 22 85% 50%;
+  --color-primary-strong: 22 90% 68%;
+  --color-primary-glow: 22 95% 70%;
+  --color-accent: 221 85% 62%;              /* #60A5FA — bright blue */
+  --color-accent-hover: 221 88% 70%;
+  --color-accent-action: 221 88% 66%;
+  --color-accent-bright: 221 90% 76%;
+  --color-accent-container: 221 45% 18%;
+  --color-secondary: 221 85% 62%;           /* #60A5FA — bright blue */
+  
+  --md-surface: 222 25% 10%;
+  --md-surface-container: 222 22% 14%;
+  --md-surface-high: 222 25% 12%;
+  --md-surface-low: 222 25% 12%;
+  --md-elev-1: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
+  --md-elev-2: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  --md-elev-3: 0 4px 8px 0 rgba(0, 0, 0, 0.20);
+}
+
+/* ---- Typography ---- */
+@layer base {
+  :root {
+    --background: hsl(var(--color-background));
+    --foreground: hsl(var(--color-text));
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-inter);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    background: hsl(var(--color-background));
+    color: hsl(var(--color-text));
+    margin: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Qodix type scale: tight leading (1.05/1.08) + extrabold headings,
+     fluid via clamp() so one rule covers desktop and mobile. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  
+  h1 {
+    font-size: clamp(2.25rem, 4.6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  h2 {
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  h3 { font-size: var(--text-2xl); font-weight: 700; }
+  h4 { font-size: var(--text-xl); }
+  :lang(ar) h1, :lang(ar) h2, html[dir="rtl"] h1, html[dir="rtl"] h2 {
+    letter-spacing: 0;
+    line-height: 1.25;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  
+  a:hover { color: hsl(var(--color-primary)); }
+  
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+}
+
+/* ---- MD3 Surface Utilities (replaces .glass/.noviq-glass-card) ---- */
+.md-surface {
+  background: hsl(var(--md-surface));
+  border: 1px solid hsl(var(--color-border));
+}
+
+.md-surface-high {
+  background: hsl(var(--md-surface-high));
+  border: 1px solid hsl(var(--color-border-strong));
+  box-shadow: var(--md-elev-2);
+}
+
+.md-surface-container {
+  background: hsl(var(--color-surface-container));
+  border: 1px solid hsl(var(--color-border));
+  box-shadow: var(--md-elev-1);
+}
+
+.md-elev-1 { box-shadow: var(--md-elev-1); }
+.md-elev-2 { box-shadow: var(--md-elev-2); }
+.md-elev-3 { box-shadow: var(--md-elev-3); }
+
+/* ---- Spacing utilities ---- */
+.space-xs { padding: var(--spacing-xs); }
+.space-sm { padding: var(--spacing-sm); }
+.space-md { padding: var(--spacing-md); }
+.space-lg { padding: var(--spacing-lg); }
+.space-xl { padding: var(--spacing-xl); }
+.space-2xl { padding: var(--spacing-2xl); }
+
+/* ---- Radius utilities ---- */
+.radius-sm { border-radius: var(--radius-sm); }
+.radius-md { border-radius: var(--radius-md); }
+.radius-lg { border-radius: var(--radius-lg); }
+.radius-xl { border-radius: var(--radius-xl); }
+.radius-2xl { border-radius: var(--radius-2xl); }
+
+/* ---- Button styles (MD3) ---- */
+.noviq-btn-primary {
+  background: hsl(var(--color-primary));
+  color: white;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+
+.noviq-btn-primary:hover {
+  background: hsl(var(--color-primary-hover));
+  transform: translateY(-1px);
+}
+
+.noviq-btn-secondary {
+  background: transparent;
+  color: hsl(var(--color-text));
+  border: 1px solid hsl(var(--color-border));
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  font-weight: 500;
+}
+
+.noviq-btn-secondary:hover {
+  background: hsl(var(--color-surface-container));
+}
+
+/* Large button size + inverse (light-on-dark) variant — used by LiftoffBand */
+.noviq-btn-lg {
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  font-size: var(--text-lg);
+  border-radius: var(--radius-xl);
+}
+.noviq-btn-inverse {
+  background: hsl(0 0% 100%);
+  color: hsl(210 55% 12%);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+.noviq-btn-inverse:hover {
+  background: hsl(37 72% 88%);
+  transform: translateY(-1px);
+}
+
+/* Small button size — used by LiftoffBand actions */
+.noviq-btn-sm {
+  padding: 10px 20px;
+  font-size: var(--text-sm);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+}
+/* Ghost on dark — transparent with a light hairline, for dark bands */
+.noviq-btn-ghost {
+  background: transparent;
+  color: hsl(0 0% 100%);
+  border: 1px solid hsl(0 0% 100% / 0.35);
+  transition: background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+.noviq-btn-ghost:hover {
+  background: hsl(0 0% 100% / 0.1);
+  border-color: hsl(0 0% 100% / 0.65);
+  transform: translateY(-1px);
+}
+
+/* ---- Cards ---- */
+.noviq-card {
+  background: hsl(var(--md-surface));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--md-elev-1);
+  padding: var(--spacing-xl);
+}
+
+/* ---- Grid ---- */
+.noviq-grid {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.noviq-grid-2 {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.noviq-grid-3 {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.noviq-grid-4 {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* ---- Flexbox helpers ---- */
+.noviq-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noviq-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---- Section padding ---- */
+.noviq-section {
+  padding: 5rem 6%;
+}
+
+.noviq-section-alt {
+  padding: 4rem 6%;
+}
+
+/* ---- Language toggle (bilingual pill) ----
+   Target-language button: shows EN when Arabic is active and vice versa.
+   Glass pill + circular globe medallion + fixed-width code badge with an
+   auto-mirrored divider. Symmetric sizing so the pill never jumps EN <-> ع. */
+.noviq-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* ---- Header controls: quiet trio (refined minimal) ----
+   One clear hierarchy: login is the single outlined pill; theme + language
+   are borderless quiet utilities with a soft hover wash. Flat MD3 surfaces,
+   opacity/color fades only — no shine, no magnetic pull, no sliding parts.
+   IDs + behaviour unchanged (#theme-toggle / #language-toggle) so tests
+   and other agents keep working. */
+.noviq-theme-toggle,
+.noviq-language-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: hsl(var(--color-text-secondary));
+  cursor: pointer;
+  transition: background-color 0.18s ease-out, color 0.18s ease-out,
+    transform 0.18s ease-out;
+}
+/* ============================================================
+   PREMIUM THEME SWITCH — Luxury Glassmorphism & System Match
+   ============================================================ */
+.noviq-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  width: 52px;
+  min-width: 52px;
+  height: 28px;
+  padding: 2px;
+  border-radius: 999px;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: linear-gradient(180deg, #EDF2F7 0%, #E2E8F0 100%);
+  box-shadow: 
+    inset 0 1px 3px rgba(15, 23, 42, 0.10),
+    0 1px 2px rgba(255, 255, 255, 0.8);
+  transition: border-color 0.22s ease-out, box-shadow 0.22s ease-out, transform 0.18s ease-out;
+}
+
+.noviq-theme-toggle:hover {
+  border-color: rgba(234, 88, 12, 0.45);
+  box-shadow: 
+    inset 0 1px 3px rgba(15, 23, 42, 0.12),
+    0 0 12px rgba(234, 88, 12, 0.20);
+}
+
+/* Night: Deep Obsidian Glass track with cosmic midnight depth */
+.noviq-theme-toggle.is-dark,
+[data-theme='dark'] .noviq-theme-toggle {
+  background: linear-gradient(180deg, #0D1527 0%, #030712 100%);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 
+    inset 0 1px 4px rgba(0, 0, 0, 0.8),
+    0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.noviq-theme-toggle.is-dark:hover,
+[data-theme='dark'] .noviq-theme-toggle:hover {
+  border-color: rgba(251, 146, 60, 0.50);
+  box-shadow: 
+    inset 0 1px 4px rgba(0, 0, 0, 0.8),
+    0 0 14px rgba(251, 146, 60, 0.25);
+}
+
+.noviq-theme-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.noviq-theme-knob {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 1px;
+  translate: 0 -50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: #334155;
+  box-shadow: 
+    0 2px 5px rgba(15, 23, 42, 0.18),
+    0 1px 2px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: transform 0.35s cubic-bezier(0.34, 1.35, 0.64, 1), background-color 0.25s ease-out, color 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.noviq-theme-toggle.is-dark .noviq-theme-knob,
+[data-theme='dark'] .noviq-theme-toggle .noviq-theme-knob {
+  transform: translateX(24px);
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  color: #F59E0B;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 8px rgba(245, 158, 11, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+html[dir="rtl"] .noviq-theme-toggle.is-dark .noviq-theme-knob,
+html[dir="rtl"] [data-theme='dark'] .noviq-theme-toggle .noviq-theme-knob {
+  transform: translateX(-24px);
+}
+
+.noviq-language-toggle {
+  padding: 0 12px;
+}
+.noviq-language-toggle:hover {
+  background: hsl(var(--color-surface-container));
+  color: hsl(var(--color-text));
+}
+.noviq-theme-toggle:active,
+.noviq-language-toggle:active {
+  transform: scale(0.93);
+}
+.noviq-theme-toggle:focus-visible,
+.noviq-language-toggle:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+
+/* Theme glyph: crossfade + gentle rotate (state on button). */
+.noviq-theme-glyphs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+}
+.noviq-theme-glyph {
+  position: absolute;
+  inset: 0;
+  width: 14px;
+  height: 14px;
+  transition: opacity 0.22s ease-out, transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.noviq-theme-glyph.is-moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  color: #475569;
+}
+.noviq-theme-glyph.is-sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+  color: #EA580C;
+}
+.noviq-theme-toggle.is-dark .noviq-theme-glyph.is-moon,
+[data-theme='dark'] .noviq-theme-toggle .noviq-theme-glyph.is-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+.noviq-theme-toggle.is-dark .noviq-theme-glyph.is-sun,
+[data-theme='dark'] .noviq-theme-toggle .noviq-theme-glyph.is-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  color: #F59E0B;
+}
+/* Language: plain target-locale label. */
+.noviq-language-toggle .lang-code {
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+html[dir="ltr"] .noviq-language-toggle .lang-code {
+  font-family: var(--font-cairo);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-theme-toggle, .noviq-language-toggle,
+  .noviq-theme-glyph, .noviq-theme-knob { transition: none; }
+  .noviq-theme-toggle:active, .noviq-language-toggle:active { transform: none; }
+}
+
+/* ---- Mobile coarse-pointer fixes ----
+   Narrower edge fades so the marquee stays visible on 390px. */
+@media (max-width: 639px) {
+  .flowing-fade { width: 3.5rem; }
+}
+/* ---- Services showcase (WHAT WE BUILD) — uniform grid ----
+   Every card is the same size: one even 3-up grid, no lead cell
+   and no spans. `grid-auto-rows: 1fr` makes each row resolve to
+   the tallest row's content height, so the cards are level across
+   the whole grid rather than only within a row. Mobile keeps the
+   sideways snap scroll (one card + a peek of the next); from md up
+   it is a real grid. */
+.services-viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--color-primary) / 0.45) transparent;
+  margin: 0 -1.5rem;
+  padding: 0.25rem 1.5rem 1rem;
+}
+.services-track {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.services-cell {
+  display: flex;
+  flex: 0 0 84%;
+  min-width: 0;
+  scroll-snap-align: center;
+}
+@media (min-width: 768px) {
+  .services-viewport {
+    overflow: visible;
+    margin: 0;
+    padding: 3px;
+  }
+  .services-track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Every row resolves to the tallest row's content height, so the cards
+       are not just level within a row but across the whole grid — and the
+       endcap cell, which is usually alone in the last row, matches them
+       instead of collapsing to its label. */
+    grid-auto-rows: 1fr;
+    gap: 1.25rem;
+  }
+  .services-cell {
+    flex: none;
+  }
+}
+@media (min-width: 1024px) {
+  .services-track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}.services-viewport::-webkit-scrollbar { height: 6px; }
+.services-viewport::-webkit-scrollbar-track { background: transparent; }
+.services-viewport::-webkit-scrollbar-thumb {
+  background: hsl(var(--color-primary) / 0.4);
+  border-radius: 999px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .services-viewport { scroll-snap-type: none; }
+}
+
+/* ---- Antigravity-inspired Liftoff band (Noviq identity) ----
+   Inverted deep-navy section: gold top rule, starfield + grid backdrop,
+   glowing orb echoing the liquid-N logo gradient. */
+.noviq-liftoff {
+  position: relative;
+  overflow: hidden;
+  background: hsl(222 55% 8%);
+  color: hsl(0 0% 100%);
+  border-radius: var(--radius-2xl);
+  margin: var(--spacing-2xl) 6%;
+  padding: clamp(72px, 9vw, 128px) clamp(24px, 6vw, 72px);
+  text-align: center;
+  isolation: isolate;
+}
+.noviq-liftoff::before {
+  /* gold top rule */
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 3px;
+  /* Hard 2-band orange -> blue. A smooth 4-stop ramp interpolated
+     through purple (hue 262), which the palette retired. */
+  background: linear-gradient(90deg, hsl(22 90% 51%) 0%, hsl(22 90% 51%) 48%, hsl(221 83% 53%) 52%, hsl(221 83% 53%) 100%);
+  z-index: 1;
+}
+.noviq-liftoff::after {
+  /* starfield + grid backdrop */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(hsl(0 0% 100% / 0.5) 1px, transparent 1.4px),
+    radial-gradient(hsl(37 72% 60% / 0.45) 1px, transparent 1.4px),
+    linear-gradient(hsl(0 0% 100% / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(0 0% 100% / 0.045) 1px, transparent 1px);
+  background-size: 72px 72px, 112px 112px, 44px 44px, 44px 44px;
+  background-position: 8px 12px, 40px 60px, 0 0, 0 0;
+  mask-image: radial-gradient(ellipse 75% 85% at 50% 40%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 85% at 50% 40%, black 30%, transparent 78%);
+  pointer-events: none;
+  z-index: 0;
+}
+.noviq-liftoff-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(32px, 4.5vw, 60px);
+  align-items: center;
+}
+/* Copy stack: centred while stacked, ragged-start once it owns a column */
+.noviq-liftoff-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+.noviq-liftoff-visual {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .noviq-liftoff-inner {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+  .noviq-liftoff-copy {
+    align-items: flex-start;
+    text-align: start;
+  }
+  /* de-centre the two blocks that were centred for the stacked layout */
+  .noviq-liftoff-desc { margin-inline: 0; }
+  .noviq-liftoff-actions { justify-content: flex-start; }
+}
+.noviq-liftoff-inner::before {
+  /* logo-glow orb */
+  content: '';
+  position: absolute;
+  top: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 420px;
+  height: 280px;
+  background: radial-gradient(ellipse at center, hsl(221 83% 55% / 0.35), hsl(217 85% 50% / 0.18), transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+}
+.noviq-liftoff-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid hsl(0 0% 100% / 0.18);
+  background: hsl(0 0% 100% / 0.07);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: hsl(37 80% 72%);
+}
+/* Green status dot retired (2026-09-26) — the brand is orange + blue only.
+   .noviq-liftoff-dot and @keyframes noviq-ping were removed with it. */
+.noviq-liftoff-title {
+  font-size: clamp(34px, 4.2vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: hsl(0 0% 100%);
+  margin: 20px 0 0;
+  /* keeps "Experience liftoff" from splitting across the line break */
+  text-wrap: balance;
+}
+html[dir="rtl"] .noviq-liftoff-title {
+  font-family: 'Cairo', var(--font-display);
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.noviq-liftoff-desc {
+  color: hsl(0 0% 100% / 0.72);
+  max-width: 580px;
+  margin: 18px auto 0;
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+.noviq-liftoff-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
+/* Compact liftoff on phones: tighter band, smaller type, trimmed terminal */
+@media (max-width: 640px) {
+  .noviq-liftoff {
+    padding: 44px 20px;
+    margin: var(--spacing-lg) 4%;
+  }
+  .noviq-liftoff-title {
+    font-size: clamp(26px, 7.2vw, 32px);
+  }
+  .noviq-liftoff-desc {
+    font-size: var(--text-base);
+  }
+  .noviq-liftoff-actions {
+    margin-top: 24px;
+    gap: 10px;
+  }
+  .noviq-terminal-body {
+    padding: 14px;
+    gap: 7px;
+  }
+  .noviq-terminal-body p:nth-child(n+4) {
+    display: none;
+  }
+}
+
+/* Brand gradient text (liquid-N: orange -> blue, sharp two-band) */
+.text-gradient-brand {
+  background: linear-gradient(92deg, hsl(22 90% 55%) 0%, hsl(22 90% 55%) 45%, hsl(221 83% 56%) 50%, hsl(221 83% 56%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Blue gradient text for the hero accent word — punchy on white,
+   still 3:1+ on the dark page for large extrabold type. */
+.text-gradient-blue {
+  background: linear-gradient(92deg, hsl(221 83% 52%) 0%, hsl(214 90% 60%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Two-tone hero accent: orange lead melting into blue.
+   Sized to the word itself (the span is w-fit) so the orange band lands
+   on the start of the word, not smeared across the whole line box. */
+.text-gradient-future {
+  background: linear-gradient(92deg, hsl(22 90% 53%) 0%, hsl(22 90% 53%) 30%, hsl(221 83% 55%) 58%, hsl(214 90% 62%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Terminal card (CLI aesthetic) ---- */
+.noviq-terminal {
+  background: hsl(222 50% 7%);
+  border: 1px solid hsl(0 0% 100% / 0.12);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-elevation-3), 0 0 44px hsl(221 83% 50% / 0.18);
+  font-family: var(--font-mono);
+  text-align: start;
+}
+.noviq-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  background: hsl(0 0% 100% / 0.05);
+  border-bottom: 1px solid hsl(0 0% 100% / 0.09);
+}
+.noviq-terminal-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.noviq-terminal-dot--red { background: hsl(0 75% 60%); }
+.noviq-terminal-dot--yellow { background: hsl(42 90% 55%); }
+.noviq-terminal-dot--green { background: hsl(140 55% 48%); }
+.noviq-terminal-title {
+  margin-inline-start: 8px;
+  font-size: var(--text-xs);
+  color: hsl(0 0% 100% / 0.45);
+}
+.noviq-terminal-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.noviq-terminal-body p {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.noviq-terminal-prompt { color: hsl(0 0% 100%); }
+.noviq-terminal-ps { color: hsl(140 60% 55%); font-weight: 600; }
+.noviq-terminal-ok { color: hsl(0 0% 100% / 0.75); }
+.noviq-terminal-caret {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  margin-inline-start: 5px;
+  vertical-align: -2px;
+  background: hsl(140 60% 55%);
+  animation: noviq-blink 1.1s steps(1) infinite;
+}
+@keyframes noviq-blink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+
+/* ---- Keyboard hint chip (⌘K style, Antigravity touch) ---- */
+.noviq-kbd {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid hsl(var(--color-border-strong));
+  border-bottom-width: 2px;
+  background: hsl(var(--color-surface-container));
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: hsl(var(--color-text-secondary));
+  white-space: nowrap;
+}
+
+/* ---- Identity: selection + scrollbar + focus ---- */
+::selection {
+  background: hsl(37 72% 45% / 0.85);
+  color: hsl(0 0% 100%);
+}
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: hsl(var(--color-surface-container)); }
+::-webkit-scrollbar-thumb {
+  /* 2-band for the same reason as the liftoff rule — no purple midstop. */
+  background: linear-gradient(180deg, hsl(22 90% 51%) 0%, hsl(22 90% 51%) 50%, hsl(221 83% 53%) 50%, hsl(221 83% 53%) 100%);
+  border-radius: var(--radius-full);
+  border: 2px solid hsl(var(--color-surface-container));
+}
+:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-terminal-caret { animation: none; }
+}
+
+/* ---- Qodix touch: process ghost numerals ----
+   Oversized outlined step numbers (01-07) sit inline with a primary icon
+   medallion; each cell carries a gold hairline top rule. */
+.noviq-process-step { position: relative; }
+.noviq-process-num {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 4.5vw, 58px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: hsl(var(--color-accent-action));
+}
+@supports (-webkit-text-stroke: 1px black) {
+  .noviq-process-num {
+    color: transparent;
+    -webkit-text-stroke: 1.5px hsl(var(--color-accent) / 0.55);
+  }
+}
+
+/* ---- Qodix touch: stats gold tick ----
+   Thin gradient rule under each stat value (accent-as-signal). */
+.noviq-stat-value {
+  position: relative;
+  padding-bottom: 14px;
+}
+.noviq-stat-value::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, hsl(var(--color-accent-action)), hsl(var(--color-accent-bright)));
+}
+
+/* ---- Qodix touch: service card gold top-rule reveal ---- */
+.noviq-svc-card {
+  position: relative;
+  overflow: hidden;
+}
+.noviq-svc-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 3px;
+  background: linear-gradient(90deg, hsl(var(--color-accent-action)), hsl(var(--color-accent-bright)));
+  transform: scaleX(0);
+  transition: transform var(--duration-normal) var(--ease-out);
+  pointer-events: none;
+}
+.noviq-svc-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* ---- Qodix touch: view-all link (primary text, gold underline, sliding arrow) ----
+   min-height 44px so the whole "View all X →" line is a valid touch target
+   (it rendered 20–24px tall before — 57 sub-44px hits across 17 routes). */
+.noviq-view-all {
+  text-decoration: underline 2px transparent;
+  text-underline-offset: 5px;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+.noviq-view-all:hover {
+  text-decoration-color: hsl(var(--color-accent-action));
+}
+.noviq-view-all span {
+  display: inline-block;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.noviq-view-all:hover span {
+  transform: translateX(4px);
+}
+html[dir="rtl"] .noviq-view-all span {
+  transform: scaleX(-1);
+}
+html[dir="rtl"] .noviq-view-all:hover span {
+  transform: scaleX(-1) translateX(4px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-svc-card::before { transition: none; }
+  .noviq-svc-card:hover::before { transform: scaleX(1); }
+  .noviq-view-all:hover span { transform: none; }
+}
+
+/* ============================================================
+   SOCIAL LINKS
+   ------------------------------------------------------------
+   Shared by the contact section and the footer, so the two can
+   never drift apart.
+
+   The rule: the CHROME is neutral, only the GLYPH carries the
+   brand colour. WhatsApp green / Facebook blue / Instagram pink
+   are recognisable, but three saturated fills in a row fight the
+   orange + blue identity this site is built on (see the PALETTE
+   note at the top of this file) and pull the eye away from the
+   heading. So each chip is a quiet hairline square in the site
+   border colour with a brand-tinted glyph, and the brand colour
+   only floods in on hover.
+
+   Instagram previously used a gradient fill while the other two
+   used a flat one; all three now behave identically.
+   ============================================================ */
+.noviq-social-row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.noviq-social {
+  --brand: hsl(var(--color-primary));
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--color-border));
+  background: hsl(var(--color-surface-high) / 0.55);
+  color: var(--brand);
+  transition:
+    transform var(--duration-normal) var(--ease-smooth),
+    border-color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+.noviq-social svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.noviq-social:hover,
+.noviq-social:focus-visible {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--brand) 50%, transparent);
+  background: color-mix(in oklab, var(--brand) 13%, transparent);
+  box-shadow: 0 10px 22px -12px color-mix(in oklab, var(--brand) 70%, transparent);
+}
+.noviq-social:focus-visible {
+  outline: 2px solid hsl(var(--color-accent-action));
+  outline-offset: 3px;
+}
+.noviq-social--whatsapp  { --brand: #25d366; }
+.noviq-social--facebook  { --brand: #1877f2; }
+.noviq-social--instagram { --brand: #e1306c; }
+.noviq-social--email     { --brand: hsl(var(--color-primary)); }
+
+/* The footer runs one size down — it is a quiet utility row. */
+.noviq-footer .noviq-social {
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border-color: transparent;
+}
+.noviq-footer .noviq-social svg {
+  width: 1.0625rem;
+  height: 1.0625rem;
+}
+.noviq-footer .noviq-social:hover,
+.noviq-footer .noviq-social:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--brand) 45%, transparent);
+  background: color-mix(in oklab, var(--brand) 13%, transparent);
+}
+.noviq-footer .noviq-social--email:hover {
+  border-color: hsl(var(--color-primary) / 0.45);
+  background: hsl(var(--color-primary) / 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noviq-social { transition: none; }
+  .noviq-social:hover,
+  .noviq-social:focus-visible,
+  .noviq-footer .noviq-social:hover { transform: none; }
+}
+
+/* ============================================================
+   SERVICE CARD (services showcase)
+   ------------------------------------------------------------
+   A deliberately separate class tree from .noviq-svc-card, which
+   the /team page still renders — reusing it here would have let
+   this padding/background override that page's utilities.
+
+   Roles held to the palette discipline documented at the top of
+   this file: PRIMARY (orange) = structure, icons, the go chip;
+   ACCENT (blue) = signal only (top rule, ghost numerals, the
+   endcap, hover borders).
+   ============================================================ */
+.svc-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    170deg,
+    hsl(var(--color-surface-high) / 0.9),
+    hsl(var(--color-background) / 0.55)
+  );
+  transition:
+    transform var(--duration-normal) var(--ease-smooth),
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+/* Every child sits above the ::after glow painted below. */
+.svc-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Accent top-rule reveal — carried over from the Qodix touch. */
+.svc-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 3px;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--color-accent-action)),
+    hsl(var(--color-accent-bright))
+  );
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform var(--duration-slow) var(--ease-smooth);
+  pointer-events: none;
+}
+html[dir='rtl'] .svc-card::before { transform-origin: 100% 50%; }
+
+/* Brand glow blooming out of the icon corner. */
+.svc-card::after {
+  content: '';
+  position: absolute;
+  inset-block-start: -35%;
+  inset-inline-start: -25%;
+  width: 65%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    hsl(var(--color-primary) / 0.16),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+  pointer-events: none;
+}
+
+.svc-card:hover,
+.svc-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: hsl(var(--color-accent) / 0.55);
+  box-shadow:
+    var(--md-elev-3),
+    0 14px 34px -14px hsl(var(--color-primary) / 0.5);
+}
+.svc-card:hover::before,
+.svc-card:focus-visible::before { transform: scaleX(1); }
+.svc-card:hover::after,
+.svc-card:focus-visible::after { opacity: 1; }
+.svc-card:focus-visible {
+  outline: 2px solid hsl(var(--color-accent-action));
+  outline-offset: 3px;
+}
+
+/* Top row: icon squircle + ghost numeral. */
+.svc-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.125rem;
+}
+.svc-card__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--color-primary) / 0.22);
+  background: linear-gradient(
+    145deg,
+    hsl(var(--color-primary) / 0.16),
+    hsl(var(--color-primary) / 0.05)
+  );
+  color: hsl(var(--color-primary));
+  transition:
+    transform var(--duration-normal) var(--ease-smooth),
+    border-color var(--duration-normal) var(--ease-out);
+}
+.svc-card__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.svc-card:hover .svc-card__icon {
+  transform: scale(1.06);
+  border-color: hsl(var(--color-primary) / 0.45);
+}
+
+.svc-card__num {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--color-accent) / 0.55);
+  transition: color var(--duration-normal) var(--ease-out);
+}
+.svc-card:hover .svc-card__num { color: hsl(var(--color-accent-bright)); }
+
+.svc-card__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: hsl(var(--color-text));
+  text-wrap: balance;
+}
+.svc-card__desc {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: hsl(var(--color-text-secondary));
+  /* A guard, not a trim: equal card heights come from grid-auto-rows (and
+     from flex stretch in the mobile track), so this never has to fire. The
+     longest shipped blurb needs 3 lines on desktop and 4 at 390px, so 5
+     leaves the real copy alone — it exists only so one over-long CMS row
+     cannot stretch every card in the grid. */
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Foot pinned to the bottom, separated by a hairline so the leftover
+   height in a stretched card reads as structure, not as a void. */
+.svc-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-top: auto;
+  padding-top: 1.375rem;
+}
+.svc-card__rule {
+  flex: 1;
+  height: 1px;
+  background: hsl(var(--color-border));
+  transform-origin: 0 50%;
+  transition: background-color var(--duration-normal) var(--ease-out);
+}
+html[dir='rtl'] .svc-card__rule { transform-origin: 100% 50%; }
+.svc-card:hover .svc-card__rule {
+  background: hsl(var(--color-accent) / 0.55);
+}
+.svc-card__go {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--color-border));
+  color: hsl(var(--color-text-secondary));
+  transition:
+    transform var(--duration-normal) var(--ease-smooth),
+    color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+.svc-card__go svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+html[dir='rtl'] .svc-card__go svg { transform: scaleX(-1); }
+.svc-card:hover .svc-card__go {
+  transform: translateX(4px);
+  color: hsl(var(--color-background));
+  background: hsl(var(--color-primary));
+  border-color: hsl(var(--color-primary));
+}
+html[dir='rtl'] .svc-card:hover .svc-card__go { transform: translateX(-4px); }
+
+@media (min-width: 768px) {
+  .svc-card { padding: 1.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-card,
+  .svc-card::before,
+  .svc-card::after,
+  .svc-card__icon,
+  .svc-card__num,
+  .svc-card__rule,
+  .svc-card__go {
+    transition: none;
+  }
+  .svc-card:hover,
+  .svc-card:focus-visible { transform: none; }
+  .svc-card:hover::before,
+  .svc-card:focus-visible::before { transform: scaleX(1); }
+  .svc-card:hover .svc-card__icon { transform: none; }
+  .svc-card:hover .svc-card__go { transform: none; }
+}
+
+/* ============================================================
+   HERO CARD — AMBIENT BLEED
+   The warm halo that spills past the black-hole card. Plain CSS:
+   the shader is now busy filling the card itself, and a second
+   WebGL context just to decorate a border is not worth the cost.
+
+   Two hard stops in the gradient, not a smooth ramp. A smooth
+   orange-to-transparent ramp is fine, but any smooth interpolation
+   toward the page's warm off-white drags the hue through pink and
+   reads as a smudge rather than a glow.
+
+   THE BLEED. This layer sits at -inset-12/16 BEHIND the card, so only
+   the ring outside the card's edge is ever visible.
+
+   The first version peaked the gradient at 50% 50% — dead centre,
+   which is precisely where the opaque card sits. Every visible pixel
+   was the faded tail, so the "glow" was a 12%-alpha blue smear that
+   read as nothing at all. The band now peaks ON the card's rim (~74%
+   along the gradient, which is where -inset-12 puts the card edge)
+   and falls off outward from there. That is what light escaping from
+   behind an occluder looks like, and it is also why the card is
+   darker at the rim: a dark edge is what the halo reads against.
+
+   The blur is deliberately NOT huge. Past ~35px it smears the band
+   straight back into the invisible tail it replaced.
+   ============================================================ */
+.noviq-blackhole {
+  border-radius: 1.75rem;
+  background: radial-gradient(
+    60% 52% at 50% 50%,
+    hsl(24 92% 55% / 0.26) 0%,
+    hsl(24 92% 55% / 0.30) 52%,
+    hsl(24 92% 55% / 0.58) 74%,
+    hsl(24 92% 55% / 0.22) 87%,
+    hsl(221 83% 53% / 0.10) 94%,
+    transparent 100%);
+  filter: blur(20px);
+}
+.dark .noviq-blackhole,
+[data-theme='dark'] .noviq-blackhole {
+  background: radial-gradient(
+    60% 52% at 50% 50%,
+    hsl(24 92% 55% / 0.22) 0%,
+    hsl(24 92% 55% / 0.26) 52%,
+    hsl(24 92% 55% / 0.48) 74%,
+    hsl(24 92% 55% / 0.18) 87%,
+    hsl(221 83% 53% / 0.08) 94%,
+    transparent 100%);
+  filter: blur(18px);
+}
+
+/* ============================================================
+   HOLE CARD — THEME BACKDROP
+   ------------------------------------------------------------
+   فاتح: كحلي كوني عميق (Deep Cosmic Navy) متناسق مع ثيم نوفيك
+   داكن: slate-950 عميق مع إطار زجاجي فخم
+
+   LIGHT MODE WAS THE ODD ONE OUT. Its outer stop was #14284d, a
+   mid navy, so on a white page the card read as a washed grey-blue
+   panel rather than a window into space — and it sat far brighter
+   than the dark theme's own ramp, which is inverted from what you
+   want. The light ramp now ends in #0a1428: still recognisably
+   navy at the rim (so the card keeps its identity and does not go
+   flat black), but dark enough that the black hole reads the same
+   in both themes and the orange bleed around it is the brightest
+   thing on the card, as intended.
+   ============================================================ */
+.noviq-hole-card {
+  background: radial-gradient(ellipse at 50% 50%, #01030a 0%, #02050f 34%, #060d1e 68%, #0a1428 100%);
+  box-shadow:
+    0 24px 55px -12px rgba(2, 6, 23, 0.38),
+    0 0 0 1px rgba(37, 99, 235, 0.14),
+    0 0 45px -6px rgba(37, 99, 235, 0.18);
+}
+.dark .noviq-hole-card,
+[data-theme='dark'] .noviq-hole-card {
+  background: radial-gradient(ellipse at 50% 50%, #000205 0%, #010510 38%, #050d1e 75%, #081226 100%);
+  box-shadow:
+    0 25px 60px -15px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 40px -10px rgba(14, 165, 233, 0.18);
+}
+
+/* ============================================================
+   CLIENT MARQUEE — "بخانة عملاؤنا"
+   Qodix strip: hairline top/bottom, no cards-within-cards, logos
+   muted until hovered. The track is duplicated in JSX and
+   translated -50% by GSAP, so the mask is applied to the viewport
+   (the moving part) and never to the track itself.
+   ============================================================ */
+.noviq-clients {
+  margin-top: 4.5rem;
+  padding-top: 2.75rem;
+  /* No top hairline: the strip is separated from the hero by air, not by
+     a rule — the border read as a stray divider slicing the two apart. */
+  border-top: none;
+}
+@media (min-width: 1024px) {
+  /* Far-screen isolation: on wide viewports the hero and the partners band
+     need generous air between them to read as separate beats. */
+  .noviq-clients {
+    margin-top: 7rem;
+    padding-top: 3.5rem;
+  }
+}
+.noviq-clients .eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.noviq-clients .eyebrow::before,
+.noviq-clients .eyebrow::after {
+  content: '';
+  height: 1px;
+  width: min(120px, 18vw);
+  background: linear-gradient(90deg, transparent, hsl(var(--color-accent-action) / 0.55));
+}
+.noviq-clients .eyebrow::after {
+  background: linear-gradient(90deg, hsl(var(--color-accent-action) / 0.55), transparent);
+}
+.noviq-clients-viewport {
+  position: relative;
+  margin-top: 1.5rem;
+  overflow: hidden;
+  /* fade the strip out at both ends instead of cutting it dead */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.noviq-clients.is-rtl .noviq-clients-viewport {
+  -webkit-mask-image: linear-gradient(270deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(270deg, transparent, #000 7%, #000 93%, transparent);
+}
+.noviq-clients-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.noviq-client-row {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  padding-inline-end: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  margin: 0;
+  list-style: none;
+}
+.noviq-client-item { display: flex; }
+.noviq-client-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  min-height: 68px;
+  padding: 0.875rem 1.75rem;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: 16px;
+  background: hsl(var(--color-background));
+  color: hsl(var(--color-text-secondary));
+  white-space: nowrap;
+  box-shadow: 0 1px 2px hsl(222 40% 8% / 0.05);
+  transition: border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
+}
+.noviq-client-card:hover,
+.noviq-client-card:focus-visible {
+  color: hsl(var(--color-text));
+  border-color: hsl(var(--color-primary) / 0.55);
+  background: hsl(var(--color-primary) / 0.05);
+  box-shadow: 0 8px 24px hsl(222 40% 8% / 0.1);
+  transform: translateY(-2px);
+}
+.noviq-client-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, hsl(var(--color-primary) / 0.14), hsl(var(--color-accent-action) / 0.14));
+  color: hsl(var(--color-primary));
+  transition: background var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
+}
+.noviq-client-card:hover .noviq-client-glyph {
+  background: hsl(var(--color-primary));
+  color: #fff;
+}
+.noviq-client-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+/* Logos arrive muted and resolve on hover — the strip should read as one
+   quiet band, not a wall of competing colour. */
+.noviq-client-logo-img {
+  height: 2.5rem;
+  width: auto;
+  max-width: 11rem;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.66;
+  transition: filter var(--duration-normal) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
+}
+.noviq-client-card:hover .noviq-client-logo-img {
+  filter: grayscale(0);
+  opacity: 1;
+  transform: scale(1.04);
+}
+/* ---- FlowingLogos: seamless infinite logo cloud ----
+   Two identical rows; translating the track exactly -50% closes the
+   loop with no seam. Duration via `--duration` (default 40s). */
+.flowing-logos-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+html[dir="rtl"] .flowing-logos-viewport {
+  -webkit-mask-image: linear-gradient(270deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(270deg, transparent, #000 8%, #000 92%, transparent);
+}
+.flowing-logos-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: flowing-logo-scroll var(--duration, 40s) linear infinite;
+}
+html[dir="rtl"] .flowing-logos-track {
+  animation-name: flowing-logo-scroll-rtl;
+}
+.flowing-logos-viewport:hover .flowing-logos-track,
+.flowing-logos-viewport:focus-within .flowing-logos-track {
+  animation-play-state: paused;
+}
+@keyframes flowing-logo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes flowing-logo-scroll-rtl {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.flowing-logos-row {
+  display: flex;
+  align-items: stretch;
+  gap: 1.25rem;
+  padding-inline-end: 1.25rem;
+  margin: 0;
+}
+.flowing-logo-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  min-height: 76px;
+  padding: 0.875rem 2rem;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: 18px;
+  background: hsl(var(--color-background));
+  color: hsl(var(--color-text-secondary));
+  white-space: nowrap;
+  box-shadow: 0 1px 2px hsl(222 40% 8% / 0.05);
+  transition: border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out);
+}
+.flowing-logo-cell:hover {
+  border-color: hsl(var(--color-primary) / 0.55);
+  box-shadow: 0 10px 28px hsl(222 40% 8% / 0.12);
+  transform: translateY(-2px);
+}
+.flowing-logo-cell--wide { min-width: 13rem; justify-content: center; }
+.flowing-logo-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-accent-action)));
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.flowing-logo-name {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: hsl(var(--color-text));
+}
+.flowing-logo-img {
+  height: 3rem;
+  width: auto;
+  max-width: 11rem;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: filter var(--duration-normal) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+}
+.flowing-logo-cell:hover .flowing-logo-img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* ---- Bare logo (variant="logo") -----------------------------------------
+   The `logo` variant emits the <Image> with no wrapper element, so the
+   tile look has to be undone at the image itself — `.flowing-logo-cell`
+   was the thing supplying the box, and its absence is what removes it.
+   Nothing here re-adds a border, a background or a fixed width.
+
+   height 2.5rem rather than the base 3rem: a logo with transparent padding
+   baked into its artwork looks smaller than it is at the same box, and the
+   mark is the point of this row. width:auto keeps the intrinsic aspect
+   ratio, which is the other half of why the tile read wrong — one rectangle
+   forced onto every logo regardless of its real shape.
+
+   opacity 0.78 rather than the base 0.7: a brand mark sitting at 30%
+   strength on a light page reads as a broken image, not as a quiet
+   hover-reveal. */
+/* The row rhythm for artwork. A tile used to supply its own padding; with
+   the box gone the marks would sit shoulder to shoulder and read as one
+   continuous graphic. Vertical room is kept so the logo breathes, and the
+   horizontal gap comes from the track's own --gap, which the canopy loop
+   already accounts for in its -50% calculation. */
+.flowing-logos-group:has(.flowing-logo-img--bare) {
+  --gap: 3.25rem;
+  align-items: center;
+}
+.flowing-logo-img--bare {
+  height: 2.75rem;
+  max-width: 10rem;
+  /* No grayscale. The base `.flowing-logo-img` rule sets `filter: grayscale(1)`
+     at 0.7 opacity, which was tuned for a logo INSIDE a tinted tile — where
+     the tile carried the visual weight and the mark was secondary. With the
+     tile gone the mark IS the whole element, and desaturating it at 70%
+     strength produced a grey rectangle that read as a broken image rather
+     than a logo. Brand colours are the signal here; the hover affordance
+     handles attention without erasing identity. */
+  filter: none;
+  opacity: 0.95;
+}
+.flowing-logo-link:hover .flowing-logo-img--bare,
+.flowing-logo-link:focus-visible .flowing-logo-img--bare {
+  opacity: 1;
+}
+/* A keyboard user needs a visible ring and there is no box left to draw it
+   on, so the ring goes around the mark itself — offset far enough that it
+   does not read as a border. */
+.flowing-logo-link:focus-visible {
+  outline: none;
+}
+.flowing-logo-link:focus-visible .flowing-logo-img--bare {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flowing-logo-img--bare { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flowing-logos-track { animation: none; width: auto; flex-wrap: wrap; }
+  .flowing-logos-row { flex-wrap: wrap; }
+}
+
+/* ---- FlowingLogos canopy track (21st method) ----
+   Two identical groups, gap via --gap; the -50% loop is replaced
+   by canopy-x: translateX(calc(-100% - var(--gap))). */
+/* ============================================================
+   CANOPY MARQUEE — WHY THE TRACK IS FORCED TO LTR
+   ------------------------------------------------------------
+   The loop is a pure horizontal translate (0 → -50%) over a track
+   holding TWO identical groups, each padded by --gap. That math only
+   works when the groups sit side by side in that order — i.e. when the
+   track's own inline direction is LTR.
+
+   Under dir="rtl" the browser mirrors flex layout, so group 2 lands to
+   the LEFT of group 1. Translating -50% then pushes group 2 out of the
+   viewport and scrolls in empty space: the row breaks apart in Arabic
+   while English is seamless.
+
+   Previously the RTL case was "fixed" by flipping animation-direction,
+   which only changed the travel direction and left the seam broken.
+
+   The fix is to pin the track (and its groups) to LTR and let the page
+   direction do nothing to the mechanism. The cells hold brand names —
+   Latin or Arabic — as isolated items, so their order must not depend on
+   the page direction, and the two locales then render IDENTICALLY: same
+   seam, same travel, same timing. One mask serves both because the fade
+   is symmetric.
+   ============================================================ */
+.flowing-logos-canopy {
+  overflow: hidden;
+  /* The canopy is the CLIPPING viewport, so it has to be pinned to LTR too —
+     not just the track and the group. Under dir="rtl" an overflowing
+     `width: max-content` child is anchored to the right edge and spills
+     leftward, which put the track's origin on the wrong side; the -50%
+     translate then walked it further out of frame and the row rendered
+     completely empty on the Arabic page (measured overlap with the visible
+     box: 1104px on /en, 0px on /ar). Pinning the viewport makes the track
+     start at the same physical edge in both languages, so the seam, the
+     travel distance and the timing are identical. */
+  direction: ltr;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.flowing-logos-canopy-track {
+  display: flex;
+  width: max-content;
+  /* See the block comment above: the two groups must stay in LTR order or the
+     -50% translate no longer closes the loop. */
+  direction: ltr;
+  will-change: transform;
+  animation: flowing-canopy var(--duration, 40s) linear infinite;
+}
+/* One group width (items + trailing padding) is exactly half the track,
+   so -50% closes the loop with no seam. `canopy-x` (spec) is kept above
+   for single-copy tracks. */
+.flowing-logos-canopy-track.is-reverse {
+  animation-direction: reverse;
+}
+.flowing-logos-canopy:hover .flowing-logos-canopy-track,
+.flowing-logos-canopy:focus-within .flowing-logos-canopy-track {
+  animation-play-state: paused;
+}
+.flowing-logos-group {
+  display: flex;
+  align-items: stretch;
+  gap: var(--gap, 1.25rem);
+  padding-inline-end: var(--gap, 1.25rem);
+  margin: 0;
+  /* Part of the loop contract: both groups must lay out in the same order,
+     otherwise the -50% translate cannot land on the second group's start. */
+  direction: ltr;
+}
+@keyframes flowing-canopy {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flowing-logos-canopy-track { animation: none; width: auto; flex-wrap: wrap; }
+  .flowing-logos-group { flex-wrap: wrap; }
+}
+
+/* ---- Wordmark cells: the client NAME as the logo ----
+   Distinctive display type, clear size, cycling brand tones:
+   dark blue → orange → yellow → black. */
+.flowing-wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 64px;
+  padding: 0.625rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transition: transform var(--duration-normal) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+}
+@media (min-width: 768px) {
+  .flowing-wordmark {
+    min-height: 76px;
+    padding: 0.875rem 2.25rem;
+    font-size: 1.9rem;
+  }
+}
+.flowing-wordmark:hover { transform: scale(1.06); }
+/* Arabic is a cursive script: letter-spacing inserts gaps between JOINED
+   glyphs, so the -0.02em above would shear a name like "نوفيق" apart. The
+   selector is `:lang(ar)` — set by the component ONLY on cells whose name is
+   really Arabic — rather than `html[dir="rtl"]`, because the latter would also
+   flatten the Latin brand names on the Arabic page and make its row measure
+   differently from the English one. */
+.flowing-wordmark:lang(ar) { letter-spacing: 0; }
+.flowing-wordmark--navy { color: #1e3a8a; }
+.flowing-wordmark--orange { color: #ea580c; }
+.flowing-wordmark--amber { color: #ca8a04; }
+.flowing-wordmark--ink { color: #111827; }
+/* Distinctive typefaces — one per client, cycling. */
+.flowing-wordmark--f-display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; }
+.flowing-wordmark--f-mono { font-family: var(--font-mono); font-weight: 700; letter-spacing: -0.01em; }
+.flowing-wordmark--f-serif { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 700; letter-spacing: 0; }
+.flowing-wordmark--f-sans { font-family: var(--font-inter); font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase; font-size: 1.6rem; }
+.flowing-wordmark--f-cairo { font-family: var(--font-cairo); font-weight: 800; letter-spacing: 0; }
+.dark .flowing-wordmark--navy, [data-theme="dark"] .flowing-wordmark--navy { color: #93c5fd; }
+.dark .flowing-wordmark--amber, [data-theme="dark"] .flowing-wordmark--amber { color: #facc15; }
+.dark .flowing-wordmark--ink, [data-theme="dark"] .flowing-wordmark--ink { color: #f9fafb; }
+
+/* ---- Brand cells: round logo + name (variant="mixed" WITH artwork) ----
+   A client that has a logo renders a pill: the mark cropped to a circle
+   beside the company name, which stays visible as before — the logo joins
+   it for visual variety. A client WITHOUT artwork keeps the giant wordmark
+   above, so each row mixes pills and typographic marks.
+
+   The circle sits on solid white (#fff in both themes) so transparent
+   artwork stays legible on the dark page; the name inherits the row tone
+   colour from the pill, keeping the navy → orange → amber → ink rhythm. */
+.flowing-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 64px;
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: 999px;
+  background: hsl(var(--color-surface));
+  white-space: nowrap;
+  box-shadow: 0 1px 2px hsl(222 40% 8% / 0.05);
+  transition: transform var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+.flowing-brand:hover {
+  transform: scale(1.05);
+  border-color: hsl(var(--color-primary) / 0.55);
+  box-shadow: 0 10px 28px hsl(222 40% 8% / 0.12);
+}
+.flowing-brand-img {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #fff;
+  box-shadow: 0 0 0 1px hsl(var(--color-border));
+}
+.flowing-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+/* Same cursive-script guard as the wordmark: no letter-spacing inside
+   genuinely Arabic names. */
+.flowing-brand-name:lang(ar) { letter-spacing: 0; }
+@media (min-width: 768px) {
+  .flowing-brand { min-height: 72px; }
+  .flowing-brand-name { font-size: 1.15rem; }
+}
+/* Keyboard users get the ring around the whole pill — offset so it never
+   reads as a border. */
+.flowing-logo-link:focus-visible .flowing-brand {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 4px;
+}
+/* The pill carries its own padding, so the track gap stays tight — unlike
+   the bare-mark row, which needs a wide gap to keep marks apart. */
+.flowing-logos-group:has(.flowing-brand) {
+  --gap: 1.5rem;
+  align-items: center;
+}
+
+/* Hover/focus pauses the scroll — the track carries the hover state, so
+   this is set from JS-free CSS on the section itself. */
+.noviq-clients:hover .noviq-clients-track,
+.noviq-clients:focus-within .noviq-clients-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-clients-viewport {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+    scrollbar-width: thin;
+  }
+  .noviq-clients-track { transform: none !important; }
+  .noviq-client-logo-img { filter: none; opacity: 1; }
+}
+
+/* ---- Back-to-top (had NO stylesheet rule at all — rendered 20×20 inline).
+   Fixed bottom-end, 44×44, hidden until scrolled. ---- */
+.noviq-to-top {
+  position: fixed;
+  inset-block-end: 1.25rem;
+  inset-inline-end: 1.25rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid hsl(var(--color-border));
+  background: hsl(var(--color-background));
+  color: hsl(var(--color-text-secondary));
+  box-shadow: var(--shadow-elevation-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    visibility var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+.noviq-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.noviq-to-top:hover {
+  color: hsl(var(--color-text));
+  border-color: hsl(var(--color-primary));
+}
+.noviq-to-top:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+
+/* ---- Client Voices (testimonials) — masked vertical marquee ----
+   The columns themselves are driven by motion (see
+   components/sections/Testimonials.tsx); this block only supplies the
+   frame: a capped viewport height so the three columns read as one
+   compact band, and a vertical mask so cards dissolve at the top and
+   bottom instead of being sliced off. Same masking idiom as
+   .noviq-clients-viewport and .flowing-logos-viewport, rotated to the Y
+   axis.
+
+   Height budget: a card runs ~15-19rem depending on quote length, so
+   24rem shows roughly one and a half. That is the floor before the mask
+   starts eating a whole card and the band reads as a slot. Raise these
+   three values together — they are one knob at three breakpoints, not
+   three independent decisions. */
+.noviq-voices {
+  max-height: 24rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 7%, #000 93%, transparent);
+}
+@media (min-width: 768px) {
+  .noviq-voices { max-height: 28rem; }
+}
+@media (min-width: 1280px) {
+  .noviq-voices { max-height: 32rem; }
+}
+/* Reduced motion: the component drops the animation and renders one
+   static block per column, so the band must be allowed to grow instead
+   of clipping the extra cards. */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-voices {
+    max-height: none;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+/* ---- Login / Auth interface ----
+   Centered card on a quiet surface, with a segmented role switch
+   (Client | Admin) that drives the auth endpoint + redirect. */
+.noviq-auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: clamp(48px, 8vw, 96px) 6%;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 0%, hsl(var(--color-primary) / 0.07), transparent 62%),
+    hsl(var(--color-background));
+}
+.noviq-auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-2xl);
+  background: hsl(var(--color-surface));
+  box-shadow: var(--shadow-elevation-3);
+}
+
+/* ---- Wide (landscape) auth card ------------------------------------
+   Side panel (title + eyes + hint) next to the form when the viewport
+   allows it; plain stacked card below 940px. Grid + logical properties
+   mirror automatically in RTL. */
+@media (min-width: 940px) {
+  .noviq-auth-card--wide {
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
+  .noviq-auth-card--wide .noviq-auth-side,
+  .noviq-auth-card--wide .noviq-auth-main {
+    min-width: 0;
+  }
+  .noviq-auth-card--wide .noviq-auth-main {
+    border-inline-start: 1px solid hsl(var(--color-border));
+    padding-inline-start: clamp(28px, 4vw, 56px);
+  }
+  .noviq-auth-card--wide .noviq-auth-head {
+    margin-bottom: 20px;
+  }
+  .noviq-auth-card--wide .noviq-auth-hint {
+    text-align: center;
+  }
+}
+.noviq-auth-head { text-align: center; margin-bottom: 26px; }
+.noviq-auth-eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(var(--color-accent-action));
+  margin-bottom: 10px;
+}
+.noviq-auth-head h1 {
+  font-size: clamp(26px, 3.4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: hsl(var(--color-text));
+  margin: 0 0 8px;
+}
+html[dir="rtl"] .noviq-auth-head h1 { font-family: 'Cairo', var(--font-display); letter-spacing: 0; }
+.noviq-auth-head p {
+  font-size: var(--text-sm);
+  color: hsl(var(--color-text-secondary));
+  margin: 0;
+}
+
+/* Segmented role switch — Client | Admin */
+.noviq-auth-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 14px;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-full);
+  background: hsl(var(--color-surface-container));
+}
+.noviq-auth-seg button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: hsl(var(--color-text-secondary));
+  transition: background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+.noviq-auth-seg button:hover { color: hsl(var(--color-text)); }
+.noviq-auth-seg button.is-active {
+  background: hsl(var(--color-surface));
+  border-color: hsl(var(--color-border-strong));
+  color: hsl(var(--color-primary));
+  box-shadow: var(--shadow-elevation-1);
+}
+.noviq-auth-hint {
+  text-align: center;
+  font-size: var(--text-xs);
+  color: hsl(var(--color-text-secondary));
+  margin: 0 0 22px;
+}
+
+/* Fields */
+.noviq-auth-form { display: flex; flex-direction: column; gap: 16px; }
+.noviq-auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) {
+  .noviq-auth-row { grid-template-columns: 1fr; }
+}
+.noviq-auth-field { display: block; }
+.noviq-auth-field > span {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: hsl(var(--color-text-secondary));
+  margin-bottom: 7px;
+}
+html[dir="rtl"] .noviq-auth-field > span { text-transform: none; letter-spacing: 0; }
+.noviq-auth-field input {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-lg);
+  background: hsl(var(--color-background));
+  color: hsl(var(--color-text));
+  font-size: 15px;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+.noviq-auth-field input::placeholder { color: hsl(var(--color-text-disabled)); }
+.noviq-auth-field input:focus {
+  outline: none;
+  border-color: hsl(var(--color-primary));
+  box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.18);
+}
+
+/* Password row with reveal toggle */
+.noviq-auth-pass { position: relative; display: block; }
+.noviq-auth-pass input { padding-inline-end: 46px; }
+.noviq-auth-eye {
+  position: absolute;
+  inset-inline-end: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  color: hsl(var(--color-text-secondary));
+  transition: color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-auth-eye:hover {
+  color: hsl(var(--color-primary));
+  background: hsl(var(--color-surface-container));
+}
+/* Text variant used on the signup form (no icon slot) */
+.noviq-auth-eye-text {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Password strength meter — 4 segments, colour by level */
+.noviq-auth-meter {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-top: 8px;
+}
+.noviq-auth-meter span {
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: hsl(var(--color-border));
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-auth-meter span.on.s1 { background: hsl(0 80% 58%); }
+.noviq-auth-meter span.on.s2 { background: hsl(38 90% 52%); }
+.noviq-auth-meter span.on.s3 { background: hsl(var(--color-accent-action)); }
+.noviq-auth-meter span.on.s4 { background: hsl(140 50% 42%); }
+
+/* Inline note under the form */
+.noviq-auth-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid hsl(var(--color-accent) / 0.22);
+  border-radius: var(--radius-lg);
+  background: hsl(var(--color-accent-container) / 0.5);
+  color: hsl(var(--color-text-secondary));
+  font-size: var(--text-xs);
+  line-height: 1.55;
+}
+.noviq-auth-note svg { flex-shrink: 0; margin-top: 1px; color: hsl(var(--color-accent-action)); }
+
+/* Error banner */
+.noviq-auth-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 1px solid hsl(var(--color-error) / 0.35);
+  border-radius: var(--radius-lg);
+  background: hsl(var(--color-error) / 0.09);
+  color: hsl(var(--color-error));
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+/* Submit + spinner */
+.noviq-auth-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  width: 100%;
+  font-size: var(--text-base);
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+}
+.noviq-auth-submit:disabled { opacity: 0.65; cursor: progress; }
+.noviq-auth-spin { animation: noviq-auth-rotate 0.9s linear infinite; }
+@keyframes noviq-auth-rotate { to { transform: rotate(360deg); } }
+html[dir="rtl"] .noviq-auth-spin { animation-direction: reverse; }
+
+/* Footer links */
+.noviq-auth-alt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  font-size: var(--text-sm);
+  color: hsl(var(--color-text-secondary));
+}
+/* 44px hit area on the secondary auth links (were 17–21px). */
+.noviq-auth-alt a { color: hsl(var(--color-primary)); font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; }
+.noviq-auth-alt a:hover { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) {
+  .noviq-auth-spin { animation: none; }
+}
+
+/* ---- RTL support ---- */
+[dir='rtl'],
+:root[lang='ar'] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ---- Responsive ---- */
+/* h1/h2 use clamp() in @layer base — no viewport override needed here. */
+@media (max-width: 768px) {
+  .noviq-section { padding: 3rem 4%; }
+  .noviq-section-alt { padding: 2rem 4%; }
+}
+
+@media (max-width: 480px) {
+  .noviq-section { padding: 2rem 3%; }
+}
+
+/* ============================================================
+   QODIX DISCIPLINE LAYER — two-color management on Noviq tokens
+   (analysis: qodix.tech — navy #06205D + crimson #EB0045 + cyan #01A7E1)
+   Adapted WITHOUT copying colors: Noviq keeps navy/gold/blue.
+   Rule: PRIMARY (blue) = structure only. ACCENT (gold) = signal only.
+   - signal = eyebrows, ghost numerals, ticks, top-rules, hovers
+   - never large surfaces, never body text, never both on one element
+   - hierarchy via opacity (/65 /45 /70), not new colors
+   - hairlines 1px, flat solid CTAs, generous whitespace
+   ============================================================ */
+
+/* ---- Tailwind v3 bridge (tailwind.config expects --primary etc) ---- */
+:root {
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+  --text: var(--color-text);
+  --text-secondary: var(--color-text-secondary);
+  --primary: var(--color-primary);
+  --primary-foreground: 0 0% 100%;
+  --secondary: var(--color-secondary);
+  --secondary-foreground: 0 0% 100%;
+  --accent: var(--color-accent);
+  --accent-foreground: 0 0% 100%;
+  --muted: var(--color-surface-container);
+  --muted-foreground: var(--color-text-secondary);
+  --card: var(--md-surface);
+  --card-foreground: var(--color-text);
+  --border: var(--color-border);
+  --input: var(--color-border);
+  --ring: var(--color-primary);
+  --radius: 8px;
+  /* Qodix-style named roles (--navy/--gold/--ink/--line/--brand/--signal)
+     are declared in the "QODIX v2" :root block above; tailwind.config.js
+     maps them into utilities such as bg-navy and text-gold. */
+}
+
+/* ---- Eyebrow (Qodix .eyebrow): uppercase signal label ---- */
+.eyebrow,
+.noviq-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: hsl(var(--color-accent-action));
+}
+:lang(ar) .eyebrow, :lang(ar) .noviq-eyebrow,
+html[dir="rtl"] .eyebrow, html[dir="rtl"] .noviq-eyebrow {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+.dark .eyebrow, [data-theme="dark"] .eyebrow,
+.dark .noviq-eyebrow, [data-theme="dark"] .noviq-eyebrow {
+  color: hsl(var(--color-accent-bright));
+}
+
+/* ---- Hero badge typewriter (restored rotation) ----
+   The phrase text itself is driven by TypewriterBadge.tsx; this is only
+   the caret and the small-screen guard. Tokens are the live Noviq set
+   (--color-accent-*), not the retired --secondary the old sheet used. */
+.noviq-tw {
+  display: inline;
+  min-width: 0;
+}
+.noviq-tw-caret {
+  display: inline-block;
+  margin-inline-start: 0.1em;
+  font-weight: 300;
+  color: hsl(var(--color-accent-action));
+  animation: noviq-tw-blink 0.75s step-start infinite;
+}
+/* The caret is a latin glyph. Pin it LTR inside an RTL line so it does
+   not get mirrored onto the wrong end of the phrase. */
+html[dir='rtl'] .noviq-tw-caret {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+@keyframes noviq-tw-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-tw-caret { animation: none; }
+}
+/* Long phrases must not push the layout on small screens — the original
+   sheet truncated with an ellipsis at 560px; keep that. */
+@media (max-width: 560px) {
+  .noviq-hero-badge {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ---- Section rhythm (Qodix: max-w 1280, px-6, py-24/32) ----
+   NOTE: this block sits AFTER `@tailwind utilities` in this file, so a
+   Tailwind padding utility on the same element (e.g. `pt-0`) LOSES the
+   cascade and silently does nothing. Use these modifiers instead. */
+.noviq-section-qodix {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+@media (min-width: 768px) {
+  .noviq-section-qodix { padding-top: 8rem; padding-bottom: 8rem; }
+}
+/* Stacked sections: collapse the gap between a header block and the
+   content block that follows it. */
+.noviq-section-qodix--stack { padding-top: 0; }
+.noviq-section-qodix--flush { padding-top: 0; padding-bottom: 0; }
+
+/* ---- Industry cards: hover + scroll-in polish ---- */
+.industry-card {
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background-color 0.4s ease;
+}
+.industry-card:hover {
+  border-color: var(--color-primary, #2563eb);
+  box-shadow:
+    0 8px 30px -4px rgba(37, 99, 235, 0.15),
+    0 2px 8px -2px rgba(37, 99, 235, 0.08);
+}
+[data-theme='dark'] .industry-card:hover,
+.dark .industry-card:hover {
+  box-shadow:
+    0 8px 30px -4px rgba(99, 143, 255, 0.18),
+    0 2px 8px -2px rgba(99, 143, 255, 0.1);
+}
+/* Subtle active / pressed state */
+.industry-card:active {
+  border-color: var(--color-primary, #2563eb);
+}
+/* ---- Scroll-driven hover wave (.industry-hot) ----
+   Same visuals as :hover, without a mouse: on scroll into view the section
+   lights its cards one after another (phones have no hover at all, so this
+   is the only way they ever see the effect). Each rule below mirrors one
+   `group-hover:` utility on the card — the utilities only match while
+   hovering, so these win by specificity whenever the wave class is on and
+   never fight the mouse. Both `scale` and `transform` are set because the
+   scale utilities may resolve to either property depending on the Tailwind
+   version; the card's own transform is left alone (motion owns it inline).
+   Children already carry transition-* utilities, so the wave animates. */
+.industry-card.industry-hot {
+  border-color: var(--color-primary, #2563eb);
+}
+.industry-card.industry-hot > span[class*="inset-0"] {
+  opacity: 1;
+}
+.industry-card.industry-hot > span[class*="inset-x-6"],
+.industry-card.industry-hot > span[class*="inset-x-10"] {
+  scale: 1 1;
+  transform: scaleX(1);
+}
+.industry-card.industry-hot .industry-icon-wrap {
+  background-color: hsl(var(--color-primary));
+  color: #fff;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1),
+    0 0 24px -6px hsl(var(--color-primary) / 0.35);
+  rotate: 3deg;
+  scale: 1.1;
+  transform: rotate(3deg) scale(1.1);
+}
+.industry-card.industry-hot .industry-icon-wrap svg {
+  scale: 1.1;
+  transform: scale(1.1);
+}
+.industry-card.industry-hot .industry-icon-wrap > span[class*="ring"] {
+  box-shadow: 0 0 0 4px hsl(var(--color-primary) / 0.2);
+}
+.industry-card.industry-hot > p {
+  color: hsl(var(--color-primary) / 0.6);
+}
+.industry-card.industry-hot h3 {
+  color: hsl(var(--color-primary));
+}
+
+.noviq-wrap {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+.noviq-h2 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  max-width: 42rem;
+}
+.noviq-lead {
+  margin-top: 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: hsl(var(--color-text-secondary));
+  max-width: 36rem;
+}
+
+/* ---- Hairline rule-draw (Qodix: 1px warm-grey, draws on reveal) ---- */
+.noviq-rule-draw {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: hsl(var(--color-border));
+  transform-origin: 0 50%;
+}
+html[dir="rtl"] .noviq-rule-draw { transform-origin: 100% 50%; }
+
+/* ---- Navbar: Qodix header discipline (sticky white, hairline on scroll) ---- */
+.noviq-navbar {
+  position: fixed;
+  top: 0; inset-inline: 0;
+  z-index: 50;
+  background: hsl(var(--color-background) / 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+}
+.noviq-navbar.scrolled {
+  border-bottom-color: hsl(var(--color-border));
+  box-shadow: var(--shadow-elevation-1);
+}
+.noviq-navbar-container {
+  max-width: min(1440px, calc(100vw - 2rem));
+  margin-inline: auto;
+  padding-inline: 1rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.5rem, 0.8vw, 1rem);
+}
+@media (min-width: 1024px) {
+  .noviq-navbar-container { padding-inline: 1.5rem; }
+}
+/* min-height 48 so the logo link is a valid touch target; the mark and
+   wordmark keep their visual size (padding only). */
+.noviq-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+  min-height: 48px;
+  /* Overlap priority. The link is the first flex item, so anything it overlaps
+     — the search field with its solid background, a widened slot reaching the
+     nav links — paints above it by DOM order and the logo disappears under a
+     blank area. Positioned with a z-index it keeps the top layer instead, as
+     long as the bounded area and the ±80px nudge keep it off the neighbour.
+     The dropdown menu sits at z-index 60 and stays above the logo, which is
+     what an open menu should do. */
+  position: relative;
+  z-index: 5;
+}
+
+/* ---- Desktop logo: smooth wordmark → N crossfade ----
+   Both images live in a wrapper <span>. The wordmark and the icon
+   are stacked via position so the crossfade is pixel-perfect.
+   Width animates from the wordmark size to the icon size so the
+   surrounding nav links slide in smoothly — no layout jump. */
+.noviq-logo-desktop {
+  display: none;
+  position: relative;
+  width: var(--logo-max-w, 140px);
+  /* The admin's "bounded area" IS the slot width, so it can widen the logo's
+     space as well as narrow it. Pinned to a fixed 140px it could only ever
+     subtract, which left the alignment control about 46px to work in and made
+     the number unreadable as "how much room the logo gets". The morph still
+     animates: `.is-icon` sets its own width further down and wins on
+     specificity. */
+  height: var(--logo-slot-h, 56px);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (min-width: 769px) {
+  .noviq-logo-desktop { display: block; }
+}
+
+.noviq-logo-desktop .noviq-logo-full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 1;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The mark fills the same slot instead of sitting at a hardcoded 56px from the
+   left. That is what makes "move it left or right" mean the same thing before
+   and after the morph, rather than applying to only one of the two states. */
+.noviq-logo-desktop .noviq-logo-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The nudge lives on the SLOT, not the images. Translating an image inside its
+   own letterbox only slides it until it hits the slot edge and clips; the slot
+   itself has room to move (the navbar never clips it), so the whole artwork
+   travels. `translate`, not `transform`, so it composes with the width the
+   morph animates and the opacity crossfade. */
+.noviq-logo-desktop {
+  translate: var(--logo-nudge, 0px) 0;
+}
+
+/* Default RTL placement. The wordmark and the mark now share one positioning
+   mechanism (object-position inside a filled slot), so the RTL default only has
+   to be stated once. */
+[dir='rtl'] .noviq-logo-desktop .noviq-logo-full,
+[dir='rtl'] .noviq-logo-desktop .noviq-logo-icon {
+  object-position: right center;
+}
+
+/* ---- Admin-controlled placement inside the logo slot ----
+   The 140x56 box above is the bounded area: the wordmark is letterboxed into
+   it with object-fit:contain, so object-position decides which side it hugs.
+   That was pinned to "left" (and flipped for RTL), leaving no way to nudge a
+   logo that reads off-centre.
+
+   The admin setting is LOGICAL — start / center / end — because "start" means
+   the leading edge, which is the left in English and the right in Arabic.
+   object-position is a PHYSICAL property, so the RTL flip has to be spelled
+   out here rather than inherited from direction. Same specificity as the rules
+   above, so source order is what lets these win. */
+.noviq-logo-align-start .noviq-logo-full { object-position: left center; }
+.noviq-logo-align-end .noviq-logo-full { object-position: right center; }
+.noviq-logo-align-center .noviq-logo-full { object-position: center; }
+
+/* The mark now fills the same slot, so the same three rules place it — one
+   mechanism for both morph states instead of two that can disagree. */
+.noviq-logo-align-start .noviq-logo-icon { object-position: left center; }
+.noviq-logo-align-end .noviq-logo-icon { object-position: right center; }
+.noviq-logo-align-center .noviq-logo-icon { object-position: center; }
+
+[dir='rtl'] .noviq-logo-align-start .noviq-logo-full,
+[dir='rtl'] .noviq-logo-align-start .noviq-logo-icon { object-position: right center; }
+[dir='rtl'] .noviq-logo-align-end .noviq-logo-full,
+[dir='rtl'] .noviq-logo-align-end .noviq-logo-icon { object-position: left center; }
+
+/* The footer logo is a flex link, so logical keywords do the work here. */
+.noviq-logo-align-start { justify-content: flex-start; }
+.noviq-logo-align-center { justify-content: center; }
+.noviq-logo-align-end { justify-content: flex-end; }
+
+/* After the timer fires, crossfade to the N emblem.
+   The collapsed box follows the admin's mark size, not a fixed number: before
+   this it snapped to a hardcoded 56px, so any mark size set in the dashboard
+   was silently discarded the moment the morph finished. */
+.noviq-logo-desktop.is-icon {
+  width: var(--logo-icon-w, 56px);
+}
+.noviq-logo-desktop.is-icon .noviq-logo-full {
+  opacity: 0;
+  pointer-events: none;
+}
+.noviq-logo-desktop.is-icon .noviq-logo-icon {
+  opacity: 1;
+}
+
+/* Mobile: compact N emblem icon */
+.noviq-logo-mobile-icon {
+  display: none;
+  height: 52px;
+  width: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.noviq-logo-mobile-icon:hover {
+  transform: scale(1.05);
+}
+@media (max-width: 768px) {
+  .noviq-logo-desktop { display: none !important; }
+  .noviq-logo-mobile-icon { display: block !important; }
+}
+
+.noviq-footer-desktop-icon { display: block; height: 64px; width: 64px; object-fit: contain; }
+.noviq-footer-mobile-full { display: none; height: 52px; width: auto; object-fit: contain; }
+@media (max-width: 768px) {
+  .noviq-footer-desktop-icon { display: none !important; }
+  .noviq-footer-mobile-full { display: block !important; }
+}
+
+/* ---- Light-mode logo shadow: seamless integrated depth (matching footer drop-shadow-sm)
+   without harsh bounding contours or square-box clipping. ---- */
+:root:not([data-theme='dark']):not(.dark) .noviq-logo img,
+:root:not([data-theme='dark']):not(.dark) .noviq-footer img,
+:root:not([data-theme='dark']):not(.dark) .noviq-badge-n {
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.12))
+          drop-shadow(0 2px 4px rgba(15, 23, 42, 0.06));
+  transition: filter 0.3s ease;
+}
+
+[data-theme='dark'] .noviq-logo img,
+.dark .noviq-logo img,
+[data-theme='dark'] .noviq-footer img,
+.dark .noviq-footer img,
+[data-theme='dark'] .noviq-badge-n,
+.dark .noviq-badge-n {
+  filter: none;
+}
+
+.noviq-logo-text { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; }
+.noviq-desktop-nav {
+  display: none;
+  align-items: center;
+  gap: clamp(0.25rem, 0.4vw, 0.5rem);
+  min-width: 0;
+  margin-inline-start: 0;
+  margin-inline-end: clamp(1rem, 1.5vw, 2rem);
+}
+@media (min-width: 1024px) { .noviq-desktop-nav { display: flex; } }
+.noviq-desktop-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.45rem clamp(0.4rem, 0.6vw, 0.75rem);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--color-text-secondary));
+  transition: color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+}
+.noviq-desktop-nav .nav-link:hover {
+  color: hsl(var(--color-text));
+  background: hsl(var(--color-surface-container));
+}
+
+/* Home uses the exact same treatment as every other link —
+   no special pill, no distinct padding. The class remains only
+   as a JS hook (Navbar active-route check). */
+.noviq-desktop-nav .nav-link-home,
+.noviq-desktop-nav .nav-link-home.is-active,
+.noviq-desktop-nav .nav-link-home:not(.is-active),
+.noviq-desktop-nav .nav-link-home:not(.is-active):hover {
+  padding: 0.45rem clamp(0.4rem, 0.6vw, 0.75rem);
+  border-radius: 8px;
+  background: transparent;
+  color: hsl(var(--color-text-secondary));
+  font-weight: 500;
+}
+.noviq-desktop-nav .nav-link-home:hover { color: hsl(var(--color-text)); background: hsl(var(--color-surface-container)); }
+.noviq-desktop-nav .nav-link-home.is-active { color: hsl(var(--color-text)); font-weight: 600; }
+
+/* Active route: a 2px accent rule that draws in from the inline start —
+   the same "signal" language used for eyebrows and ticks. Applies to
+   ALL links including Home. */
+.noviq-desktop-nav .nav-link { position: relative; }
+.noviq-desktop-nav .nav-link.is-active {
+  color: hsl(var(--color-text));
+  font-weight: 600;
+}
+/* Active page: hard 2-band orange -> blue rule under the link */
+.noviq-desktop-nav .nav-link.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  inset-inline: 12px;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, hsl(22 90% 51%) 0%, hsl(22 90% 51%) 48%, hsl(221 83% 53%) 52%, hsl(221 83% 53%) 100%);
+}
+
+/* Responsive tightening for compact desktops (1024-1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .noviq-desktop-nav {
+    gap: 0.15rem;
+    margin-inline-start: 1rem;
+    margin-inline-end: 1rem;
+  }
+  .noviq-desktop-nav .nav-link {
+    padding: 0.35rem 0.45rem;
+    font-size: 13.5px;
+  }
+  .noviq-more-trigger {
+    padding: 0.35rem 0.45rem;
+    font-size: 13.5px;
+  }
+  .noviq-nav-actions {
+    gap: 0.5rem;
+  }
+}
+
+/* ---- "More" overflow dropdown ----------------------------------------
+   Secondary routes collapse here so the 1280px header never overflows.
+   Admin-added items (lib/nav-admin.ts) render in this same list, which is
+   why the menu is the overflow slot rather than the inline bar. */
+.noviq-more { position: relative; flex-shrink: 0; }
+.noviq-more-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: 0;
+  min-height: 40px;
+  padding: 0.45rem clamp(0.4rem, 0.6vw, 0.75rem);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--color-text-secondary));
+  white-space: nowrap;
+}
+.noviq-more-trigger:hover,
+.noviq-more-trigger[aria-expanded="true"] { color: hsl(var(--color-text)); }
+.noviq-chevron {
+  transition: transform var(--duration-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+html[dir="rtl"] .noviq-chevron { transform: scaleX(-1); }
+.noviq-chevron.open { transform: rotate(180deg); }
+html[dir="rtl"] .noviq-chevron.open { transform: scaleX(-1) rotate(180deg); }
+
+.noviq-more-menu {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 0.75rem);
+  min-width: 15rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  background: hsl(var(--color-background));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: 12px;
+  box-shadow: var(--shadow-elevation-2);
+  z-index: 60;
+}
+.noviq-more-menu[hidden] { display: none; }
+.noviq-more-item {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: hsl(var(--color-text-secondary));
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+.noviq-more-item:hover,
+.noviq-more-item:focus-visible {
+  background: hsl(var(--color-surface-container));
+  color: hsl(var(--color-text));
+  outline: none;
+}
+.noviq-more-item:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--color-primary) / 0.45);
+}
+.noviq-mobile-divider {
+  height: 1px;
+  margin: 0.5rem 0;
+  background: hsl(var(--color-border));
+}
+.noviq-nav-cta {
+  display: none;
+  align-items: center;
+  border-radius: 8px;
+  background: hsl(var(--color-primary));
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+@media (min-width: 640px) { .noviq-nav-cta { font-size: 0.75rem; padding-inline: 1.5rem; } }
+@media (min-width: 1024px) { .noviq-nav-cta { display: inline-flex; } }
+.noviq-nav-cta:hover { background: hsl(var(--color-primary-hover)); color: #fff; }
+html[dir="rtl"] .noviq-nav-cta, :lang(ar) .noviq-nav-cta { text-transform: none; letter-spacing: 0; font-size: 0.9rem; }
+/* Icon cluster: only the essentials on lg, full set from xl up. */
+.noviq-nav-actions { display: flex; align-items: center; gap: 0.875rem; flex-shrink: 0; }
+.noviq-header-search { display: none; }
+@media (min-width: 1280px) { .noviq-header-search { display: flex; } }
+.noviq-mobile-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  color: hsl(var(--color-text));
+  border-radius: 10px;
+}
+@media (min-width: 1024px) { .noviq-mobile-toggle { display: none; } }
+/* ---- Mobile drawer (slide-in panel + scrim) ----
+   Replaces the old inline accordion: the panel slides from the
+   inline-end edge, a scrim dims the page, and body scroll is
+   frozen while it is open. Mirrors automatically under RTL. */
+.noviq-drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: hsl(222 40% 8% / 0.42);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: noviq-scrim-in 0.22s var(--ease-out);
+}
+@keyframes noviq-scrim-in { from { opacity: 0; } to { opacity: 1; } }
+
+.noviq-mobile-menu {
+  position: fixed;
+  top: 0;
+  inset-inline-end: 0;
+  z-index: 46;
+  display: flex;
+  flex-direction: column;
+  width: min(340px, 86vw);
+  height: 100dvh;
+  padding: 0;
+  background: hsl(var(--color-surface));
+  border-inline-start: 1px solid hsl(var(--color-border));
+  box-shadow: -18px 0 44px hsl(222 40% 8% / 0.22);
+  animation: noviq-drawer-in 0.28s var(--ease-smooth);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+html[dir="rtl"] .noviq-mobile-menu { box-shadow: 18px 0 44px hsl(222 40% 8% / 0.22); }
+@keyframes noviq-drawer-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+html[dir="rtl"] .noviq-mobile-menu { animation-name: noviq-drawer-in-rtl; }
+@keyframes noviq-drawer-in-rtl {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* Drawer head: title + close */
+.noviq-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid hsl(var(--color-border));
+  background: hsl(var(--color-surface));
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.noviq-drawer-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--color-accent-action));
+}
+html[dir="rtl"] .noviq-drawer-title { letter-spacing: 0; text-transform: none; }
+.noviq-drawer-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-lg);
+  color: hsl(var(--color-text-secondary));
+  transition: color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-drawer-close:hover {
+  color: hsl(var(--color-text));
+  border-color: hsl(var(--color-border-strong));
+  background: hsl(var(--color-surface-container));
+}
+
+/* Drawer nav */
+.noviq-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 12px;
+  flex: 1;
+}
+.noviq-drawer-link {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 10px 14px;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: hsl(var(--color-text-secondary));
+  transition: background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+.noviq-drawer-link:hover,
+.noviq-drawer-link:focus-visible {
+  background: hsl(var(--color-surface-container));
+  color: hsl(var(--color-text));
+}
+/* ---- Knowledge Hub shortcut + unread badge ----
+   The shortcut joins the header ONLY for signed-in visitors (see
+   ResourcesShortcut.tsx). The badge is WhatsApp-style: a small count pill
+   pinned to the link's inline-end corner, present only when unread > 0 —
+   zero renders the plain link with no badge at all. Logical properties
+   keep it correct in RTL. */
+.noviq-shortcut-link {
+  position: relative;
+}
+.noviq-desktop-nav .noviq-shortcut-link > span:first-child {
+  display: inline-flex;
+  align-items: center;
+}
+.noviq-unread-badge {
+  position: absolute;
+  inset-inline-end: -2px;
+  top: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: hsl(0 84% 60%);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid hsl(var(--color-surface-high, 0 0% 100%));
+  pointer-events: none;
+}
+.noviq-drawer-link.noviq-shortcut-link {
+  justify-content: space-between;
+}
+.noviq-drawer-link .noviq-unread-badge {
+  position: static;
+  border: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-unread-badge { transition: none; }
+}
+.noviq-drawer-group {
+  padding: 10px 14px 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: hsl(var(--color-text-disabled));
+}
+html[dir="rtl"] .noviq-drawer-group { letter-spacing: 0; text-transform: none; }
+
+/* The "More" group in the mobile drawer is a disclosure button, not a
+   heading. A <button> inherits UA styling (background, border, font) and
+   does not stretch to the drawer's width the way the <span> it replaced
+   did, so the reset below is what keeps it looking identical to the other
+   group labels while making the whole row a comfortable tap target. */
+.noviq-drawer-more-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 44px;            /* WCAG 2.5.5 / touch target */
+  margin: 0;
+  text-align: start;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  /* Re-enable the inherited font: the reset above must not fall back to
+     the UA font, or the label jumps a size on open. */
+  font-family: inherit;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.noviq-drawer-more-trigger:hover,
+.noviq-drawer-more-trigger:focus-visible {
+  color: hsl(var(--color-primary));
+}
+.noviq-drawer-more-trigger:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: -2px;
+  border-radius: 0.5rem;
+}
+/* The chevron is the desktop one, so the rotation + RTL flip come free. */
+.noviq-drawer-more-trigger .noviq-chevron { transition: transform var(--duration-fast) var(--ease-out); }
+
+/* Drawer footer CTAs */
+.noviq-drawer-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid hsl(var(--color-border));
+  background: hsl(var(--color-surface-container));
+}
+.noviq-drawer-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 20px;
+  border-radius: var(--radius-lg);
+  background: hsl(var(--color-primary));
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-drawer-cta:hover { background: hsl(var(--color-primary-hover)); }
+.noviq-drawer-cta.is-ghost {
+  background: transparent;
+  border: 1px solid hsl(var(--color-border-strong));
+  color: hsl(var(--color-text));
+}
+.noviq-drawer-cta.is-ghost:hover {
+  background: hsl(var(--color-surface));
+  border-color: hsl(var(--color-primary));
+}
+@media (min-width: 1024px) { .noviq-drawer-scrim, .noviq-mobile-menu { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .noviq-drawer-scrim, .noviq-mobile-menu { animation: none; }
+}
+.noviq-scroll-progress { display: none; }
+
+/* ---- Header login: single outlined pill (the quiet trio's CTA) ----
+   Borderless utilities above, one hairline pill here. Class + href unchanged
+   (.noviq-login-icon) so other agents keep working. Below 640px it collapses
+   to the icon; below 480px it hides (drawer CTA covers login). */
+.noviq-login-icon {
+  position: relative;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 15px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--color-border));
+  background: transparent;
+  color: hsl(var(--color-text));
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.18s ease-out, border-color 0.18s ease-out,
+    transform 0.18s ease-out;
+}
+html[dir="rtl"] .noviq-login-icon .login-text { font-family: var(--font-cairo); }
+.noviq-login-icon svg {
+  width: 15px;
+  height: 15px;
+  color: hsl(var(--color-text-secondary));
+  transition: color 0.18s ease-out;
+}
+.noviq-login-icon:hover {
+  border-color: hsl(var(--color-border-strong));
+  background: hsl(var(--color-surface-container));
+}
+.noviq-login-icon:hover svg { color: hsl(var(--color-text)); }
+.noviq-login-icon:active { transform: scale(0.96); }
+.noviq-login-icon:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+@media (max-width: 639px) {
+  .noviq-login-icon { width: 38px; min-width: 38px; padding: 0; justify-content: center; }
+  .noviq-login-icon .login-text { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-login-icon, .noviq-login-icon svg { transition: none; }
+  .noviq-login-icon:active { transform: none; }
+}
+/* ---- Logged-in header slot (AuthArea) ----
+   Same 38px pill geometry as .noviq-login-icon above: swapping Login for
+   the account chip must not move a single sibling pixel. The avatar is a
+   text initial, never a fetched image, so there is no layout shift when
+   it resolves and nothing to leak. Sign-out lives on the account page
+   and in the drawer — the header keeps one chip with an unread badge. */
+.noviq-auth-slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.noviq-login-icon.is-logged { border-color: hsl(var(--color-border-strong)); }
+.noviq-login-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 999px;
+  background: hsl(var(--color-primary));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+/* ---- Unread badge on the account chip ----
+   The base .noviq-unread-badge rule above (hub shortcut) already draws the
+   red dot-count; this only re-anchors it onto the account chip
+   (inset-inline-end so it sits correctly in both LTR and RTL), plus an
+   inline variant for the drawer link, where there is no positioned anchor.
+   Capped at 9+ — the exact number lives on the dashboard, the header only
+   signals "something new". Scoped overrides deliberately: redefining the
+   base here would shift the hub shortcut's badge too. */
+.noviq-login-icon .noviq-unread-badge {
+  top: -6px;
+  inset-inline-end: -6px;
+  border-color: hsl(var(--color-background));
+}
+.noviq-unread-badge.is-inline {
+  position: static;
+  margin-inline-start: 8px;
+  border: none;
+}
+/* ---- Mobile dashboard shortcut (DashboardFab) ----
+   Fixed-position circle: zero layout space by construction. Only phones
+   (below the desktop nav) ever see it — desktop already has the account
+   chip. Bottom-inline-start keeps it clear of the back-to-top button,
+   which docks bottom-inline-end. Safe-area padding for notched phones. */
+.noviq-dash-fab {
+  position: fixed;
+  inset-block-end: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  inset-inline-start: 1.25rem;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: hsl(var(--color-surface));
+  border: 1px solid hsl(var(--color-border-strong));
+  box-shadow: 0 10px 28px hsl(222 40% 8% / 0.22);
+  text-decoration: none;
+}
+.noviq-dash-fab .noviq-login-avatar {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  font-size: 15px;
+}
+.noviq-dash-fab .noviq-unread-badge {
+  top: -4px;
+  inset-inline-end: -4px;
+}
+.noviq-dash-fab:active { transform: scale(0.94); }
+.noviq-dash-fab:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+@media (max-width: 1023px) {
+  .noviq-dash-fab { display: inline-flex; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-dash-fab { transition: none; }
+}
+@media (max-width: 479px) {
+  /* Same budget rule as the login pill: the whole slot hides, the drawer
+     covers account + sign-out. */
+  .noviq-nav-actions .noviq-auth-slot { display: none; }
+}
+/* Mobile search toggle: same icon-button language as theme/language.
+   Visible only below the desktop search bar (<1280px). */
+.noviq-search-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: hsl(var(--color-text-secondary));
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.18s ease-out, color 0.18s ease-out;
+}
+.noviq-search-toggle:hover {
+  background: hsl(var(--color-surface-container));
+  color: hsl(var(--color-text));
+}
+.noviq-search-toggle:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+@media (max-width: 1279.98px) {
+  .noviq-search-toggle { display: inline-flex; }
+}
+
+/* ---- Narrow-phone header budget (fixed 2026-09-26, updated 2026-09-27) ----
+   At 360-430px the cluster overflowed the padded content box by ~50px,
+   so ~52px of the right-hand controls were cut off off-screen in BOTH locales.
+   `position: fixed` means it never created a scrollbar, so the overflow
+   was invisible to a scrollWidth check — only element boxes revealed it.
+   Fix: below 480px drop the login icon (still reachable from the mobile
+   drawer via .noviq-drawer-cta) and tighten the gap.
+   Theme + language + search + menu stay. Mobile search also lives in the drawer. */
+@media (max-width: 479px) {
+  .noviq-nav-actions { gap: 0.375rem; }
+  .noviq-nav-actions .noviq-login-icon { display: none; }
+}
+
+.noviq-header-search {
+  position: relative;
+  align-items: center;
+  width: 170px;
+  height: 38px;
+  display: none;
+}
+@media (min-width: 1280px) {
+  .noviq-header-search { display: flex; }
+}
+.noviq-search-input {
+  width: 100%;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--color-border));
+  background:
+    linear-gradient(120deg, hsl(22 90% 55% / 0.07), hsl(221 83% 55% / 0.07)),
+    hsl(var(--color-surface-container));
+  padding-inline: 2.25rem 2rem;
+  font-size: 13.5px;
+  color: hsl(var(--color-text));
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+html[dir="rtl"] .noviq-search-input { padding-inline: 2rem 2.25rem; }
+.noviq-search-input::placeholder { color: hsl(var(--color-text-secondary)); }
+.noviq-search-input:focus {
+  border-color: hsl(var(--color-primary));
+  background:
+    linear-gradient(120deg, hsl(22 90% 55% / 0.1), hsl(221 83% 55% / 0.1)),
+    hsl(var(--md-surface));
+  box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.2), 0 4px 16px hsl(22 90% 55% / 0.12);
+}
+.noviq-search-icon {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: hsl(var(--color-primary));
+  pointer-events: none;
+}
+
+/* Clear button inside desktop search */
+.noviq-search-clear-btn {
+  position: absolute;
+  inset-inline-end: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--color-border));
+  color: hsl(var(--color-text-secondary));
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: all var(--duration-fast);
+}
+.noviq-search-clear-btn:hover {
+  background: hsl(var(--color-border-strong));
+  color: hsl(var(--color-text));
+}
+.noviq-search-kbd-hint {
+  position: absolute;
+  inset-inline-end: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid hsl(var(--color-border));
+  background: hsl(var(--color-surface));
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: hsl(var(--color-text-secondary));
+  pointer-events: none;
+}
+
+/* Kill native WebKit "x" clear affordance */
+.noviq-search-input::-webkit-search-cancel-button,
+.noviq-search-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.noviq-header-search:focus-within {
+  width: 320px;
+}
+.noviq-header-search {
+  transition: width var(--duration-fast) var(--ease-out);
+}
+
+/* ---- Search results panel ---- */
+.noviq-search-results {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + 8px);
+  z-index: 60;
+  min-width: 320px;
+  max-height: min(70vh, 420px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.375rem;
+  border-radius: 14px;
+  border: 1px solid hsl(var(--color-border));
+  background: hsl(var(--color-surface));
+  box-shadow: var(--md-elev-3);
+  text-align: start;
+}
+.noviq-search-heading {
+  margin: 0;
+  padding: 0.5rem 0.625rem 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--color-text-secondary));
+}
+:lang(ar) .noviq-search-heading { text-transform: none; letter-spacing: 0; }
+
+.noviq-search-hit {
+  display: grid;
+  gap: 0.125rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-search-hit.is-active,
+.noviq-search-hit:hover {
+  background: hsl(var(--color-surface-container));
+}
+.noviq-search-hit-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--color-text));
+}
+.noviq-search-hit-desc {
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: hsl(var(--color-text-secondary));
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.noviq-search-hit-cat {
+  margin-top: 0.125rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: hsl(var(--color-accent-action));
+}
+[data-theme='dark'] .noviq-search-hit-cat { color: hsl(var(--color-accent-bright)); }
+
+.noviq-search-empty {
+  margin: 0;
+  padding: 0.875rem 0.625rem;
+  font-size: 0.8125rem;
+  color: hsl(var(--color-text-secondary));
+}
+
+/* ---- Search modal (mobile + quick search) ---------------------------
+   Same engine as the desktop bar (shared index/hits); this is only the
+   shell. Top-anchored command-palette card, 16px input so iOS never
+   auto-zooms, 44px touch targets, theme-aware via the same tokens. */
+.noviq-search-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10dvh 16px 16px;
+  background: hsl(222 40% 8% / 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.noviq-search-modal-card {
+  width: 100%;
+  max-width: 560px;
+  max-height: min(72dvh, 580px);
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  background: hsl(var(--md-surface));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: 20px;
+  box-shadow: var(--shadow-elevation-3);
+  animation: noviq-modal-in 0.22s var(--ease-out) both;
+}
+@keyframes noviq-modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+}
+.noviq-search-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 10px 10px 16px;
+  background: hsl(var(--md-surface));
+  border-bottom: 1px solid hsl(var(--color-border));
+}
+html[dir="rtl"] .noviq-search-modal-header {
+  padding: 10px 16px 10px 10px;
+}
+.noviq-search-modal-input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: hsl(var(--color-text));
+  outline: none;
+}
+.noviq-search-modal-input::placeholder {
+  color: hsl(var(--color-text-secondary));
+}
+.noviq-search-modal-clear,
+.noviq-search-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: hsl(var(--color-text-secondary));
+  font-size: 15px;
+  cursor: pointer;
+}
+.noviq-search-modal-clear:hover,
+.noviq-search-modal-close:hover {
+  background: hsl(var(--color-surface-container));
+  color: hsl(var(--color-text));
+}
+.noviq-search-modal-body {
+  padding: 10px 10px 12px;
+}
+@media (max-width: 640px) {
+  .noviq-search-modal-backdrop {
+    padding: 6dvh 12px 12px;
+  }
+  .noviq-search-modal-card {
+    border-radius: 18px;
+    max-height: 78dvh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-search-modal-card { animation: none; }
+}
+
+/* ---- Footer (Qodix: white, single hairline, no panel) ---- */
+.noviq-footer {
+  background: hsl(var(--color-background));
+  border-top: 1px solid hsl(var(--color-border));
+}
+
+/* ---- Admin text must never be able to widen the page ----
+   The navigation labels come from the CMS, and a mis-encoded one arrives as a
+   run of box-drawing glyphs. Those contain no break opportunities, so the whole
+   label becomes a single unbreakable token: the corrupted Arabic labels were
+   ~900px wide inside a 278px grid column and pushed the document 597px past
+   the viewport on EVERY Arabic page, cutting off the headings.
+
+   `anywhere` rather than `break-word` because it also lowers min-content size,
+   so a grid or flex track sized by its content shrinks instead of overflowing.
+   This is containment, not a repair — lib/text-integrity.ts rejects the corrupt
+   value, and the import that produced it still needs fixing. */
+.noviq-footer a,
+.noviq-footer h3,
+.noviq-navbar-container a,
+.noviq-navbar-container .nav-link {
+  overflow-wrap: anywhere;
+}
+
+/* ---- Form controls (Qodix: 8px radius, hairline, blue focus) ---- */
+.noviq-section-qodix input[type='text'],
+.noviq-section-qodix input[type='email'],
+.noviq-section-qodix input[type='tel'],
+.noviq-section-qodix textarea {
+  border-radius: 8px;
+  border: 1px solid hsl(var(--color-border));
+  background: hsl(var(--md-surface));
+  color: hsl(var(--color-text));
+  transition: border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+.noviq-section-qodix input[type='text']:focus,
+.noviq-section-qodix input[type='email']:focus,
+.noviq-section-qodix input[type='tel']:focus,
+.noviq-section-qodix textarea:focus {
+  border-color: hsl(var(--color-primary));
+  box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.18);
+  outline: none;
+}
+.noviq-section-qodix label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: hsl(var(--color-text));
+  letter-spacing: 0.01em;
+}
+.noviq-section-qodix ::placeholder {
+  color: hsl(var(--color-text-secondary));
+  opacity: 0.75;
+}
+
+/* ---- Card chip (team member links: portfolio / CV / socials) ---- */
+.noviq-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: hsl(var(--color-text-secondary));
+  white-space: nowrap;
+  transition: border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-chip:hover {
+  color: hsl(var(--color-text));
+  border-color: hsl(var(--color-primary));
+  background: hsl(var(--color-primary) / 0.06);
+}
+
+/* ---- Grid safety: never let a long word push a card past the viewport ---- */
+.noviq-section-qodix .grid > * { min-width: 0; }
+.noviq-section-qodix h2,
+.noviq-section-qodix h3,
+.noviq-section-qodix .noviq-lead { overflow-wrap: break-word; }
+
+/* ---- CTA discipline (Qodix: flat solid, uppercase, tracking, 8px) ---- */
+.noviq-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: hsl(var(--color-primary));
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-cta-primary:hover { background: hsl(var(--color-primary-hover)); color: #fff; }
+.noviq-cta-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--color-border-strong));
+  color: hsl(var(--color-text));
+  padding: 1rem 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: border-color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+}
+.noviq-cta-outline:hover { border-color: hsl(var(--color-primary)); background: hsl(var(--color-primary) / 0.06); }
+:lang(ar) .noviq-cta-primary, :lang(ar) .noviq-cta-outline,
+html[dir="rtl"] .noviq-cta-primary, html[dir="rtl"] .noviq-cta-outline {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+}
+
+/* ---- Qodix scrollbar (thumb warm-grey, hover structure) ---- */
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--color-border-strong));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--color-primary-strong));
+}
+
+/* ============================================================
+   QODIX v2 — semantic colour system (technique borrowed, palette kept)
+   ------------------------------------------------------------
+   qodix.tech does not ship 30 hand-picked greys. It names a few
+   brand roles as Tailwind v4 @theme tokens and derives every
+   muted step from ONE ink colour via alpha modifiers:
+       text-navy · text-navy/65 · text-navy/45 · text-navy/30
+   Noviq keeps its own identity (navy + blue + gold) and adopts the
+   same discipline: roles first, opacity for hierarchy, never a
+   new hue per step.
+   ============================================================ */
+:root {
+  /* Ink ramp — navy-tinted, so text reads as brand not as default slate.
+     Declared as :root variables (not @theme) because these are consumed
+     by hand-written CSS; Tailwind's @theme is content-driven and would
+     tree-shake unused roles out of the bundle.
+
+     NOTE: these are RAW HSL TRIPLES on purpose. tailwind.config.js maps
+     them as hsl(var(--ink)) so utilities compose, and hand-written rules
+     use hsl(var(--ink)) too. Storing a finished hsl() here would produce
+     hsl(hsl(...)) and silently drop the colour. */
+  --ink:         222 40% 12%;
+  --ink-soft:    222 18% 38%;
+  --ink-muted:   222 12% 48%;
+  --ink-faint:   222 10% 62%;
+  --line:        222 18% 90%;
+  --line-strong: 222 16% 82%;
+  /* Drop-in replacements for the raw slate steps the migrated pages
+     still use (bg-slate-50, text-slate-600, border-slate-200 …).
+     Same lightness ladder as Tailwind's slate, tinted to match
+     the brand navy so the greys belong to the brand. */
+  --slate-50:    222 30% 98%;
+  --slate-100:   222 22% 96%;
+  --slate-200:   222 18% 90%;
+  --slate-300:   222 16% 83%;
+  --slate-400:   222 12% 63%;
+  --slate-500:   222 12% 50%;
+  --slate-600:   222 16% 40%;
+  --slate-700:   222 22% 29%;
+  --slate-800:   222 22% 19%;
+  --slate-900:   222 40% 12%;
+  --slate-950:   222 45% 8%;
+  --navy:        222 40% 12%;
+  --warm-grey:   222 18% 90%;
+  --brand:       22 90% 51%;
+  --signal:      221 83% 53%;
+  --brand-hover: 22 85% 42%;
+}
+
+/* Alpha-step hierarchy: one ink, four legible steps (Qodix /65 /45 /30) */
+.text-ink        { color: hsl(var(--ink)); }
+.text-ink-85     { color: hsl(var(--ink) / 0.85); }
+.text-ink-70     { color: hsl(var(--ink) / 0.7); }
+.text-ink-50     { color: hsl(var(--ink) / 0.5); }
+.text-ink-35     { color: hsl(var(--ink) / 0.35); }
+
+/* Hairline section dividers — Qodix separates sections with a 1px rule,
+   not with a background change. */
+.noviq-divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: hsl(var(--line));
+  border: 0;
+}
+.noviq-divider-fade {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    hsl(var(--color-border)) 0%,
+    hsl(var(--color-border) / 0) 100%);
+}
+
+/* Reduced-motion: dividers stay, animation does not */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-rule-draw { transform: scaleX(1) !important; }
+}
+
+/* ============================================================
+   QODIX MOTION — scroll reveal, done with CSS only
+   ------------------------------------------------------------
+   Qodix reveals with the same four moves:
+     translateY(24px) · translateX(±64px) · scaleX(0) rule
+     scale(0.55) rotate(-22deg) icon pop
+   Implemented with native scroll-driven animations
+   (animation-timeline: view()), so there is no observer JS to
+   ship and no hydration cost. Fully progressive: where the
+   feature is unsupported the @supports block is dropped and the
+   content is simply visible.
+   ============================================================ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .noviq-section-qodix > *,
+    .noviq-liftoff-inner > *,
+    .noviq-liftoff-copy > * {
+      animation: noviq-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+
+    /* Icons pop in from scale(0.55) with a -22deg tilt */
+    .noviq-section-qodix .noviq-icon-badge,
+    .noviq-liftoff-inner .noviq-icon-badge {
+      animation: noviq-pop linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+
+    /* Hairline rules draw in with scaleX(0) -> 1 */
+    .noviq-rule-draw {
+      animation: noviq-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@keyframes noviq-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes noviq-pop {
+  from { opacity: 0; transform: scale(0.55) rotate(-22deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes noviq-draw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Stagger siblings slightly so a row of cards cascades, not snaps */
+@media (prefers-reduced-motion: no-preference) {
+  .noviq-section-qodix > *:nth-child(2),
+  .noviq-liftoff-inner > *:nth-child(2),
+  .noviq-liftoff-copy > *:nth-child(2) {
+    animation-range: entry 4% cover 26%;
+  }
+  .noviq-section-qodix > *:nth-child(3),
+  .noviq-liftoff-inner > *:nth-child(3),
+  .noviq-liftoff-copy > *:nth-child(3) {
+    animation-range: entry 8% cover 30%;
+  }
+}
+
+/* ============================================================
+   QODIX INTERACTION — uniform hover grammar
+   ------------------------------------------------------------
+   Qodix uses one hover verb across the whole site: transition
+   colours, then fade with opacity (`hover:opacity-70`). Noviq
+   mixed four different verbs. Unify to: colour transition,
+   opacity on hover, a 1px lift at most, never a colour swap.
+   ============================================================ */
+.noviq-section-qodix a,
+.noviq-liftoff a,
+.noviq-wrap a {
+  transition: color var(--duration-fast) var(--ease-out),
+              opacity var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out);
+}
+
+.noviq-section-qodix a:not(.noviq-cta-primary):not(.noviq-cta-outline):not(.svc-card):hover,
+.noviq-liftoff a:not(.noviq-btn-inverse):hover {
+  color: hsl(var(--color-primary));
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noviq-section-qodix a,
+  .noviq-liftoff a,
+  .noviq-wrap a {
+    transition: none;
+  }
+  .noviq-section-qodix a:hover,
+  .noviq-liftoff a:hover {
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   INNER PAGES — restore the six classes the migrated pages use
+   ------------------------------------------------------------
+   The Next.js rewrite moved ~20 pages onto .noviq-page-* and
+   .noviq-glass-card, but no rule ever defined them: every inner
+   page rendered unstyled. Defined here once, in Qodix terms —
+   flat surface, 1px hairline, no blur, generous rhythm.
+   ============================================================ */
+.noviq-page-hero {
+  padding: 8rem 1.5rem 3rem;
+  text-align: center;
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.noviq-page-hero h1 { margin: 1rem 0 0; }
+.noviq-page-hero p {
+  margin: 1.25rem auto 0;
+  max-width: 42rem;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: hsl(var(--color-text-secondary));
+}
+
+.noviq-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: hsl(var(--color-text-secondary));
+}
+/* 44px hit area on breadcrumb links (were 19px). */
+.noviq-breadcrumb a {
+  color: hsl(var(--color-text-secondary));
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.noviq-breadcrumb a:hover { color: hsl(var(--color-primary)); }
+.noviq-breadcrumb span[aria-hidden] { opacity: 0.5; }
+
+.noviq-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-full);
+  background: hsl(var(--color-background));
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--color-accent-action));
+}
+/* ---- N-monogram fusion ----------------------------------------------
+   The mark and the typed remainder MUST share one inline flow inside a
+   single flex item. The previous attempt put the mark in its own flex
+   item behind a gap, which is what rendered "N ew Designs". A negative
+   inline-end margin pulls the following letter onto the glyph.
+   Height is set in em against the badge's own font-size so the mark keeps
+   the line's cap height instead of a fixed pixel size. */
+.noviq-badge-n {
+  display: inline-block;
+  height: 1.85em;
+  width: auto;
+  vertical-align: -0.38em;
+  margin-inline-end: -0.04em;
+  flex-shrink: 0;
+}
+:lang(ar) .noviq-hero-badge,
+html[dir="rtl"] .noviq-hero-badge {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.noviq-page-section {
+  padding: 4rem 1.5rem;
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.noviq-page-section-alt {
+  padding: 4.5rem 1.5rem;
+  background: hsl(var(--color-surface-container));
+  border-top: 1px solid hsl(var(--color-border));
+  border-bottom: 1px solid hsl(var(--color-border));
+}
+.noviq-page-section-alt > * { max-width: 1280px; margin-inline: auto; }
+.noviq-page-section-alt h2 { margin-bottom: 1rem; }
+
+/* ============================================================
+   TOOLKIT — every technology gets its own tile
+   ------------------------------------------------------------
+   This list used to render as bare <span> text: the old pill
+   rules (.noviq-stack-chip) only ever existed in old-version/css,
+   which this build does not load, so the section read as a run of
+   unstyled words. Each technology is now a tile with a monogram
+   mark, an accent rail and a lift on hover.
+   ============================================================ */
+.noviq-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+  max-width: 1080px;
+  margin-inline: auto;
+}
+.noviq-stack-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--radius-lg);
+  background: hsl(var(--md-surface));
+  border: 1px solid hsl(var(--color-border));
+  box-shadow: var(--shadow-elevation-1);
+  overflow: hidden;
+  animation: noviqStackIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+/* Brand rail — the tile's identity, revealed on hover */
+.noviq-stack-tile::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3px;
+  background: linear-gradient(180deg, hsl(var(--color-primary)), hsl(var(--color-accent)));
+  opacity: 0.45;
+  transition: opacity 0.25s ease;
+}
+/* Soft tint that washes in behind the tile on hover */
+.noviq-stack-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsl(var(--color-primary) / 0.07), hsl(var(--color-accent) / 0.07));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.noviq-stack-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elevation-3);
+  border-color: hsl(var(--color-primary) / 0.5);
+}
+.noviq-stack-tile:hover::before { opacity: 1; }
+.noviq-stack-tile:hover::after { opacity: 1; }
+
+.noviq-stack-mark {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: linear-gradient(140deg, hsl(var(--color-primary) / 0.16), hsl(var(--color-accent) / 0.16));
+  border: 1px solid hsl(var(--color-border));
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: hsl(var(--color-primary));
+  text-transform: uppercase;
+}
+.noviq-stack-name {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.3;
+  color: hsl(var(--color-text));
+  overflow-wrap: anywhere;
+}
+/* Technology names stay Latin even inside the Arabic layout */
+.noviq-stack-name[dir='ltr'] { direction: ltr; text-align: start; }
+html[dir='rtl'] .noviq-stack-tile { text-align: right; }
+
+@keyframes noviqStackIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noviq-stack-tile { animation: none; }
+  .noviq-stack-tile:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .noviq-stack-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .noviq-stack-tile { padding: 13px 14px; gap: 11px; }
+  .noviq-stack-mark { width: 36px; height: 36px; font-size: 0.72rem; }
+}
+
+.noviq-glass-card {
+  background: hsl(var(--color-background));
+  border: 1px solid hsl(var(--color-border));
+  border-radius: var(--radius-lg);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+.noviq-glass-card:hover {
+  border-color: hsl(var(--color-border-strong));
+  transform: translateY(-2px);
+}
+
+.noviq-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-lg);
+  background: hsl(var(--color-primary) / 0.08);
+  color: hsl(var(--color-primary));
+}
+
+.noviq-section-header {
+  max-width: 42rem;
+}
+.noviq-section-header .eyebrow { display: block; margin-bottom: 1rem; }
+.noviq-section-header.center { margin-inline: auto; text-align: center; }
+.noviq-section-header p {
+  margin-top: 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: hsl(var(--color-text-secondary));
+}
+
+@media (max-width: 768px) {
+  .noviq-page-hero { padding: 6rem 1.25rem 2.5rem; }
+  .noviq-page-section,
+  .noviq-page-section-alt { padding: 3rem 1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .noviq-glass-card { transition: none; }
+  .noviq-glass-card:hover { transform: none; }
+}

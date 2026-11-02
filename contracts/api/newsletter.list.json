@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "name": "newsletter.list",
+  "summary": "List subscribers, optional active filter (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/newsletter",
+  "request": {
+    "query": {
+      "active": {
+        "type": "integer",
+        "optional": true
+      },
+      "limit": {
+        "type": "integer",
+        "optional": true,
+        "default": 50
+      },
+      "offset": {
+        "type": "integer",
+        "optional": true,
+        "default": 0
+      }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "array",
+    "of": {
+      "type": "object",
+      "fields": {
+        "id": {
+          "type": "integer",
+          "optional": false
+        },
+        "email": {
+          "type": "string",
+          "optional": false
+        },
+        "active": {
+          "type": "integer",
+          "optional": false
+        }
+      }
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

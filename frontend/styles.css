@@ -1,0 +1,30 @@
+/* ============================================================
+   NOVIQ — MASTER STYLESHEET
+   ============================================================ */
+
+@import url('css/tokens.css?v=20260921.2');
+@import url('css/theme-simple.css?v=20260921.2');
+@import url('css/base.css');
+@import url('css/glass.css?v=20260723.2');
+@import url('css/components.css?v=20260723.2');
+@import url('css/sections.css?v=20260723.2');
+@import url('css/motion.css');
+/* intro.css removed: overlay deleted in corporate SIMPLE mode */
+@import url('css/layout.css?v=20260723.2');
+@import url('css/forms.css?v=20260921.2');
+@import url('css/interactive.css?v=20260723.2');
+@import url('css/image-prompt-builder.css?v=20260723.2');
+@import url('css/resources.css?v=20260723.2');
+@import url('css/team.css');
+@import url('css/rtl.css?v=20260921.2');
+
+/* Page-specific CSS loaded on demand */
+@import url('css/responsive.css?v=20260725.1');
+@import url('css/corporate-polish.css?v=20260921.3');
+@import url('css/cards-pro.css?v=20260921.1');
+@import url('css/hero-pro.css?v=20260921.1');
+@import url('css/a11y-pro.css?v=20260921.1');
+@import url('css/apple-materials.css?v=20260921.1');
+@import url('css/apple-controls.css?v=20260921.1');
+@import url('css/apple-type.css?v=20260921.1');
+@import url('css/apple-motion.css?v=20260921.1');

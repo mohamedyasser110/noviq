@@ -1,0 +1,541 @@
+/* ============================================================
+   NOVIQ CORPORATE POLISH v2
+   frontend-design-system + impeccable (Persuade for ministries)
+   Loaded LAST so it wins the cascade.
+   ============================================================ */
+
+/* ---- 0. Base rhythm & selection ---- */
+html { scroll-behavior: smooth; }
+body { text-rendering: optimizeLegibility; }
+::selection { background: color-mix(in srgb, var(--primary) 22%, transparent); color: var(--text); }
+:root[data-theme="dark"] ::selection { background: color-mix(in srgb, var(--accent) 45%, transparent); color: #fff; }
+
+/* Accessible focus everywhere (never remove without replacement) */
+a:focus-visible, button:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
+  border-radius: 8px;
+}
+.noviq-btn-primary:focus-visible { box-shadow: var(--ring), 0 1px 2px rgba(19,16,34,.12) !important; outline: none !important; }
+.noviq-btn-secondary:focus-visible, .noviq-theme-simple-toggle:focus-visible { box-shadow: var(--ring) !important; outline: none !important; }
+
+/* ---- 1. Navbar — institutional ---- */
+.noviq-navbar { min-height: var(--header-h); backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
+.noviq-logo { gap: 8px !important; }
+.noviq-logo, .noviq-logo:hover { transform: none !important; }
+.noviq-logo:hover .noviq-logo-icon { transform: none !important; }
+.noviq-logo-icon { width: 28px !important; height: 28px !important; }
+.noviq-logo-text { font-size: 22px !important; letter-spacing: -0.02em !important; }
+/* The nav box was 1100px wide inside a 1056px navbar (83 logo + 630 nav +
+   387 actions vs 1200 - 72*2 padding), so flex shrank .noviq-desktop-nav and
+   its children — "AI Lab" collapsed to 25px and "Our Team" to 37px, i.e. both
+   wrapped to two lines while the rest stayed on one. Two changes:
+   nowrap makes wrapping structurally impossible, and the gap drop from 28px
+   buys back 70px (7 gaps x 10px) to pay for it. */
+.noviq-desktop-nav { gap: 16px !important; }
+.noviq-desktop-nav a { font-size: 14px !important; font-weight: 500 !important; letter-spacing: 0.005em !important; min-height: var(--touch-min); display: inline-flex; align-items: center; white-space: nowrap; }
+.noviq-desktop-nav a::after { height: 2px !important; background: var(--primary) !important; bottom: 6px !important; }
+.noviq-desktop-nav a:hover { color: var(--text) !important; }
+.noviq-desktop-nav a[aria-current="page"], .noviq-desktop-nav a.active { color: var(--primary-strong) !important; }
+.noviq-nav-actions { gap: 10px !important; }
+.noviq-login-icon { min-width: var(--touch-min); min-height: var(--touch-min); border-radius: 10px !important; }
+.noviq-language-toggle { min-height: var(--touch-min); border-radius: 10px !important; }
+.noviq-mobile-toggle { min-width: var(--touch-min); min-height: var(--touch-min); }
+.noviq-mobile-menu { backdrop-filter: blur(8px) !important; box-shadow: var(--shadow-md) !important; animation-duration: .22s !important; }
+.noviq-mobile-menu a { min-height: var(--touch-min); font-size: 15px !important; }
+.noviq-mega-menu { backdrop-filter: blur(12px) !important; box-shadow: var(--shadow-md) !important; border-radius: 14px !important; }
+.noviq-mega-col a { min-height: 38px; }
+
+/* ---- 2. Buttons — CVA-like variants, 44px targets, 200ms ---- */
+.noviq-btn-primary, .noviq-btn-secondary, .noviq-btn-ghost {
+  min-height: var(--touch-min); line-height: 1.2;
+  font-size: 14.5px !important; font-weight: 600 !important; letter-spacing: 0.005em !important;
+  border-radius: 10px !important; padding: 12px 22px !important;
+  transition: background .2s var(--ease-out), border-color .2s var(--ease-out), color .2s, box-shadow .2s, transform .15s var(--ease-out) !important;
+}
+.noviq-btn-primary:active, .noviq-btn-secondary:active { transform: scale(.98) !important; }
+.noviq-btn-primary:disabled, .noviq-btn-secondary:disabled { opacity: .55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+.noviq-btn-ghost { border-color: transparent !important; color: var(--primary-strong) !important; }
+.noviq-btn-ghost:hover { background: color-mix(in srgb, var(--primary) 8%, transparent) !important; color: var(--primary-strong) !important; border-color: color-mix(in srgb, var(--primary) 20%, transparent) !important; transform: none !important; }
+/* sizes */
+.noviq-btn-sm, .noviq-btn-primary.noviq-btn-sm, .noviq-btn-secondary.noviq-btn-sm { min-height: 36px !important; padding: 8px 14px !important; font-size: 13px !important; border-radius: 8px !important; }
+.noviq-btn-lg, .noviq-btn-primary.noviq-btn-lg, .noviq-btn-secondary.noviq-btn-lg { min-height: 52px !important; padding: 15px 30px !important; font-size: 15.5px !important; border-radius: 12px !important; }
+
+/* ---- 3. Hero — enterprise Persuade ---- */
+#home { background: var(--bg) !important; }
+/* Hero title accent word ("Future").
+   HISTORY: this rule used to hard-kill gradient text (background:none +
+   -webkit-text-fill-color:var(--primary)) because under the old single-purple
+   identity a gradient accent word read as a muddy block. Under the tri-color
+   identity the overlap IS the brand expression, so the gradient is restored —
+   but with two guarantees the old rule lacked:
+     1. Text-safe gradient (--gradient-brand-text, opens on #EA580C = 3.56:1).
+        --gradient-brand opens on #FF6A00 = 2.87:1, under the 3:1 floor.
+     2. A solid --primary-strong fallback whenever background-clip:text is
+        unsupported, so the word is never invisible (transparent fill + no
+        clip = unreadable text). */
+.noviq-hero-title .gradient {
+  color: var(--primary-strong) !important;
+  font-style: inherit !important;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  /* BOTH levels are required. The authored markup is
+     <span class="gradient">Future</span>, but the GSAP word-split
+     (pro.js heroTitleWords) re-wraps every word in its own inner
+     <span class="ht-word">. So the real structure is
+     .gradient > .ht-word > "Future" — the outer element holds no glyphs
+     of its own, and background-clip:text can only clip a background
+     against glyphs it actually contains. Clipping only the outer element
+     paints nothing, while -webkit-text-fill-color:transparent (which is
+     INHERITED) leaves the inner span as transparent text on a transparent
+     background — the word vanishes. Target the nested span as well. */
+  .noviq-hero-title .gradient,
+  .noviq-hero-title .gradient > span {
+    /* inline-block, not inline: a fragmented inline box does not paint
+       background-clip:text reliably in Chrome. */
+    display: inline-block !important;
+    background-image: var(--gradient-brand-text) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+  }
+}
+.noviq-hero-badge { gap: 8px !important; padding: 8px 16px !important; font-weight: 600 !important; }
+.noviq-typewriter-cursor { display: none !important; }
+.noviq-hero-title { letter-spacing: -0.025em !important; text-wrap: balance; max-width: 16ch; }
+.noviq-hero-desc { text-wrap: pretty; max-width: 56ch !important; }
+/* hero CTAs: primary + quiet secondary */
+#home .noviq-btn-secondary { border-width: 1.5px !important; }
+/* hero visual: enterprise capability panel (tri-glow: orange/purple/blue)
+   (styles now live in css/hero-capability.css — do NOT reintroduce mock styles)
+
+   HISTORY: this rule used to be `min-height: 340px !important; background:
+   var(--surface) !important;` — an assertion of the OLD flat hero-visual box.
+   The capability panel is only 271px tall, so the forced 340px left 34px of
+   `--surface` showing above and below the panel, on top of the ::before tri
+   wash: a stray peach rectangle framing the component. The panel IS the frame
+   now (its own chrome, border, radius and shadow), so the container hugs it
+   and stays out of the way. min-height:0 lets a zero-height container happen
+   naturally if buildHeroCapability() hides the panel on missing config. */
+.noviq-hero-3d { min-height: 0 !important; background: transparent !important; }
+.noviq-hero-3d::before,
+.noviq-hero-3d::after {
+  content: none !important;
+}
+
+/* ---- 4. Section headers — consistent, no gradient ---- */
+.noviq-section-header { max-width: 760px !important; }
+.noviq-section-header .eyebrow { font-size: var(--fs-eyebrow) !important; letter-spacing: .1em !important; padding: 7px 14px !important; }
+.noviq-section-header .eyebrow::before { width: 12px !important; }
+.noviq-section-header h2 { letter-spacing: -0.02em !important; line-height: 1.18 !important; text-wrap: balance; }
+.noviq-section-header p { font-size: 16.5px !important; line-height: 1.7 !important; text-wrap: pretty; }
+
+/* ---- 5. Cards — distinct hierarchy (anti same-card-x6) ---- */
+.noviq-services-grid, .noviq-why-grid, .noviq-industries-grid { gap: 18px !important; }
+.noviq-service-card, .noviq-why-card, .noviq-industry-card { padding: 26px 24px !important; position: relative; }
+.noviq-service-card { border-top: 3px solid var(--border) !important; }
+.noviq-service-card:hover, .noviq-why-card:hover, .noviq-industry-card:hover { border-top-color: var(--primary) !important; }
+.noviq-service-card h2, .noviq-service-card h3 { font-size: 16.5px !important; letter-spacing: -0.01em !important; margin: 16px 0 8px !important; }
+.noviq-service-card p, .noviq-why-card p { font-size: 14px !important; line-height: 1.68 !important; }
+.noviq-icon-badge { width: 44px !important; height: 44px !important; border-radius: 11px !important; }
+.noviq-icon-badge i { width: 20px !important; height: 20px !important; }
+.noviq-industry-card { align-items: flex-start !important; text-align: start !important; padding: 22px !important; }
+.noviq-industry-card span { font-size: 14.5px !important; margin-top: 10px !important; }
+/* featured first card in services (bento accent) */
+#services-grid > *:first-child { border-color: color-mix(in srgb, var(--primary) 40%, var(--border)) !important; }
+#services-grid > *:first-child::after { content: 'Most requested'; position: absolute; top: 14px; inset-inline-end: 14px; font: 600 10.5px var(--font-body); letter-spacing: .06em; text-transform: uppercase; color: var(--primary-strong); background: color-mix(in srgb, var(--primary) 10%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); padding: 4px 9px; border-radius: 99px; }
+
+/* clients: grayscale trust, calm hover */
+.noviq-client-card { border-radius: 14px !important; background: var(--card) !important; box-shadow: var(--shadow-sm); }
+.noviq-client-card, .noviq-client-card:hover { transform: none !important; }
+.noviq-client-card:hover { border-color: var(--control-border-strong) !important; box-shadow: var(--shadow-md) !important; }
+.noviq-client-card::before { display: none !important; }
+.noviq-client-logo { border-radius: 12px !important; background: var(--surface) !important; border: 1px solid var(--border) !important; }
+.noviq-client-card:hover .noviq-client-logo { transform: none !important; box-shadow: none !important; }
+.noviq-client-logo .client-icon { filter: none !important; }
+
+/* projects: image top, calm */
+.noviq-project-card:hover { transform: translateY(-3px) !important; }
+.noviq-project-image { height: 190px !important; }
+.noviq-project-body h2 { font-size: 19px !important; letter-spacing: -0.01em; }
+.noviq-project-body .tag { color: var(--primary-strong) !important; font-size: var(--fs-caption) !important; text-transform: uppercase; letter-spacing: .08em !important; }
+
+/* ---- 6. Stats — bento trust band ---- */
+.noviq-stats { border-top: 1px solid var(--border) !important; border-bottom: 1px solid var(--border) !important; }
+.noviq-stats-grid { gap: 14px !important; }
+.noviq-stat { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 16px; box-shadow: var(--shadow-sm); }
+.noviq-stat, .noviq-stat:hover { transform: none !important; }
+.noviq-stat-number { font-size: clamp(28px, 3.2vw, 38px) !important; letter-spacing: -0.02em !important; font-variant-numeric: tabular-nums; }
+.noviq-stat-label { font-size: 13px !important; margin-top: 8px !important; line-height: 1.5; }
+
+/* ---- 7. Timeline — numbered institutional ---- */
+.noviq-timeline { gap: 14px !important; }
+.noviq-timeline::before { display: none !important; }
+.noviq-timeline-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 14px; box-shadow: var(--shadow-sm); }
+.noviq-timeline-icon { width: 40px !important; height: 40px !important; border-radius: 11px !important; }
+.noviq-timeline-item h3 { font-size: 14.5px !important; }
+.noviq-timeline-item p { font-size: 12.8px !important; }
+
+/* ---- 8. Testimonials — quiet quote ---- */
+.noviq-testimonial-card { padding: 40px 36px !important; text-align: start !important; }
+.noviq-testimonial-card::before, .noviq-testimonial-card::after { opacity: .1 !important; font-size: 64px !important; }
+.noviq-testimonial-card .quote { font-size: 18px !important; line-height: 1.7 !important; font-family: var(--font-body) !important; font-weight: 400 !important; opacity: 1 !important; }
+.noviq-testimonial-card .name { color: var(--text) !important; font-weight: 600 !important; }
+.noviq-dot { min-width: 8px; min-height: 8px; }
+.noviq-dot.active { box-shadow: none !important; background: var(--primary) !important; }
+
+/* ---- 9. Forms — corporate, 44px, flat ---- */
+.noviq-input, .noviq-textarea, .noviq-select {
+  min-height: var(--touch-min); font-size: 14px !important; border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.noviq-input::placeholder, .noviq-textarea::placeholder { color: var(--text-placeholder) !important; opacity: 1; }
+.noviq-textarea:focus, .noviq-select:focus { border-color: var(--primary) !important; box-shadow: var(--ring) !important; background: var(--card) !important; }
+.noviq-contact-form { padding: 30px !important; gap: 14px !important; }
+.noviq-contact-form::before { display: none !important; }
+.noviq-contact-detail { font-size: 14px !important; }
+.noviq-contact-detail:hover { transform: none !important; }
+/* flat controls: remove neon glow */
+.noviq-toggle input:checked + .noviq-toggle-track { background: var(--primary) !important; box-shadow: none !important; }
+.noviq-slider::-webkit-slider-thumb { background: var(--primary) !important; box-shadow: none !important; border: 2px solid #fff !important; }
+.noviq-slider::-moz-range-thumb { background: var(--primary) !important; border: 2px solid #fff !important; }
+.noviq-checkbox input:checked + .noviq-checkbox-box { background: var(--primary) !important; border-color: var(--primary) !important; box-shadow: none !important; }
+.noviq-radio-option:has(input:checked) { border-color: var(--primary) !important; background: color-mix(in srgb, var(--primary) 7%, transparent) !important; box-shadow: none !important; }
+.noviq-radio-option:has(input:checked) .radio-dot { border-color: var(--primary) !important; }
+.noviq-radio-option:has(input:checked) .radio-dot::after { background: var(--primary) !important; box-shadow: none !important; }
+.noviq-btn-option.active { border-color: var(--primary) !important; background: color-mix(in srgb, var(--primary) 8%, transparent) !important; box-shadow: none !important; }
+.noviq-step.active .noviq-step-marker { background: var(--primary) !important; border-color: var(--primary) !important; box-shadow: none !important; }
+.noviq-step.completed .noviq-step-marker { background: color-mix(in srgb, var(--primary) 12%, transparent) !important; border-color: var(--primary) !important; color: var(--primary-strong) !important; }
+.noviq-file-upload:hover, .noviq-file-upload.dragover { border-color: var(--primary) !important; background: color-mix(in srgb, var(--primary) 4%, transparent) !important; box-shadow: none !important; }
+
+/* auth */
+.noviq-auth-card { box-shadow: var(--shadow-md) !important; }
+.noviq-auth-card::before { display: none !important; }
+.noviq-auth-field .noviq-input:focus { background: var(--card) !important; box-shadow: var(--ring) !important; }
+
+/* search + newsletter: calm */
+.noviq-search-dropdown { box-shadow: var(--shadow-md) !important; backdrop-filter: blur(8px) !important; }
+.noviq-search-item:hover { background: var(--surface) !important; border-color: var(--border) !important; box-shadow: none !important; transform: none !important; }
+.noviq-newsletter-box:focus-within { box-shadow: var(--ring) !important; border-color: var(--primary) !important; }
+.noviq-newsletter-btn { background: var(--primary) !important; box-shadow: none !important; }
+.noviq-newsletter-btn:hover { transform: none !important; box-shadow: var(--shadow-sm) !important; }
+
+/* toast */
+.noviq-toast { backdrop-filter: blur(8px) !important; box-shadow: var(--shadow-md) !important; border-radius: 12px !important; }
+
+/* ---- 10. Footer — institutional ---- */
+.noviq-footer-col h2 { font-size: 13px !important; text-transform: uppercase; letter-spacing: .08em !important; color: var(--text-secondary) !important; }
+.noviq-footer-col a:hover { transform: none !important; color: var(--primary-strong) !important; }
+.noviq-footer-social a:hover { transform: none !important; color: var(--primary-strong) !important; }
+
+/* ---- 11. Page heroes (subpages) ---- */
+.noviq-page-hero { padding: 132px 6% 64px !important; background: var(--surface) !important; border-bottom: 1px solid var(--border); }
+.noviq-page-hero::before { display: none !important; }
+.noviq-page-hero h1 { letter-spacing: -0.02em !important; text-wrap: balance; }
+.noviq-page-section, .noviq-page-section-alt { padding: 72px 6% !important; }
+.noviq-breadcrumb a { color: var(--primary-strong) !important; }
+
+/* ---- 12. Stack chips: quiet rail ---- */
+.noviq-stack-chip { border-radius: 99px !important; font-size: 13px !important; padding: 9px 16px !important; }
+
+/* ---- 13. Reveal: calm single ---- */
+.reveal { transition-timing-function: var(--ease-out) !important; }
+
+/* ---- 14. Skeleton (avoid full-page spinners) ---- */
+.noviq-skeleton { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; min-height: 56px; }
+.noviq-skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, var(--surface-highlight-strong) 50%, transparent 70%); animation: noviqShimmer 1.4s infinite; }
+@keyframes noviqShimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+/* ---- 15. Mobile fixes (override responsive.css bug: nav-actions hidden) ---- */
+@media (max-width: 900px) {
+  .noviq-nav-actions { display: flex !important; gap: 8px !important; margin-inline-start: auto; }
+  .noviq-header-search { display: none !important; }
+  .noviq-theme-simple-toggle { width: 40px; height: 40px; }
+  .noviq-hero-grid { grid-template-columns: 1fr !important; }
+  .noviq-hero-3d { min-height: 260px !important; }
+  #services-grid > *:first-child::after { display: none; }
+  .noviq-testimonial-card { text-align: start !important; }
+  .noviq-page-hero { padding: 112px 5% 48px !important; }
+}
+@media (max-width: 560px) {
+  .noviq-hero-3d { min-height: 230px !important; }
+  .noviq-contact-form { padding: 20px !important; }
+  /* Hero badge: truncate long typewriter phrases on small screens */
+  .noviq-hero-badge { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* ---- 16. Reduced motion: full respect ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .noviq-skeleton::after { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---- 17. RTL polish ---- */
+html[dir="rtl"] .noviq-hero-title { letter-spacing: 0 !important; }
+html[dir="rtl"] .noviq-service-card, html[dir="rtl"] .noviq-why-card { text-align: right; }
+
+/* ---- 18. Project screenshots: dark dashboards inside light browser frame ----
+   Images are neon-on-black renders. On the white identity they must read as
+   intentional framed UI previews (Stripe-style), not black holes. */
+.noviq-project-image {
+  background-color: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  position: relative;
+  overflow: hidden;
+}
+/* browser chrome bar over the screenshot top */
+.noviq-project-image::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 30px;
+  background:
+    radial-gradient(circle 4px at 18px 15px, #E0645A 4px, transparent 5px),
+    radial-gradient(circle 4px at 34px 15px, #E8B93E 4px, transparent 5px),
+    radial-gradient(circle 4px at 50px 15px, #3FB950 4px, transparent 5px),
+    linear-gradient(180deg, color-mix(in srgb, var(--card) 92%, transparent), color-mix(in srgb, var(--card) 78%, transparent));
+  border-bottom: 1px solid var(--border);
+  pointer-events: none; z-index: 2;
+}
+:root[data-theme="dark"] .noviq-project-image::after {
+  background:
+    radial-gradient(circle 4px at 18px 15px, #FF5F57 4px, transparent 5px),
+    radial-gradient(circle 4px at 34px 15px, #FEBC2E 4px, transparent 5px),
+    radial-gradient(circle 4px at 50px 15px, #28C840 4px, transparent 5px),
+    linear-gradient(180deg, rgba(25,19,50,.94), rgba(25,19,50,.78));
+}
+/* soften the dark→card cut: bottom fade into card body */
+.noviq-project-overlay {
+  background:
+    linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--card) 88%, transparent) 100%) !important;
+  transform: none !important;
+}
+:root[data-theme="dark"] .noviq-project-overlay {
+  background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%) !important;
+}
+.noviq-project-card:hover .noviq-project-overlay { transform: none !important; }
+
+/* ---- 19. Subpages (AI Lab / tools / team): mute neon, keep flat ---- */
+:root[data-theme="light"] .ai-lab-hero-glow { opacity: .3; }
+.ai-lab-console { border-radius: 14px !important; box-shadow: var(--shadow-md) !important;
+  background: var(--card) !important; }
+.ai-lab-console::before { opacity: .5; }
+.nv-send-btn:hover { box-shadow: var(--shadow-sm) !important; transform: none !important; }
+.noviq-team-card.featured { box-shadow: var(--shadow-md) !important; }
+.noviq-team-photo, .noviq-team-avatar { box-shadow: var(--shadow-sm) !important; }
+
+/* ---- 20. Progressive enhancement: content visible without JS ----
+   Hidden reveal states apply ONLY when JS ran (html.js set by head script).
+   No-JS / blocked-JS visitors always see full content. */
+html:not(.js) .reveal, html:not(.js) .reveal-left,
+html:not(.js) .reveal-right, html:not(.js) .reveal-scale {
+  opacity: 1 !important; transform: none !important;
+}
+html:not(.js) .text-split-reveal .char { opacity: 1 !important; transform: none !important; }
+
+/* ---- 21. PURE WHITE base — explicit #FFFFFF (light only, dark untouched) ----
+   21st minimal corporate: hierarchy via 1px borders + soft shadows, never gray fills. */
+:root[data-theme="light"] body,
+:root[data-theme="light"] #home,
+:root[data-theme="light"] #home-sections,
+:root[data-theme="light"] .noviq-stats,
+:root[data-theme="light"] #clients,
+:root[data-theme="light"] #solutions,
+:root[data-theme="light"] #industries,
+:root[data-theme="light"] #process,
+:root[data-theme="light"] #testimonials,
+:root[data-theme="light"] #contact,
+:root[data-theme="light"] .noviq-footer,
+:root[data-theme="light"] .noviq-hero-3d,
+:root[data-theme="light"] .noviq-page-hero {
+  background-color: #FFFFFF !important;
+}
+:root[data-theme="light"] .noviq-client-logo,
+:root[data-theme="light"] .noviq-hero-badge,
+:root[data-theme="light"] .noviq-section-header .eyebrow {
+  background-color: #FFFFFF !important;
+}
+
+/* ---- 22. 21st + Pro-Max micro-interactions (restrained, corporate) ----
+   Fast 150–250ms, expo easing, translateY max -2px, no glow sweeps. */
+.noviq-btn-primary, .noviq-btn-secondary {
+  will-change: transform, box-shadow !important;
+  backface-visibility: hidden !important;
+}
+.noviq-service-card, .noviq-why-card, .noviq-industry-card,
+.noviq-project-card, .noviq-client-card, .noviq-stat, .noviq-timeline-item {
+  transition: transform .22s var(--ease-out), box-shadow .22s var(--ease-out), border-color .2s var(--ease-out) !important;
+  will-change: transform !important;
+}
+.noviq-service-card:hover, .noviq-why-card:hover, .noviq-industry-card:hover,
+.noviq-client-card:hover, .noviq-timeline-item:hover {
+  transform: translateY(-2px) !important;
+}
+.noviq-icon-badge { transition: border-color .2s var(--ease-out), background .2s var(--ease-out) !important; }
+.noviq-service-card:hover .noviq-icon-badge,
+.noviq-industry-card:hover .noviq-icon-badge { border-color: var(--primary) !important; }
+/* nav underline: scaleX sweep (Pro-Max calm) */
+.noviq-desktop-nav a { position: relative; }
+.noviq-desktop-nav a::after {
+  transform: scaleX(0) !important; transform-origin: left center !important;
+  transition: transform .22s var(--ease-out) !important;
+}
+.noviq-desktop-nav a:hover::after,
+.noviq-desktop-nav a[aria-current="page"]::after,
+.noviq-desktop-nav a.active::after { transform: scaleX(1) !important; }
+/* testimonial dots: 24px hit area for a11y, 8px visual */
+.noviq-dot { position: relative; }
+.noviq-dot::after { content: ''; position: absolute; inset: -8px; }
+/* inputs: smooth border transition */
+.noviq-input, .noviq-textarea, .noviq-newsletter-input, .noviq-search-input {
+  transition: border-color .2s var(--ease-out), box-shadow .2s var(--ease-out) !important;
+}
+
+/* ---- 23. Pro-Max entrance choreography (CSS-only stagger, expo easing) ----
+   Grids reveal with 70ms steps — feels engineered, stays quiet. */
+.reveal, .reveal-left, .reveal-right, .reveal-scale {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+#services-grid > *:nth-child(2), #clients-grid > *:nth-child(2),
+#industries-grid > *:nth-child(2), #process-grid > *:nth-child(2) { transition-delay: 70ms !important; }
+#services-grid > *:nth-child(3), #clients-grid > *:nth-child(3),
+#industries-grid > *:nth-child(3), #process-grid > *:nth-child(3) { transition-delay: 140ms !important; }
+#services-grid > *:nth-child(4), #clients-grid > *:nth-child(4),
+#industries-grid > *:nth-child(4), #process-grid > *:nth-child(4) { transition-delay: 210ms !important; }
+#services-grid > *:nth-child(n+5), #clients-grid > *:nth-child(n+5),
+#industries-grid > *:nth-child(n+5), #process-grid > *:nth-child(n+5) { transition-delay: 280ms !important; }
+@media (prefers-reduced-motion: reduce) {
+  #services-grid > *, #clients-grid > *, #industries-grid > *, #process-grid > * { transition-delay: 0ms !important; }
+}
+
+/* ---- 24. 21st FULL-POWER corporate refinement (still simple) ----
+   Depth via layered shadows + hairlines, rhythm via dividers,
+   readability via measure caps. No gradients, no glow, no motion beyond calm. */
+:root[data-theme="light"] #clients,
+:root[data-theme="light"] #solutions,
+:root[data-theme="light"] #industries,
+:root[data-theme="light"] #process {
+  border-top: 1px solid var(--border) !important;
+}
+/* hero capability panel: 21st window depth
+   (fill animation + entrance live in css/hero-capability.css) */
+/* readability: cap text measure */
+.noviq-hero-desc, .noviq-section-header p, .noviq-testimonial-card .quote { max-width: 65ch; }
+/* testimonial: quiet authority */
+.noviq-testimonial-card { box-shadow: var(--shadow-md) !important; }
+.noviq-testimonial-card .quote { text-wrap: pretty !important; }
+/* contact form: calm elevation */
+.noviq-contact-form { box-shadow: var(--shadow-md) !important; }
+/* footer: institutional rhythm */
+.noviq-footer { border-top: 1px solid var(--border) !important; }
+
+/* ---- 17. Pro-max polish: scroll progress + back-to-top (calm) ---- */
+.noviq-scroll-progress {
+  position: absolute; bottom: -1px; inset-inline-start: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--accent-2));
+  transform: scaleX(0); transform-origin: 0 50%;
+  opacity: .9; pointer-events: none; z-index: 101;
+}
+html[dir="rtl"] .noviq-scroll-progress { transform-origin: 100% 50%; }
+
+.noviq-to-top {
+  position: fixed; bottom: 24px; inset-inline-end: 24px; z-index: 90;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--control-border-strong);
+  box-shadow: var(--shadow-md); cursor: pointer;
+  opacity: 0; translate: 0 12px; pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-smooth), translate var(--dur-base) var(--ease-smooth),
+    box-shadow var(--dur-base) var(--ease-smooth), border-color var(--dur-base), color var(--dur-base);
+}
+.noviq-to-top.show { opacity: 1; translate: 0 0; pointer-events: auto; }
+.noviq-to-top:hover {
+  border-color: color-mix(in srgb, var(--secondary) 55%, transparent);
+  color: var(--secondary); box-shadow: var(--shadow-glow-strong);
+}
+.noviq-to-top:focus-visible { outline: none; box-shadow: var(--ring); }
+.noviq-to-top svg { width: 20px; height: 20px; }
+
+/* Global reduced-motion safety net (engines already guard; CSS backs it) */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-scroll-progress { display: none; }
+  .reveal, .reveal-left, .reveal-right, .reveal-scale { transition: none; }
+  .noviq-btn-primary::after, .noviq-btn-secondary::after { display: none; }
+  html { scroll-behavior: auto; }
+}
+@media (max-width: 560px) {
+  .noviq-to-top { bottom: 16px; inset-inline-end: 16px; }
+}
+
+/* Newsletter error state (mirrors .noviq-input.error pattern) */
+.noviq-newsletter-input.error { border-color: var(--danger) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 15%, transparent) !important; }
+
+/* ---- 18. Full-power: clients marquee (21st logo-cloud pattern id 21470, token-driven) ---- */
+.noviq-marquee-mask {
+  overflow: hidden;
+  max-width: 1080px; margin: 0 auto;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+html[dir="rtl"] .noviq-marquee-mask {
+  -webkit-mask-image: linear-gradient(to left, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to left, transparent, black 12%, black 88%, transparent);
+}
+.noviq-marquee-track { display: flex; width: max-content; animation: noviq-marquee 32s linear infinite; }
+.noviq-marquee-mask:hover .noviq-marquee-track { animation-play-state: paused; }
+@keyframes noviq-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.noviq-marquee-item {
+  display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0;
+  margin-inline-end: 18px; padding: 12px 22px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface-highlight-strong), var(--surface-highlight));
+  border: 1px solid var(--border);
+  transition: border-color var(--dur-base) var(--ease-smooth), box-shadow var(--dur-base) var(--ease-smooth);
+}
+.noviq-marquee-item:hover { border-color: color-mix(in srgb, var(--secondary) 40%, transparent); box-shadow: 0 8px 24px color-mix(in srgb, var(--secondary) 14%, transparent); }
+.noviq-marquee-item .noviq-client-logo { width: 44px; height: 44px; border-radius: 12px; }
+.noviq-marquee-item .noviq-client-logo .client-icon { width: 24px; height: 24px; }
+.noviq-marquee-item .noviq-client-name { font-size: 14.5px; white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .noviq-marquee-track { animation: none; flex-wrap: wrap; width: auto; }
+}
+
+/* ---- 19. Full-power: SPA page wipe overlay (GSAP-driven) ---- */
+.noviq-page-wipe {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--surface);
+  border-bottom: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  transform: scaleY(0); transform-origin: top;
+  pointer-events: none;
+}
+.noviq-page-wipe.wiping { pointer-events: auto; }
+
+/* ---- 20. Conversion & empty states (coordinator) ---- */
+.noviq-reassure {
+  margin-top: 18px; font-size: var(--fs-caption); color: var(--text-tertiary);
+}
+.noviq-empty-state {
+  grid-column: 1 / -1; text-align: center;
+  padding: 56px 24px; border-radius: var(--radius-lg);
+  border: 1px dashed var(--control-border-strong);
+  background: var(--surface-highlight); color: var(--text-secondary);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.noviq-empty-state p { margin: 0; font-size: var(--fs-body-md); }
+/* Featured pricing tier: elevated focal point (desktop only, calm) */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  #pricing-grid .noviq-glass-pricing {
+    transform: scale(1.03) !important;
+    border: 1px solid color-mix(in srgb, var(--secondary) 45%, transparent) !important;
+    box-shadow: var(--shadow-lg), 0 0 44px color-mix(in srgb, var(--secondary) 16%, transparent) !important;
+  }
+}
+/* Navbar hides on scroll-down, returns on scroll-up (JS toggles .nav-hidden) */
+.noviq-navbar { transition: transform var(--dur-base) var(--ease-smooth), padding var(--dur-base) var(--ease-smooth), background var(--dur-base) var(--ease-smooth), border-color var(--dur-base) var(--ease-smooth); }
+.noviq-navbar.nav-hidden { transform: translateY(-110%); }
+@media (prefers-reduced-motion: reduce) {
+  .noviq-navbar.nav-hidden { transform: none; }
+}

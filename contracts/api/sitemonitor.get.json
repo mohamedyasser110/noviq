@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "sitemonitor.get",
+  "summary": "Admin rich live traffic snapshot (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/site-monitor",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "visitors": {
+        "type": "integer",
+        "optional": true
+      }
+    },
+    "name": "SiteMonitorResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

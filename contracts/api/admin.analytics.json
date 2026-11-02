@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "admin.analytics",
+  "summary": "30-day visits series, top pages, per language (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/analytics",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "days": {
+        "type": "array",
+        "optional": false
+      },
+      "topPages": {
+        "type": "array",
+        "optional": false
+      },
+      "byLanguage": {
+        "type": "array",
+        "optional": false
+      }
+    },
+    "name": "AdminAnalyticsResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

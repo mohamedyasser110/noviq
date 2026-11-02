@@ -1,0 +1,8 @@
+{
+  "$comment": "Standard error envelope — used by EVERY endpoint on both sides",
+  "error": {
+    "code": "string  // UPPER_SNAKE_CASE machine code, e.g. NOT_FOUND, VALIDATION_ERROR",
+    "message": "string  // human-readable message",
+    "details": "object | null  // optional machine-readable context"
+  }
+}

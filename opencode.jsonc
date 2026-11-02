@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    // Playwright MCP (GitHub: microsoft/playwright-mcp) — real-browser testing
+    // for the site (Arabic RTL, chatbot, admin panel).
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "enabled": true
+    }
+  }
+}

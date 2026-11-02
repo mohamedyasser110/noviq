@@ -1,0 +1,72 @@
+/* ============================================================
+   HERO PRO — Agent-1 (Hero Experience) styles
+   Token-only: var(--primary), var(--text-secondary),
+   var(--ease-smooth), var(--dur-*). Alpha via color-mix() only.
+   Wired by coordinator with:
+     @import url('css/hero-pro.css');
+   ============================================================ */
+
+/* ---- Word-split title: inline-block so GSAP transforms apply ---- */
+.ht-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ---- Tilt target: hint compositor, calm transition fallback ---- */
+#home .noviq-hero-mock {
+  will-change: transform;
+}
+
+/* ---- Scroll cue: minimal mouse motif, bottom-centre of #home ---- */
+.noviq-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom, 18px));
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--text-secondary);
+  transition: opacity var(--dur-base) var(--ease-smooth);
+}
+
+.noviq-scroll-cue__mouse {
+  display: block;
+  position: relative;
+  width: 22px;
+  height: 34px;
+  border: 1.5px solid color-mix(in srgb, var(--text-secondary) 55%, transparent);
+  border-radius: var(--radius-pill);
+}
+
+.noviq-scroll-cue__wheel {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  animation: noviq-cue-wheel calc(var(--dur-slow) * 3) var(--ease-smooth) infinite;
+}
+
+@keyframes noviq-cue-wheel {
+  0%   { transform: translateY(0); opacity: 1; }
+  70%  { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ---- Reduced motion: cue never shows, words stay static ---- */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-scroll-cue,
+  .noviq-scroll-cue__wheel {
+    animation: none;
+    display: none;
+  }
+  .ht-word {
+    will-change: auto;
+  }
+}

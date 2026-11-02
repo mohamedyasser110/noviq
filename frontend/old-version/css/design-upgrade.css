@@ -1,0 +1,256 @@
+/* ============================================================
+   NOVIQ DESIGN UPGRADE — 2026-09-26
+   ------------------------------------------------------------
+   Additive polish pass on the CORPORATE WHITE identity.
+   Loaded LAST in index.html so it wins the cascade without
+   touching the documented rules below it.
+
+   Principles kept:
+   - flat corporate surfaces (no glass/3D/neon — that world
+     was deliberately retired, see theme-simple.css)
+   - solid single-colour buttons ("كل حاجه بلون محدد")
+   - WCAG AA documented in tokens.css
+   - desktop-only type scaling is wrapped in min-width media
+     queries so responsive.css mobile clamps still own <901px
+   - RTL rules are scoped to html[dir='rtl'] so LTR is untouched
+   ============================================================ */
+
+/* ---- 0. New tokens (append-only: nothing below redefines existing) ---- */
+:root {
+  /* Off-white alternating band. One step off pure white gives the home
+     page a zebra rhythm (white / muted / white ...) so sections stop
+     reading as one continuous flat field. Tinted toward the brand
+     purple rather than neutral grey to stay off "soulless #F5F5F5". */
+  --surface-muted: #F8F7FC;
+  /* Dark: between --bg (#0B0817) and --surface (#141026). */
+}
+:root[data-theme="dark"] {
+  --surface-muted: #0F0B1E;
+}
+
+/* ---- 1. Zebra section rhythm (home page) ---- */
+/* Bands: clients → industries → testimonials → footer. The gaps stay
+   white in light mode, #0F0B1E in dark. Hairlines only on the band
+   edges, so the page reads as deliberate alternation, not noise. */
+:root[data-theme="light"] #clients,
+:root[data-theme="light"] #industries,
+:root[data-theme="light"] #testimonials {
+  background: var(--surface-muted) !important;
+}
+:root[data-theme="light"] .noviq-footer {
+  background: var(--surface-muted) !important;
+}
+:root[data-theme="dark"] #clients,
+:root[data-theme="dark"] #industries,
+:root[data-theme="dark"] #testimonials,
+:root[data-theme="dark"] .noviq-footer {
+  background: var(--surface-muted) !important;
+}
+/* Crisp top hairline where a band meets white */
+#clients, #industries, #testimonials { border-top: 1px solid var(--border); }
+.noviq-footer { border-top: 1px solid var(--border); }
+
+/* Anchor jumps land below the sticky navbar */
+section[id], main[id], div[id="home-sections"] { scroll-margin-top: 96px; }
+
+/* ---- 2. Desktop hero + section type scale (≥901px only) ---- */
+/* Persuade mode: the first viewport is the product. Marketing-grade
+   display sizes, still corporate (no tracking below -0.03em). */
+@media (min-width: 901px) {
+  .noviq-hero-title {
+    font-size: clamp(46px, 4.6vw, 68px) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.03em !important;
+    max-width: 16ch !important;
+  }
+  .noviq-hero-desc {
+    font-size: 18px !important;
+    line-height: 1.7 !important;
+    color: var(--text-secondary) !important;
+  }
+  /* Give the bigger title room under the navbar */
+  #home { padding-top: 150px !important; }
+
+  .noviq-section-header h2 {
+    font-size: clamp(32px, 3.4vw, 48px) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Data presence: bigger counters, solid text (theme-simple already
+     killed the gradient; this only ups the scale + display face). */
+  .noviq-stat-number {
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    font-size: clamp(38px, 4vw, 54px) !important;
+    letter-spacing: -0.02em !important;
+    color: var(--text) !important;
+    font-variant-numeric: tabular-nums;
+  }
+  .noviq-stat-label {
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    color: var(--text-tertiary) !important;
+    font-size: 12.5px !important;
+  }
+}
+
+/* ---- 3. Card hover: brand top-etch (no layout shift) ---- */
+/* Inset top highlight instead of ::before/::after — theme-simple.css
+   display:none's those on every card, and border-width changes would
+   shift layout. A 2px inset brand line reads as an "engraved" top
+   edge: subtle, corporate, and the only place the tri-color brand
+   gets a second mention after the logo. */
+.noviq-service-card:hover,
+.noviq-why-card:hover,
+.noviq-industry-card:hover,
+.noviq-glass-card:hover {
+  box-shadow: var(--shadow-md),
+    inset 0 2px 0 0 color-mix(in srgb, var(--primary) 70%, transparent) !important;
+}
+
+/* ---- 4. Buttons: tactile depth refinement ---- */
+/* theme-simple already owns colours (fixed, both themes). This only
+   refines the shadow ramp so hover lift reads as elevation, not glow. */
+.noviq-btn-primary {
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--btn-primary-bg) 35%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+}
+.noviq-btn-primary:hover {
+  box-shadow: 0 10px 22px -6px color-mix(in srgb, var(--btn-primary-bg) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+.noviq-btn-secondary {
+  box-shadow: 0 1px 2px rgba(19, 16, 34, 0.06) !important;
+}
+:root[data-theme="dark"] .noviq-btn-secondary {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+}
+.noviq-btn-secondary:hover {
+  box-shadow: 0 6px 18px -4px color-mix(in srgb, var(--primary) 30%, transparent) !important;
+}
+/* focus-visible ring for the primary button keeps the documented
+   --ring; add it to the lg variant explicitly so hero CTAs match. */
+.noviq-btn-primary.noviq-btn-lg:focus-visible {
+  box-shadow: var(--ring),
+    0 10px 22px -6px color-mix(in srgb, var(--btn-primary-bg) 45%, transparent) !important;
+  outline: none !important;
+}
+
+/* ---- 5. Testimonial card: quieter, more editorial ---- */
+.noviq-testimonial-card .quote {
+  font-size: clamp(17px, 1.5vw, 20px) !important;
+  line-height: 1.65 !important;
+  font-weight: 400 !important;
+}
+.noviq-testimonial-card .name {
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+}
+.noviq-testimonial-card .role {
+  color: var(--text-tertiary) !important;
+  font-size: 13.5px !important;
+}
+
+/* ---- 6. Navbar: scroll-state depth (navigation.js adds .scrolled) ---- */
+.noviq-navbar.scrolled {
+  box-shadow: 0 4px 20px -8px rgba(19, 16, 34, 0.12) !important;
+}
+:root[data-theme="dark"] .noviq-navbar.scrolled {
+  box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ---- 7. Accessibility: skip link (visually hidden until focused) ---- */
+/* Implemented in index.html with a preventDefault onclick so the hash
+   never reaches the SPA router (any hash IS a route here). */
+.noviq-skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  padding: 10px 18px;
+  background: var(--text) !important;
+  color: var(--text-inverse) !important;
+  font: 600 14px var(--font-body);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: top 0.15s var(--ease-out);
+}
+.noviq-skip-link:focus {
+  top: 12px;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ---- 8. Arabic (RTL) typography refinement ---- */
+/* Latin tightening (-0.03em) breaks joined Arabic letters — rtl.css
+   already zeros tracking; here we add the display size + line-height
+   that Arabic display type actually needs: slightly smaller than the
+   EN clamp (Cairo glyphs are wider) and a taller line-height (no
+   tight Latin leading in Arabic body). */
+html[dir='rtl'] .noviq-hero-title {
+  font-family: 'Cairo', var(--font-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.25 !important;
+  color: var(--text) !important;
+}
+html[dir='rtl'] .noviq-hero-title .gradient {
+  /* The brand accent word in AR: keep the text-safe gradient, but
+     restore a solid fallback colour for non-supporting browsers. */
+  color: var(--primary-strong) !important;
+}
+html[dir='rtl'] .noviq-section-header h2 {
+  font-family: 'Cairo', var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.3 !important;
+}
+html[dir='rtl'] .noviq-hero-desc,
+html[dir='rtl'] .noviq-section-header p {
+  font-family: 'Cairo', var(--font-body) !important;
+  font-weight: 500 !important;
+  line-height: 1.85 !important;
+}
+html[dir='rtl'] .noviq-stat-label {
+  text-transform: none !important; /* Arabic has no caps — uppercase is meaningless */
+  letter-spacing: 0 !important;
+  font-weight: 500 !important;
+}
+
+@media (min-width: 901px) {
+  /* Desktop AR scale: 8% under the EN clamp to prevent overflow of
+     the wider Arabic display glyphs at 16ch. */
+  html[dir='rtl'] .noviq-hero-title {
+    font-size: clamp(42px, 4.2vw, 62px) !important;
+  }
+  html[dir='rtl'] .noviq-section-header h2 {
+    font-size: clamp(30px, 3.2vw, 44px) !important;
+  }
+}
+
+/* ---- 9. Motion: calm stagger on grid reveals ---- */
+/* Cards in a grid reveal with an index-based delay so rows cascade
+   instead of popping at once. reveal.js sets .visible; the delay is
+   pure CSS and respects the existing .reveal class. Capped at 6
+   children — grids beyond that keep uniform reveal. */
+@media (prefers-reduced-motion: no-preference) {
+  .noviq-services-grid .reveal:nth-child(2),
+  .noviq-clients-grid .reveal:nth-child(2),
+  .noviq-industries-grid .reveal:nth-child(2),
+  .noviq-stats-grid .reveal:nth-child(2) { transition-delay: 80ms !important; }
+  .noviq-services-grid .reveal:nth-child(3),
+  .noviq-clients-grid .reveal:nth-child(3),
+  .noviq-industries-grid .reveal:nth-child(3),
+  .noviq-stats-grid .reveal:nth-child(3) { transition-delay: 160ms !important; }
+  .noviq-services-grid .reveal:nth-child(4),
+  .noviq-clients-grid .reveal:nth-child(4),
+  .noviq-industries-grid .reveal:nth-child(4),
+  .noviq-stats-grid .reveal:nth-child(4) { transition-delay: 240ms !important; }
+  .noviq-services-grid .reveal:nth-child(5),
+  .noviq-industries-grid .reveal:nth-child(5) { transition-delay: 320ms !important; }
+  .noviq-services-grid .reveal:nth-child(6),
+  .noviq-industries-grid .reveal:nth-child(6) { transition-delay: 400ms !important; }
+}

@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "name": "agent-bus.message",
+  "summary": "Send a message to the central agent message bus (auth: none)",
+  "method": "POST",
+  "path": "/api/agent-bus/message",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "type": {
+          "type": "string",
+          "optional": false,
+          "enum": ["LOCK_ACQUIRE", "LOCK_RELEASE", "FILE_CHANGED", "SCHEMA_UPDATED", "AGENT_JOIN", "AGENT_LEAVE", "ERROR_REPORTED", "SCHEMA_VERSION_REQUEST"],
+          "description": "The type of message being sent to the bus"
+        },
+        "source_agent": {
+          "type": "string",
+          "optional": false,
+          "description": "The agent sending the message (frontend, backend, debugger, architect, tester, reviewer, ultra-plan, ultra-build)"
+        },
+        "target_agent": {
+          "type": "string",
+          "optional": true,
+          "description": "Target agent (null = broadcast to all)"
+        },
+        "correlation_id": {
+          "type": "string",
+          "optional": false,
+          "description": "UUID to correlate related messages"
+        },
+        "payload": {
+          "type": "object",
+          "optional": false,
+          "description": "Message-specific payload"
+        },
+        "timestamp": {
+          "type": "string",
+          "optional": false,
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the message"
+        }
+      },
+      "name": "AgentBusMessage"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "status": {
+        "type": "string",
+        "optional": false,
+        "enum": ["accepted", "rejected"]
+      },
+      "message_id": {
+        "type": "string",
+        "optional": true
+      },
+      "event": {
+        "type": "string",
+        "optional": true,
+        "description": "Event type for response (e.g. LOCK_GRANTED, LOCK_CONFLICT)"
+      },
+      "payload": {
+        "type": "object",
+        "optional": true,
+        "description": "Response-specific payload"
+      },
+      "error": {
+        "type": "object",
+        "optional": true,
+        "description": "Error object if status is rejected"
+      }
+    },
+    "name": "AgentBusMessageResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 409,
+      "code": "LOCK_CONFLICT"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

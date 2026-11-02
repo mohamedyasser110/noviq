@@ -1,0 +1,31 @@
+# Uploaded to Railway from this directory — keep the payload small.
+# NOTE: the Dockerfile, .dockerignore and docker-entrypoint.sh MUST stay —
+# Railway builds the image remotely from this uploaded context.
+node_modules
+data
+uploads/*
+tests
+# NOTE: scripts/ must stay. routes/admin.js requires ../scripts/backup and
+# ../scripts/restore to serve the backup endpoints, and .railwayignore
+# governs what `railway up` UPLOADS — so excluding scripts/ here means the
+# files never reach the build at all, and the image boots without them.
+# Throwaway helpers are dropped individually instead.
+scripts/_*
+scripts/snapshot-db.js
+scripts/verify-*.js
+scripts/diagnose-*.js
+scripts/measure-*.js
+scripts/audit-*.js
+scripts/push-*.js
+scripts/raise-*.js
+scripts/dump-*.js
+scripts/backup
+scripts/restore
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.git
+.gitignore
+.env
+.env.local

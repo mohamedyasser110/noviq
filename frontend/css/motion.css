@@ -1,0 +1,161 @@
+/* ============================================================
+   MOTION — scroll reveals, text split, HUD nav, magnetic wrapper
+   ============================================================ */
+
+/* GPU layer promotion for animated elements */
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale,
+[data-parallax],
+[data-tilt],
+.noviq-glow-blob,
+.noviq-stat,
+.noviq-stack-chip,
+.noviq-project-card {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ---- Base reveal ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px) scale(0.98);
+  transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth);
+  will-change: opacity, transform;
+}
+.reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+.reveal-left {
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0; transform: translateX(50px);
+  transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-scale {
+  opacity: 0; transform: scale(0.85);
+  transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* ---- Text Split Reveal ---- */
+.text-split-reveal { overflow: hidden; display: inline-block; }
+.text-split-reveal .char {
+  display: inline-block;
+  opacity: 0; transform: translateY(60px) rotateX(-40deg);
+  transition: opacity 0.6s var(--ease-smooth), transform 0.6s var(--ease-smooth);
+}
+.text-split-reveal .char.in { opacity: 1; transform: translateY(0) rotateX(0); }
+
+/* ---- Section divider (utility, available for wave/curve transitions between sections) ---- */
+.section-divider {
+  position: relative; height: 80px; overflow: hidden; margin-top: -1px;
+  pointer-events: none;
+}
+.section-divider svg {
+  position: absolute; bottom: 0; width: 100%; height: 100%;
+  fill: var(--surface);
+}
+
+/* ---- Magnetic button wrapper ---- */
+.noviq-magnetic {
+  display: inline-flex;
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+/* ---- Futuristic HUD Progress Indicator ---- */
+.noviq-hud {
+  position: fixed; left: 24px; top: 50%; transform: translateY(-50%);
+  z-index: 999; pointer-events: none;
+  opacity: 0;
+  animation: hudAppear 1s var(--ease-smooth) 1.5s forwards;
+}
+@keyframes hudAppear {
+  from { opacity: 0; transform: translateY(-50%) translateX(-12px); }
+  to { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+.noviq-hud-track {
+  position: relative; width: 2px; height: 280px;
+  background: rgba(42,34,77,0.4);
+  border-radius: 4px; overflow: hidden;
+}
+.noviq-hud-fill {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 0%;
+  background: linear-gradient(180deg, var(--secondary), var(--accent), var(--accent-2));
+  border-radius: 4px;
+  transition: height 0.2s var(--ease-smooth);
+  box-shadow: 0 0 16px rgba(139,92,246,0.3), inset 0 0 8px rgba(168,85,247,0.2);
+}
+.noviq-hud-orb {
+  position: absolute; left: 50%; width: 10px; height: 10px;
+  margin-left: -4px; margin-top: -5px;
+  border-radius: 50%;
+  background: var(--secondary);
+  box-shadow: 0 0 20px rgba(139,92,246,0.7), 0 0 60px rgba(139,92,246,0.2);
+  transition: top 0.2s var(--ease-smooth);
+}
+.noviq-hud-orb::before {
+  content: ''; position: absolute; inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(139,92,246,0.2);
+  animation: hudPulse 2s ease-in-out infinite;
+}
+.noviq-hud-orb::after {
+  content: ''; position: absolute; inset: -14px;
+  border-radius: 50%;
+  border: 1px solid rgba(139,92,246,0.08);
+  animation: hudPulse 2s ease-in-out 0.5s infinite;
+}
+@keyframes hudPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.4; }
+}
+.noviq-hud-nodes {
+  position: absolute; left: 50%; top: 0;
+  height: 100%; transform: translateX(-50%);
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.noviq-hud-node {
+  width: 8px; height: 8px; margin-left: -3px;
+  border-radius: 50%;
+  background: rgba(42,34,77,0.6);
+  border: 1.5px solid rgba(42,34,77,0.8);
+  transition: all 0.5s var(--ease-smooth);
+  cursor: pointer; pointer-events: auto; position: relative;
+}
+.noviq-hud-node::before {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid transparent;
+  transition: border-color 0.5s;
+}
+.noviq-hud-node.active {
+  background: var(--secondary);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(139,92,246,0.5), 0 0 40px rgba(139,92,246,0.15);
+}
+.noviq-hud-node.active::before { border-color: rgba(139,92,246,0.2); }
+.noviq-hud-node .hud-label {
+  position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-body); font-weight: 500; font-size: 10px;
+  color: var(--text-secondary); letter-spacing: 0.06em;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 0.35s, transform 0.35s var(--ease-smooth);
+  pointer-events: none;
+  text-transform: uppercase;
+}
+.noviq-hud-node:hover .hud-label,
+.noviq-hud-node.active .hud-label { opacity: 1; color: var(--text); }
+.noviq-hud-node:hover { border-color: rgba(139,92,246,0.4); }
+
+@media (max-width: 1150px) {
+  .noviq-hud { display: none; }
+}

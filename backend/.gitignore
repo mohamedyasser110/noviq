@@ -1,0 +1,5 @@
+node_modules/
+data/noviq.db
+data/noviq.db-wal
+data/noviq.db-shm
+.env

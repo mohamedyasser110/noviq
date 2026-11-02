@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "name": "ratelimits.update",
+  "summary": "Update rate limit configuration (auth: admin JWT)",
+  "method": "PUT",
+  "path": "/api/admin/rate-limits",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": {
+      "type": "object",
+      "fields": {
+        "limits": {
+          "type": "object",
+          "optional": true,
+          "fields": {}
+        }
+      },
+      "name": "RateLimitsBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "ok": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "RateLimitsUpdateResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

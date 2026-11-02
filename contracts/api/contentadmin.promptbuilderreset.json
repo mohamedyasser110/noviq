@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "contentadmin.promptbuilderreset",
+  "summary": "Restore prompt builder defaults, bumps revision (auth: admin JWT)",
+  "method": "POST",
+  "path": "/api/admin/content/promptBuilder/reset",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "key": {
+        "type": "string",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "fileWritten": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "PromptBuilderResetResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

@@ -1,0 +1,363 @@
+/* ============================================================
+   HERO CAPABILITY PANEL
+   ------------------------------------------------------------
+   Port of the 21st.dev component "Feature Grid Spotlight Cards"
+   (id 26797, @hirael — MIT, https://github.com/MohammadShehadeh/hirael)
+   from React + Tailwind + shadcn to plain DOM on tokens.css.
+
+   Structure kept from the original:
+     - corner crosshair survey marks, half outside the card edge
+     - hairline dividers that overhang the card on all four sides
+     - pointer-following radial spotlight, fading in on hover
+     - icon tile + title + one-line description per card
+     - a <ul> of cards (2 columns; the original is 3, but the hero
+       slot is a narrow 0.85fr column where 3 columns is unreadable)
+
+   What changed vs. the original and why:
+   1. LAYOUT 3 -> 2 COLUMNS. Reason above.
+   2. LOGICAL PROPERTIES throughout. The original positions the
+      crosshairs with `start-0 ltr:-translate-x-1/2 rtl:translate-x-1/2`
+      utility pairs; here the crosshair anchors to `inset-inline-start`
+      and a single RTL override flips the sign. Same behaviour, and the
+      card hairlines use `inset-inline-start/end` so they mirror too.
+   3. NO `transform` ON `.noviq-cap`. The hero entrance and the ±6deg
+      mouse tilt are both owned by GSAP (pro.js heroEntrance/heroTilt).
+      Adding a CSS transform animation here would recreate the "two
+      systems fight over transform" bug. The spotlight animates
+      `opacity` only; --mx/--my are plain custom properties.
+   4. The original's `bg-[radial-gradient(50%_80%_at_25%_0%,var(--warm-glow))]`
+      card tint is dropped — the container already carries the tri-glow
+      (theme-simple.css .noviq-hero-3d::before), and stacking a second
+      tinted wash on the card made the hairlines disappear.
+   5. `bg-muted/20` icon tile -> color-mix on --primary, so the tile
+      reads as brand rather than neutral grey.
+   6. font-serif heading -> var(--font-display) (no serif in the stack).
+
+   Previous version of this file was a port of 21st id 18996
+   ("Skill Level Meters"); those meter rules are gone.
+
+   Depends on: tokens.css. Owns no JS.
+   ============================================================ */
+
+/* `section[id]` in sections.css:5 sets padding: var(--section-pad-y)
+   var(--section-pad-x) on EVERY <section>, and its specificity (0,1,1)
+   beats a bare class (0,1,0) — so this panel was inheriting 88px of
+   vertical padding (176px of its 456px height was empty space). The
+   doubled class lifts this to (0,2,0) without an !important and without
+   depending on stylesheet load order. */
+.noviq-cap.noviq-cap {
+  padding: 0;
+}
+.noviq-cap {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  /* TRI-COLOR HALO — this is where the container's ::before tri-wash went
+     once the panel became the frame. A wash painted behind an opaque panel
+     was invisible except as a misaligned fringe. Layering three tinted
+     offsets instead puts the orange/purple/blue overlap OUTSIDE the edge,
+     where it actually reads: orange low-inline-start, blue low-inline-end,
+     purple over the top. Keep the spread negative so the halo stays a soft
+     aura rather than a coloured slab, and keep var(--shadow-md) first so the
+     neutral elevation survives forced-colors. */
+  box-shadow:
+    var(--shadow-md),
+    -16px 20px 34px -20px color-mix(in srgb, var(--primary) 60%, transparent),
+     16px 20px 34px -20px color-mix(in srgb, var(--secondary) 50%, transparent),
+      0 -14px 32px -18px color-mix(in srgb, var(--accent) 45%, transparent);
+  overflow: hidden;
+  text-align: start;
+}
+
+/* ---- Window chrome: keeps the familiar frame from the very first hero ---- */
+.noviq-cap__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.noviq-cap__bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+  display: block;
+}
+.noviq-cap__bar i:first-child { background: var(--primary); }
+
+/* ---- Header: eyebrow + title, with an availability status ---- */
+.noviq-cap__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 16px 13px;
+}
+.noviq-cap__eyebrow {
+  display: block;
+  font: 600 var(--fs-eyebrow) / 1.2 var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.noviq-cap__title {
+  display: block;
+  margin: 4px 0 0;
+  font: 600 var(--fs-body-md) / 1.3 var(--font-display);
+  color: var(--text);
+}
+.noviq-cap__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  font: 500 var(--fs-caption) / 1 var(--font-body);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.noviq-cap__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: noviqCapPulse calc(var(--dur-slow) * 2.4) var(--ease-in-out) infinite;
+}
+@keyframes noviqCapPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* ============================================================
+   CARD GRID — hairline survey-grid look
+   The hairlines overhang the card edge (negative inset on the
+   axis) and the grid gap is exactly 2x that, so adjacent cards'
+   lines meet and read as one continuous drafting grid.
+   ============================================================ */
+.noviq-cap__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0 16px 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  /* the overhang the hairlines share */
+  --ov: 7px;
+}
+
+.noviq-cap__card {
+  position: relative;
+  display: flex;
+  /* Icon sits BESIDE the title, not above it. Stacked, the 30px icon row
+     plus its gap was charged to all three grid rows and made the panel
+     597px tall inside a 340px hero slot. */
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  margin: calc(var(--ov) * -1) 0;
+  background: var(--card);
+  isolation: isolate;
+}
+.noviq-cap__text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0; /* long words in a 2-col grid must shrink, not overflow */
+}
+
+/* ---- Hairline dividers: one per side, overhanging the neighbours ---- */
+.noviq-cap__card::before,
+.noviq-cap__card::after {
+  content: '';
+  position: absolute;
+  background: var(--border);
+  pointer-events: none;
+  z-index: 1;
+}
+/* the two vertical rules (inline-start / inline-end) */
+.noviq-cap__card::before {
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 1px;
+}
+/* the two horizontal rules, painted by the same pseudo on the sibling
+   edge via box-shadow so we do not need a 3rd/4th pseudo-element */
+.noviq-cap__card::after {
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  box-shadow: 0 calc(100% + var(--ov) * 2) 0 var(--border);
+}
+
+/* ---- Pointer spotlight: --mx/--my are written by buildHeroCapability ---- */
+.noviq-cap__spot {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out);
+  background: radial-gradient(
+    circle 200px at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--primary) 14%, transparent),
+    transparent 70%
+  );
+}
+.noviq-cap__card:hover .noviq-cap__spot,
+.noviq-cap__card:focus-within .noviq-cap__spot { opacity: 1; }
+
+/* ---- Corner crosshairs: half outside the card edge ---- */
+.noviq-cap__cross {
+  position: absolute;
+  z-index: 3;
+  width: 14px;
+  height: 14px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+  transition: color 0.3s var(--ease-out);
+}
+.noviq-cap__cross--tl {
+  inset-inline-start: 0;
+  top: 0;
+  /* logical edge -> the sign of the X translate must mirror in RTL */
+  transform: translate(-50%, -50%);
+}
+.noviq-cap__cross--br {
+  inset-inline-end: 0;
+  bottom: 0;
+  transform: translate(50%, 50%);
+}
+html[dir='rtl'] .noviq-cap__cross--tl { transform: translate(50%, -50%); }
+html[dir='rtl'] .noviq-cap__cross--br { transform: translate(-50%, 50%); }
+.noviq-cap__card:hover .noviq-cap__cross { color: var(--primary); }
+
+/* ---- Icon tile ---- */
+.noviq-cap__icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+.noviq-cap__icon svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.5;
+  color: var(--primary-strong);
+  transition: color 0.3s var(--ease-out);
+}
+.noviq-cap__card:hover .noviq-cap__icon {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  background: color-mix(in srgb, var(--primary) 11%, transparent);
+}
+.noviq-cap__card:hover .noviq-cap__icon svg { color: var(--primary); }
+
+/* ---- Card copy ---- */
+.noviq-cap__cardtitle {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font: 600 var(--fs-body-sm) / 1.3 var(--font-display);
+  color: var(--text);
+}
+/* Kept for when a card is given a `desc` again — see the note in
+   buildHeroCapability(). Currently no card sets one, so this is inert. */
+.noviq-cap__carddesc {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font: 400 var(--fs-caption) / 1.45 var(--font-body);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+/* ---- Footer note ---- */
+.noviq-cap__foot {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 11px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font: 500 var(--fs-caption) / 1.3 var(--font-body);
+  color: var(--text-tertiary);
+}
+.noviq-cap__foot i,
+.noviq-cap__foot svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  color: var(--primary);
+}
+
+/* ---- Entrance ----
+   Intentionally NOT animated here. The hero entrance and the mouse
+   tilt are owned by gsap in js/engine/pro.js (heroEntrance + heroTilt
+   both target .noviq-cap and both write `transform`). Declaring a CSS
+   transform animation on this element too would put two systems on the
+   same property — the same "two things fight over transform" class of
+   bug the old .noviq-hero-mock had with polish.js and pro.js both
+   running initMagnetic(). GSAP's entrance already honours
+   prefers-reduced-motion and low-tier via its own guards. */
+
+@media (prefers-reduced-motion: reduce) {
+  .noviq-cap__dot { animation: none !important; opacity: 1; }
+  .noviq-cap__spot,
+  .noviq-cap__icon,
+  .noviq-cap__icon svg,
+  .noviq-cap__cross { transition: none !important; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .noviq-cap { max-width: 400px; }
+}
+@media (max-width: 900px) {
+  .noviq-cap { max-width: 560px; }
+}
+/* Narrow column: 2 cols of cards + 3 lines of copy is too tight —
+   drop to a single column and let the panel grow. */
+@media (max-width: 560px) {
+  .noviq-cap__grid { grid-template-columns: minmax(0, 1fr); }
+  .noviq-cap__head { flex-direction: column; gap: 10px; }
+  .noviq-cap__card { padding: 15px 16px 17px; }
+  /* the grid-line effect only makes sense with >= 2 columns */
+  .noviq-cap__card::after { box-shadow: none; }
+}
+
+/* ============================================================
+   FORCED COLORS — hairlines and the survey grid must survive
+   when the OS overrides the brand palette.
+   ============================================================ */
+@media (forced-colors: active) {
+  .noviq-cap,
+  .noviq-cap__bar,
+  .noviq-cap__foot { border-color: CanvasText; }
+  .noviq-cap__card::before,
+  .noviq-cap__card::after { background: CanvasText; }
+  .noviq-cap__card::after { box-shadow: 0 calc(100% + var(--ov) * 2) 0 CanvasText; }
+  .noviq-cap__icon { border-color: CanvasText; }
+  .noviq-cap__icon svg { color: CanvasText; }
+  .noviq-cap__cross { color: GrayText; }
+  .noviq-cap__dot { background: Highlight; }
+}

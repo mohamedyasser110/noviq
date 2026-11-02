@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.npm/
+.npm/*cache
+
+# Build Output
+.next/
+# Scratch dist dirs used when isolating a build (NEXT_DIST_DIR)
+.next-verify/
+.next-ab/
+.next-build/
+.next-run/
+.next-v2/
+out/
+.dist/
+*.tsbuildinfo
+
+# Compiled output of the nav unit test (npm run test:nav)
+.navtest-out/
+
+# Environment Variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.swp
+*.swo
+
+# Playwright
+test-results/
+playwright-report/
+
+# Temp files from static build process (if running server.js)
+*.tmp

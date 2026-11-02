@@ -1,0 +1,21 @@
+{
+  "resource": "api-endpoints",
+  "version": 1,
+  "etag": "seed-v1-endpoints",
+  "schema": {
+    "type": "array",
+    "description": "API endpoints exposed by the backend. Auto-synced from contracts/api/*.json.",
+    "items": {
+      "type": "object",
+      "properties": {
+        "path": { "type": "string" },
+        "method": { "type": "string", "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"] },
+        "contract": { "type": "string", "description": "Path to the contract JSON file" },
+        "requires_auth": { "type": "boolean", "default": false },
+        "team": { "type": "string", "description": "Owning team: frontend|backend|fullstack" }
+      },
+      "required": ["path", "method", "contract"]
+    }
+  },
+  "updated_at": "2026-09-26T00:00:00.000Z"
+}

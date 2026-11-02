@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "name": "agent-bus.lock",
+  "summary": "Acquire or release a file lock for collaborative agent editing (auth: none)",
+  "method": "POST",
+  "path": "/api/agent-bus/lock",
+  "request": {
+    "query": {},
+    "params": {
+      "action": {
+        "type": "string",
+        "optional": false,
+        "enum": ["acquire", "release", "renew", "status"]
+      }
+    },
+    "body": {
+      "type": "object",
+      "fields": {
+        "file": {
+          "type": "string",
+          "optional": false,
+          "description": "File path relative to project root"
+        },
+        "agent": {
+          "type": "string",
+          "optional": false,
+          "description": "Agent requesting the lock"
+        },
+        "lock_type": {
+          "type": "string",
+          "optional": false,
+          "enum": ["shared", "exclusive"]
+        },
+        "ttl_seconds": {
+          "type": "integer",
+          "optional": true,
+          "default": 60,
+          "description": "Time-to-live in seconds before lock auto-expires"
+        },
+        "reason": {
+          "type": "string",
+          "optional": true,
+          "description": "Human-readable reason for the lock"
+        },
+        "lock_token": {
+          "type": "string",
+          "optional": true,
+          "description": "Required when releasing or renewing"
+        }
+      },
+      "name": "AgentBusLockRequest"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "status": {
+        "type": "string",
+        "optional": false,
+        "enum": ["granted", "released", "renewed", "conflict", "error"]
+      },
+      "lock_token": {
+        "type": "string",
+        "optional": true,
+        "description": "Token to use for releasing/renewing the lock"
+      },
+      "expires_at": {
+        "type": "string",
+        "optional": true,
+        "format": "date-time"
+      },
+      "locked_by": {
+        "type": "string",
+        "optional": true,
+        "description": "Agent currently holding the lock (on conflict)"
+      },
+      "wait_suggestion": {
+        "type": "integer",
+        "optional": true,
+        "description": "Seconds suggested to wait before retry"
+      }
+    },
+    "name": "AgentBusLockResponse"
+  },
+  "errors": [
+    {
+      "status": 409,
+      "code": "LOCK_CONFLICT"
+    },
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 403,
+      "code": "INVALID_TOKEN"
+    }
+  ]
+}

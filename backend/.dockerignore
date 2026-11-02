@@ -1,0 +1,26 @@
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.git
+.gitignore
+.env
+.env.local
+# The whole data/ tree is runtime-only: the SQLite file lives on the
+# persistent volume, not in the image.
+data
+uploads/*
+!uploads/.gitkeep
+tests
+# NOTE: scripts/ is deliberately NOT ignored. routes/admin.js does
+# `require('../scripts/backup')` and `require('../scripts/restore')` at
+# module load to serve GET /admin/backup and POST /admin/backup/restore.
+# Excluding this directory made the image boot-crash with MODULE_NOT_FOUND
+# on the very first request of that route — and because the require is at
+# the top of the router, it takes the whole API down, not just the page.
+# Individual throwaway scripts are excluded below instead; backup.js,
+# restore.js and sync-i18n-seed.js must ship.
+scripts/_*
+# NOTE: .agent-system is deliberately NOT ignored — app.js does
+# `require('./.agent-system/message-bus')` at startup, so excluding it
+# makes the container crash on boot.

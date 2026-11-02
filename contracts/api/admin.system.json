@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "name": "admin.system",
+  "summary": "System status, uptime, DB size (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/system",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "status": {
+        "type": "string",
+        "optional": false
+      },
+      "uptimeSeconds": {
+        "type": "integer",
+        "optional": false
+      },
+      "databaseBytes": {
+        "type": "integer",
+        "optional": false
+      },
+      "tables": {
+        "type": "integer",
+        "optional": false
+      },
+      "nodeVersion": {
+        "type": "string",
+        "optional": false
+      },
+      "environment": {
+        "type": "string",
+        "optional": false
+      },
+      "checkedAt": {
+        "type": "string",
+        "optional": false,
+        "format": "date-time"
+      }
+    },
+    "name": "SystemResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

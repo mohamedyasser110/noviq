@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 96" role="img" aria-label="Noviq">
+  <defs>
+    <linearGradient id="noviqChrome" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6d28d9" />
+      <stop offset="20%" stop-color="#c4b5fd" />
+      <stop offset="38%" stop-color="#4c1d95" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="62%" stop-color="#a78bfa" />
+      <stop offset="80%" stop-color="#ddd6fe" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="80" height="76" rx="18" fill="#0B0817" />
+  <rect x="11" y="11" width="78" height="74" rx="16" fill="none" stroke="url(#noviqChrome)" stroke-width="1.4" opacity="0.55" />
+  <path d="M 28 73 C 28 45, 30 23, 40 23 C 48 23, 48 63, 58 70 C 66 77, 72 61, 72 27"
+        fill="none" stroke="url(#noviqChrome)" stroke-width="10"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.95" />
+  <path d="M 28 73 C 28 45, 30 23, 40 23 C 48 23, 48 63, 58 70 C 66 77, 72 61, 72 27"
+        fill="none" stroke="#ede9fe" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round" opacity="0.7" />
+</svg>

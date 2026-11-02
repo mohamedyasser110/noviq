@@ -1,0 +1,629 @@
+/* ============================================================
+   NOVIQ SIMPLE THEME — corporate white identity
+   - kills futuristic FX (blobs, mesh, HUD, cursor, intro, neon)
+   - flattens glass → solid corporate cards
+   - explicit light/dark toggle styles
+   ============================================================ */
+
+/* ---- Kill futuristic background FX ---- */
+.liquid-blob,
+.noviq-mesh,
+.noviq-glow-blob,
+.noviq-noise,
+.noviq-hud,
+.noviq-cursor-dot,
+.noviq-cursor-ring,
+.noviq-cursor-trail,
+.noviq-scroll-hint,
+#hero-canvas,
+#intro-canvas {
+  display: none !important;
+}
+
+#noviq-intro-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+body.intro-active { overflow: auto !important; height: auto !important; }
+
+/* Native cursor always (corporate) */
+body.has-custom-cursor, body.has-custom-cursor * { cursor: auto !important; }
+
+/* ---- Navbar: solid corporate ---- */
+.noviq-navbar {
+  background: var(--nav-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border) !important;
+  padding: 14px var(--section-pad-x) !important;
+}
+:root[data-theme="light"] .noviq-navbar { box-shadow: 0 1px 0 rgba(19,16,34,.04); }
+:root[data-theme="dark"] .noviq-navbar { box-shadow: none; }
+
+/* ---- Cards: flat corporate ---- */
+.noviq-glass-card,
+.noviq-service-card,
+.noviq-why-card,
+.noviq-industry-card,
+.noviq-project-card,
+.noviq-card,
+.noviq-contact-form,
+.noviq-auth-card,
+.noviq-testimonial-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+}
+.noviq-glass-card::before,
+.noviq-glass-card::after,
+.noviq-service-card::before,
+.noviq-why-card::before,
+.noviq-project-card::before,
+.noviq-industry-card::before,
+.noviq-card::before,
+.noviq-contact-form::before,
+.noviq-project-card::before {
+  display: none !important;
+}
+.noviq-glass-card:hover,
+.noviq-service-card:hover,
+.noviq-why-card:hover,
+.noviq-industry-card:hover,
+.noviq-project-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border)) !important;
+}
+.noviq-trace::before { display: none !important; }
+
+/* Icon badge: flat */
+.noviq-icon-badge {
+  background: color-mix(in srgb, var(--primary) 10%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent) !important;
+  box-shadow: none !important;
+}
+.noviq-icon-badge::after { display: none !important; }
+.noviq-icon-badge i { color: var(--primary) !important; }
+.noviq-glass-card:hover .noviq-icon-badge { box-shadow: none !important; border-color: var(--primary) !important; }
+
+/* ---- Buttons: solid brand colour with tactile depth (no gradient mixing) ---- */
+.noviq-btn-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: var(--btn-primary-bg) !important;
+  border: 1px solid var(--btn-primary-bg) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--btn-primary-bg) 30%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth), background 0.2s ease, border-color 0.2s ease !important;
+}
+.noviq-btn-primary::after { display: none !important; }
+.noviq-btn-primary:hover {
+  transform: translateY(-2px) !important;
+  background: var(--btn-primary-hover) !important;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--btn-primary-bg) 42%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  border-color: var(--btn-primary-hover) !important;
+}
+.noviq-btn-primary:active {
+  transform: translateY(0) scale(0.98) !important;
+  background: var(--btn-primary-hover) !important;
+  border-color: var(--btn-primary-hover) !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--btn-primary-bg) 30%, transparent) !important;
+}
+.noviq-btn-secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: var(--card) !important;
+  border: 1.5px solid var(--control-border-strong) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  backdrop-filter: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  cursor: pointer !important;
+  transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth), background 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
+}
+.noviq-btn-secondary::after { display: none !important; }
+.noviq-btn-secondary:hover {
+  transform: translateY(-2px) !important;
+  background: var(--surface) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--primary) 12%, transparent) !important;
+  /* 15px label text: --primary is 3.56:1 on white, --primary-strong 5.55:1 */
+  color: var(--primary-strong) !important;
+}
+:root[data-theme="dark"] .noviq-btn-secondary:hover {
+  color: var(--accent-2) !important;
+  border-color: var(--accent-2) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+.noviq-btn-secondary:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+.noviq-ripple { display: none !important; }
+
+/* ---- Hero: corporate, no 3D ---- */
+#home { min-height: auto !important; padding: 132px var(--section-pad-x) 64px !important; }
+.noviq-hero-grid { grid-template-columns: 1.15fr 0.85fr !important; }
+.noviq-hero-3d {
+  height: auto !important;
+  min-height: 0;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  /* The capability panel (.noviq-cap) IS the frame now — it carries its
+     own window chrome, hairline, radius and shadow. Leaving the container
+     bordered too produced a border-inside-a-border with ~100px of dead
+     space above and below the centred panel. The container is now just the
+     positioning box; the tri-glow ::before below still tints behind it. */
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+  overflow: visible;
+  display: flex; align-items: center; justify-content: center;
+}
+/* corporate hero visual fallback (pure CSS) */
+.noviq-hero-3d::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, transparent 55%, color-mix(in srgb, #EA580C 10%, transparent)),
+    radial-gradient(circle at 70% 20%, color-mix(in srgb, #EA580C 16%, transparent), transparent 55%),
+    radial-gradient(circle at 20% 85%, color-mix(in srgb, #2563EB 14%, transparent), transparent 55%);
+  pointer-events: none;
+}
+.noviq-hero-3d::after {
+  content: 'Trusted enterprise software — AI · ERP · CRM · Cloud';
+  position: relative;
+  max-width: 70%;
+  text-align: center;
+  font: 600 14px/1.7 var(--font-body);
+  color: var(--text-secondary);
+  border: 1px dashed color-mix(in srgb, var(--primary) 35%, var(--border));
+  background: var(--card);
+  border-radius: 12px;
+  padding: 22px 20px;
+}
+.noviq-hero-badge {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  /* 13.5px text needs 4.5:1; --primary only reaches 3.56:1 here */
+  color: var(--primary-strong) !important;
+  font-size: 13.5px !important;
+}
+.noviq-hero-title .gradient {
+  background: var(--primary) !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+  color: var(--primary) !important;
+  animation: none !important;
+}
+.noviq-section-header h2 {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: var(--text) !important;
+}
+.noviq-section-header .eyebrow {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  /* 13px text needs 4.5:1; --primary only reaches 3.56:1 here */
+  color: var(--primary-strong) !important;
+}
+.noviq-stat-number {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: var(--text) !important;
+}
+.noviq-stat-number span, .noviq-stat-number { color: var(--text) !important; }
+
+/* section glow separators → hairlines */
+.noviq-section-purple::before,
+.noviq-section-teal::before,
+.noviq-section-glow::before,
+.noviq-stats::before,
+.noviq-footer::before,
+#home::after { display: none !important; }
+/* PURE WHITE corporate base — explicit #FFFFFF in light, dark untouched */
+:root[data-theme="light"] .noviq-stats,
+:root[data-theme="light"] #testimonials,
+:root[data-theme="light"] #contact,
+:root[data-theme="light"] .noviq-footer,
+:root[data-theme="light"] #home,
+:root[data-theme="light"] body { background: #FFFFFF !important; }
+.noviq-stats { background: var(--surface); }
+#testimonials, #contact { background: var(--surface) !important; }
+
+/* stack chips: static */
+.noviq-stack-chip { animation: none !important; background: var(--surface) !important; }
+.noviq-stack-chip::after { display: none !important; }
+.noviq-stack-chip:hover { box-shadow: var(--shadow-sm) !important; background: var(--card) !important; }
+
+/* timeline: calm */
+.noviq-timeline-icon { box-shadow: none !important; background: var(--primary) !important; }
+.noviq-timeline-icon::after { display: none !important; }
+.noviq-timeline-item:hover .noviq-timeline-icon { transform: none !important; box-shadow: none !important; }
+
+/* ---- Inputs, textareas, selects: clean, modern, high-contrast ---- */
+.noviq-input,
+.noviq-textarea,
+.noviq-select,
+.noviq-auth-field .noviq-input {
+  background: var(--card) !important;
+  border: 1.5px solid var(--control-border-strong) !important;
+  border-radius: 12px !important;
+  color: var(--text) !important;
+  font-family: var(--font-body) !important;
+  font-size: 14.5px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  transition: border-color 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth), background 0.2s ease !important;
+  caret-color: var(--primary) !important;
+}
+.noviq-input:hover,
+.noviq-textarea:hover,
+.noviq-select:hover,
+.noviq-auth-field .noviq-input:hover {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--control-border-strong)) !important;
+}
+.noviq-input:focus,
+.noviq-textarea:focus,
+.noviq-select:focus,
+.noviq-auth-field .noviq-input:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3.5px color-mix(in srgb, var(--primary) 22%, transparent), 0 2px 8px color-mix(in srgb, var(--primary) 8%, transparent) !important;
+  background: var(--card) !important;
+  outline: none !important;
+}
+.noviq-input.error,
+.noviq-textarea.error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3.5px color-mix(in srgb, var(--danger) 18%, transparent) !important;
+}
+.noviq-input.success {
+  border-color: var(--success) !important;
+  box-shadow: 0 0 0 3.5px color-mix(in srgb, var(--success) 18%, transparent) !important;
+}
+
+/* Header search: modern pill */
+.noviq-header-search {
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  /* 190 -> 140: the navbar was at EXACTLY 100% of its 1056px content box
+     (83 logo + 593 nav + 380 actions), which left space-between nowhere to
+     put a gap — logo and nav rendered flush, reading as one word. Trimming
+     50px here is what pays for the inter-group spacing. */
+  width: 140px !important;
+  height: 36px !important;
+  transition: width 0.3s var(--ease-smooth) !important;
+}
+.noviq-header-search::before { display: none !important; }
+/* No grow-on-focus. It used to jump to 250px, and because .noviq-nav-actions
+   is flex-shrink:0 the extra 60px could only be taken out of the logo and the
+   nav — so focusing the search compressed the nav links (and, now that they
+   are white-space:nowrap, would have overlapped the logo instead). Focus is
+   already communicated by the ring on the input, and removing the growth also
+   removes a focus-triggered layout shift. */
+.noviq-header-search:focus-within {
+  width: 140px !important;
+}
+.noviq-header-search .noviq-search-input {
+  width: 100% !important;
+  height: 36px !important;
+  background: var(--control-bg) !important;
+  border: 1px solid var(--control-border) !important;
+  border-radius: 999px !important;
+  padding: 0 14px 0 36px !important;
+  font-size: 13.5px !important;
+  color: var(--text) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: all 0.25s var(--ease-smooth) !important;
+}
+html[dir='rtl'] .noviq-header-search .noviq-search-input {
+  padding: 0 36px 0 14px !important;
+}
+.noviq-header-search .noviq-search-input:hover {
+  background: var(--control-bg-hover) !important;
+  border-color: var(--control-border-strong) !important;
+}
+.noviq-header-search .noviq-search-input:focus {
+  background: var(--card) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent) !important;
+}
+.noviq-header-search .noviq-search-icon {
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 15px !important;
+  height: 15px !important;
+  color: var(--text-tertiary) !important;
+  pointer-events: none !important;
+}
+html[dir='rtl'] .noviq-header-search .noviq-search-icon {
+  left: auto !important;
+  right: 12px !important;
+}
+
+/* Newsletter box: elegant pill */
+.noviq-newsletter-box {
+  display: flex !important;
+  align-items: center !important;
+  background: var(--card) !important;
+  border: 1.5px solid var(--control-border-strong) !important;
+  border-radius: 999px !important;
+  padding: 4px 4px 4px 14px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transition: border-color 0.25s, box-shadow 0.25s !important;
+}
+html[dir='rtl'] .noviq-newsletter-box {
+  padding: 4px 14px 4px 4px !important;
+}
+.noviq-newsletter-box:focus-within {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3.5px color-mix(in srgb, var(--primary) 20%, transparent) !important;
+}
+.noviq-newsletter-input {
+  flex: 1 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--text) !important;
+  font-size: 13.5px !important;
+  outline: none !important;
+  padding: 8px 6px !important;
+}
+.noviq-newsletter-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 30%, transparent) !important;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s !important;
+}
+.noviq-newsletter-btn:hover {
+  transform: scale(1.06) !important;
+  background: var(--primary-strong) !important;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 45%, transparent) !important;
+}
+.noviq-newsletter-btn:active {
+  transform: scale(0.96) !important;
+}
+
+/* Navbar actions harmonization */
+.noviq-nav-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.noviq-language-toggle,
+.noviq-login-icon {
+  height: 38px !important;
+  min-height: 38px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--control-bg) !important;
+  border: 1px solid var(--control-border) !important;
+  color: var(--text-secondary) !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s var(--ease-smooth) !important;
+}
+.noviq-language-toggle {
+  padding: 0 14px !important;
+  gap: 8px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+}
+.noviq-login-icon {
+  width: 38px !important;
+  min-width: 38px !important;
+  padding: 0 !important;
+}
+.noviq-language-toggle .lang-globe,
+.noviq-login-icon [data-lucide] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.3s var(--ease-bounce) !important;
+}
+.noviq-language-toggle:hover .lang-globe {
+  transform: rotate(15deg) scale(1.1) !important;
+}
+.noviq-language-toggle:hover,
+.noviq-login-icon:hover {
+  background: var(--control-bg-hover) !important;
+  color: var(--text) !important;
+  border-color: var(--control-border-strong) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 15%, transparent) !important;
+}
+.noviq-language-toggle:active,
+.noviq-login-icon:active {
+  transform: scale(0.96) !important;
+}
+.noviq-language-toggle:focus-visible,
+.noviq-login-icon:focus-visible {
+  outline: none !important;
+  box-shadow: var(--ring), 0 0 0 1px var(--primary) !important;
+}
+.noviq-lang-code {
+  font-family: 'Cairo', var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+html[dir="rtl"] .noviq-lang-code {
+  font-family: 'Cairo', var(--font-display) !important;
+}
+
+/* footer */
+.noviq-footer { background: var(--surface) !important; }
+
+/* hide crystal remnants if any */
+.noviq-crystal-toggle, .noviq-theme-panel, .crystal-scene, .crystal-gem, .crystal-aura { display: none !important; }
+
+/* ---- Modern Pill Theme Toggle ---- */
+.noviq-theme-simple-toggle {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 66px !important;
+  height: 36px !important;
+  padding: 3px !important;
+  border-radius: 999px !important;
+  background: var(--control-bg) !important;
+  border: 1px solid var(--control-border) !important;
+  cursor: pointer !important;
+  outline: none !important;
+  user-select: none !important;
+  transition: background 0.3s var(--ease-smooth), border-color 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth), transform 0.15s !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  flex-shrink: 0 !important;
+}
+.noviq-theme-simple-toggle:hover {
+  background: var(--control-bg-hover) !important;
+  border-color: var(--control-border-strong) !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 10%, transparent) !important;
+}
+.noviq-theme-simple-toggle:active {
+  transform: scale(0.96) !important;
+}
+.noviq-theme-simple-toggle:focus-visible {
+  box-shadow: var(--ring) !important;
+}
+
+/* Sliding thumb */
+.noviq-toggle-thumb {
+  position: absolute !important;
+  top: 3px !important;
+  left: 3px !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 2px 6px rgba(19, 16, 34, 0.16), 0 1px 2px rgba(19, 16, 34, 0.08) !important;
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+:root[data-theme="dark"] .noviq-toggle-thumb {
+  transform: translateX(30px) !important;
+  background: #231A47 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 12px rgba(139, 92, 246, 0.4) !important;
+}
+
+/* RTL translation for thumb */
+html[dir="rtl"] .noviq-toggle-thumb {
+  left: auto !important;
+  right: 3px !important;
+}
+/* The html element IS :root, so `html[dir] :root` can never match (:root is
+   not a descendant of html). Combine the attributes on one element instead. */
+html[dir="rtl"][data-theme="dark"] .noviq-toggle-thumb {
+  transform: translateX(-30px) !important;
+}
+
+/* Icon slots */
+.noviq-toggle-slot {
+  position: relative !important;
+  z-index: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  pointer-events: none !important;
+  transition: color 0.3s ease, opacity 0.3s ease !important;
+}
+.noviq-toggle-slot svg {
+  width: 15.5px !important;
+  height: 15.5px !important;
+  display: block !important;
+  transition: transform 0.35s var(--ease-smooth), stroke 0.3s ease !important;
+}
+
+/* Light mode icon states */
+.noviq-theme-simple-toggle .slot-sun {
+  color: #D97706 !important;
+  opacity: 1 !important;
+}
+.noviq-theme-simple-toggle .slot-sun svg {
+  stroke: #D97706 !important;
+  transform: scale(1.05) rotate(0deg) !important;
+}
+.noviq-theme-simple-toggle .slot-moon {
+  color: var(--text-tertiary) !important;
+  opacity: 0.45 !important;
+}
+.noviq-theme-simple-toggle .slot-moon svg {
+  stroke: var(--text-tertiary) !important;
+  transform: scale(0.85) !important;
+}
+
+/* Dark mode icon states */
+:root[data-theme="dark"] .noviq-theme-simple-toggle .slot-sun {
+  color: var(--text-tertiary) !important;
+  opacity: 0.4 !important;
+}
+:root[data-theme="dark"] .noviq-theme-simple-toggle .slot-sun svg {
+  stroke: var(--text-tertiary) !important;
+  transform: scale(0.85) rotate(-25deg) !important;
+}
+:root[data-theme="dark"] .noviq-theme-simple-toggle .slot-moon {
+  color: var(--accent-2) !important;
+  opacity: 1 !important;
+}
+:root[data-theme="dark"] .noviq-theme-simple-toggle .slot-moon svg {
+  stroke: var(--accent-2) !important;
+  transform: scale(1.05) rotate(0deg) !important;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent-2) 55%, transparent)) !important;
+}
+
+/* motion: single calm reveal */
+.reveal, .reveal-left, .reveal-right, .reveal-scale {
+  transition-duration: .6s !important;
+}
+.reveal { transform: translateY(20px) !important; }
+.reveal.visible { transform: translateY(0) !important; }
+.reveal-left, .reveal-right, .reveal-scale { transform: translateY(20px) !important; }
+.reveal-left.visible, .reveal-right.visible, .reveal-scale.visible { transform: translateY(0) !important; }
+.text-split-reveal .char { transform: none !important; opacity: 1 !important; }
+[data-parallax], [data-tilt] { transform: none !important; }
+.noviq-magnetic { transform: none !important; }

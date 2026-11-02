@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "name": "contentadmin.updatearray",
+  "summary": "Append or replace one array item (auth: admin JWT)",
+  "method": "PUT",
+  "path": "/api/admin/content/{key}/array",
+  "request": {
+    "query": {},
+    "params": {
+      "key": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": {
+      "type": "object",
+      "fields": {
+        "index": {
+          "type": "integer",
+          "optional": true
+        }
+      },
+      "name": "ContentArrayBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "key": {
+        "type": "string",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "fileWritten": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "ContentArrayUpdateResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

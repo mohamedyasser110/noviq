@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "name": "todos.list",
+  "summary": "List todos with an optional status filter",
+  "method": "GET",
+  "path": "/api/todos",
+  "request": {
+    "query": {
+      "status": { "type": "string", "enum": ["pending", "done"], "optional": true },
+      "limit":  { "type": "integer", "optional": true, "default": 50 }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "name": "TodosListResponse",
+    "fields": {
+      "items": {
+        "type": "array",
+        "of": {
+          "type": "object",
+          "fields": {
+            "id": { "type": "string" },
+            "title": { "type": "string" },
+            "status": { "type": "string", "enum": ["pending", "done"] },
+            "createdAt": { "type": "string", "format": "date-time" }
+          }
+        }
+      },
+      "total": { "type": "integer" }
+    }
+  },
+  "errors": [
+    { "status": 400, "code": "VALIDATION_ERROR" },
+    { "status": 500, "code": "INTERNAL_ERROR" }
+  ]
+}

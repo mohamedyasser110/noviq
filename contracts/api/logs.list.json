@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "logs.list",
+  "summary": "Recent system log entries (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/logs",
+  "request": {
+    "query": {
+      "limit": {
+        "type": "integer",
+        "optional": true
+      }
+    },
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "rows": {
+        "type": "array",
+        "optional": false
+      }
+    },
+    "name": "LogsResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

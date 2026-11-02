@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "content.brand",
+  "summary": "Public site content slice brand (auth: none)",
+  "method": "GET",
+  "path": "/api/content/brand",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "value": {
+        "type": "object",
+        "optional": true,
+        "fields": {}
+      }
+    },
+    "name": "ContentSliceResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

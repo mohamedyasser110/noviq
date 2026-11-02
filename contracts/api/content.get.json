@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "content.get",
+  "summary": "Public full site content object (auth: none)",
+  "method": "GET",
+  "path": "/api/content",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "brand": {
+        "type": "object",
+        "optional": false,
+        "fields": {}
+      },
+      "hero": {
+        "type": "object",
+        "optional": false,
+        "fields": {}
+      }
+    },
+    "name": "ContentResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

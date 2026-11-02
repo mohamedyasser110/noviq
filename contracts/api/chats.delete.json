@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "chats.delete",
+  "summary": "Delete all messages of a session (auth: admin JWT)",
+  "method": "DELETE",
+  "path": "/api/admin/chats/{sessionId}",
+  "request": {
+    "query": {},
+    "params": {
+      "sessionId": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "deleted": {
+        "type": "integer",
+        "optional": false
+      }
+    },
+    "name": "ChatDeleteResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

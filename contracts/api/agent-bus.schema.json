@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "name": "agent-bus.schema",
+  "summary": "Read or update a shared schema resource through the Schema Registry (auth: none)",
+  "method": "GET",
+  "path": "/api/agent-bus/schema/{resource}",
+  "request": {
+    "query": {},
+    "params": {
+      "resource": {
+        "type": "string",
+        "optional": false,
+        "description": "Schema resource name (content, api-endpoints, db-schema, design-tokens)"
+      }
+    },
+    "body": {}
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "resource": {
+        "type": "string",
+        "optional": false
+      },
+      "version": {
+        "type": "string",
+        "optional": false
+      },
+      "updated_at": {
+        "type": "string",
+        "optional": false,
+        "format": "date-time"
+      },
+      "schema": {
+        "type": "object",
+        "optional": false,
+        "description": "The raw schema object"
+      },
+      "etag": {
+        "type": "string",
+        "optional": true,
+        "description": "For optimistic concurrency"
+      }
+    },
+    "name": "SchemaResponse"
+  },
+  "errors": [
+    {
+      "status": 404,
+      "code": "SCHEMA_NOT_FOUND"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "contentadmin.list",
+  "summary": "Full content table as key value object (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/content",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "brand": {
+        "type": "object",
+        "optional": true,
+        "fields": {}
+      }
+    },
+    "name": "ContentAdminResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

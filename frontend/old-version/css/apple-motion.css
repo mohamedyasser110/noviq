@@ -1,0 +1,213 @@
+/* ============================================================
+   APPLE-MOTION — iOS-like spring micro-motion (Agent-C)
+   ------------------------------------------------------------
+   Springy but snappy: cubic-bezier(0.32,0.72,0,1), short
+   durations (0.25-0.5s), press states via the independent
+   `scale` property so they compose with hover transforms.
+   OVERRIDES ONLY — loads LAST (after a11y-pro.css).
+   Token-only: motion vars + var(--*) refs. No hardcoded
+   colors, no new CDN deps.
+   GUARDS:
+     - All spring work lives inside
+       `@media (prefers-reduced-motion: no-preference)`, so
+       reduced-motion users never receive it; an explicit
+       reduce block below kills press/sheen/menu motion.
+     - Low-tier flatten via `body.apple-motion-off` (set by
+       pro.js additive block when _deviceTier === 'low').
+     - `.reveal` elements are never retimed (reveal IO owns
+       them); only `:active{scale}` press applies there, and
+       `scale` is outside reveal's opacity/transform
+       transition, so no fight.
+   ============================================================ */
+
+:root {
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---- 1. Buttons: tighten + spring (beats corporate-polish
+     §2 .15s/.2s ease-out via later order + !important) ---- */
+  .noviq-btn-primary:not(.reveal),
+  .noviq-btn-secondary:not(.reveal),
+  .noviq-btn-ghost:not(.reveal) {
+    transition: background 0.25s var(--ease-spring),
+      border-color 0.25s var(--ease-spring),
+      color 0.25s var(--ease-spring),
+      box-shadow 0.25s var(--ease-spring),
+      transform 0.3s var(--ease-spring),
+      scale 0.25s var(--ease-spring) !important;
+  }
+
+  /* Sheens: sluggish 0.7s -> snappy 0.45s spring */
+  .noviq-btn-primary::after,
+  .noviq-btn-secondary::after {
+    transition: transform 0.45s var(--ease-spring) !important;
+  }
+
+  /* Button press fallback when GSAP is absent. When pro.js runs
+     (body.has-gsap) its quickTo press owns primary CTAs, so the
+     CSS press steps aside to avoid a double shrink. */
+  body:not(.has-gsap) .noviq-btn-primary:active,
+  body:not(.has-gsap) .noviq-btn-secondary:active,
+  body:not(.has-gsap) .noviq-btn-ghost:active {
+    scale: 0.97;
+  }
+
+  /* ---- 2. Cards: tighten + spring ---- */
+  .noviq-glass-card:not(.reveal),
+  .noviq-card:not(.reveal),
+  .noviq-project-card:not(.reveal),
+  .noviq-service-card:not(.reveal),
+  .noviq-why-card:not(.reveal),
+  .noviq-industry-card:not(.reveal),
+  .noviq-builder-card:not(.reveal),
+  .noviq-timeline-item.noviq-card:not(.reveal) {
+    transition: transform 0.3s var(--ease-spring),
+      box-shadow 0.3s var(--ease-spring),
+      border-color 0.3s var(--ease-spring),
+      background-color 0.3s var(--ease-spring),
+      scale 0.25s var(--ease-spring) !important;
+  }
+
+  /* Card press: CSS-owned always (no GSAP scale touches cards;
+     hero mock excluded — heroTilt owns its rotation). */
+  .noviq-glass-card:active,
+  .noviq-project-card:active,
+  .noviq-service-card:active,
+  .noviq-why-card:active,
+  .noviq-industry-card:active,
+  .noviq-builder-card:active,
+  .noviq-timeline-item.noviq-card:active {
+    scale: 0.98;
+  }
+
+  /* Card sheens / calm zooms: 0.6-0.8s -> 0.35-0.45s spring */
+  .noviq-glass-card::before {
+    transition: opacity 0.3s var(--ease-spring) !important;
+  }
+  .noviq-glass-card::after {
+    transition: transform 0.45s var(--ease-spring) !important;
+  }
+  .noviq-project-card::before {
+    transition: transform 0.45s var(--ease-spring) !important;
+  }
+  .noviq-project-card .noviq-project-image {
+    transition: transform 0.35s var(--ease-spring) !important;
+  }
+  .noviq-project-overlay {
+    transition: transform 0.35s var(--ease-spring) !important;
+  }
+  .noviq-timeline-icon {
+    transition: transform 0.3s var(--ease-spring),
+      box-shadow 0.3s var(--ease-spring) !important;
+  }
+  .noviq-timeline-icon::after {
+    transition: transform 0.45s var(--ease-spring) !important;
+  }
+  .noviq-stack-chip::after {
+    transition: transform 0.45s var(--ease-spring) !important;
+  }
+  .noviq-project-card .noviq-case-link svg,
+  .noviq-project-card .noviq-case-link i {
+    transition: translate 0.25s var(--ease-spring) !important;
+  }
+
+  /* ---- 3. Menus: spring easing, durations kept short ---- */
+  .noviq-mega-menu {
+    animation-duration: 0.28s !important;
+    animation-timing-function: var(--ease-spring) !important;
+  }
+  .noviq-mobile-menu {
+    animation-timing-function: var(--ease-spring) !important;
+  }
+  .noviq-search-dropdown {
+    animation-duration: 0.28s !important;
+    animation-timing-function: var(--ease-spring) !important;
+  }
+  .noviq-mobile-accordion {
+    transition: border-color 0.25s var(--ease-spring),
+      background 0.25s var(--ease-spring) !important;
+  }
+  .noviq-mobile-accordion-btn svg,
+  .noviq-mobile-accordion-btn i {
+    transition: transform 0.3s var(--ease-spring) !important;
+  }
+  .noviq-toast {
+    transition: opacity 0.35s var(--ease-spring),
+      transform 0.35s var(--ease-spring) !important;
+  }
+
+  /* ---- 4. Accordion: max-height easing -> spring ----
+     .noviq-faq-answer carries an inline transition, so the
+     override needs !important to win. */
+  .noviq-faq-answer {
+    transition: max-height 0.35s var(--ease-spring),
+      padding 0.35s var(--ease-spring) !important;
+  }
+}
+
+/* ---- 5. Reduced motion: kill everything spring ---- */
+@media (prefers-reduced-motion: reduce) {
+  .noviq-btn-primary::after,
+  .noviq-btn-secondary::after,
+  .noviq-glass-card::before,
+  .noviq-glass-card::after,
+  .noviq-project-card::before,
+  .noviq-project-card .noviq-project-image,
+  .noviq-project-overlay,
+  .noviq-timeline-icon,
+  .noviq-timeline-icon::after,
+  .noviq-stack-chip::after,
+  .noviq-faq-answer {
+    transition: none !important;
+  }
+  .noviq-btn-primary:active,
+  .noviq-btn-secondary:active,
+  .noviq-btn-ghost:active,
+  .noviq-glass-card:active,
+  .noviq-project-card:active,
+  .noviq-service-card:active,
+  .noviq-why-card:active,
+  .noviq-industry-card:active,
+  .noviq-builder-card:active,
+  .noviq-timeline-item.noviq-card:active {
+    scale: 1 !important;
+  }
+  .noviq-mega-menu,
+  .noviq-search-dropdown,
+  .noviq-mobile-menu,
+  .noviq-toast {
+    animation: none !important;
+  }
+}
+
+/* ---- 6. Low-tier: flatten spring motion ----
+   body.apple-motion-off is set by pro.js when
+   window._deviceTier === 'low' (or reduced-motion). */
+body.apple-motion-off .noviq-btn-primary,
+body.apple-motion-off .noviq-btn-secondary,
+body.apple-motion-off .noviq-btn-ghost,
+body.apple-motion-off .noviq-glass-card,
+body.apple-motion-off .noviq-card,
+body.apple-motion-off .noviq-project-card,
+body.apple-motion-off .noviq-service-card,
+body.apple-motion-off .noviq-why-card,
+body.apple-motion-off .noviq-industry-card,
+body.apple-motion-off .noviq-builder-card,
+body.apple-motion-off .noviq-faq-answer,
+body.apple-motion-off .noviq-toast {
+  transition: none !important;
+  animation: none !important;
+}
+body.apple-motion-off .noviq-btn-primary:active,
+body.apple-motion-off .noviq-btn-secondary:active,
+body.apple-motion-off .noviq-btn-ghost:active,
+body.apple-motion-off .noviq-glass-card:active,
+body.apple-motion-off .noviq-project-card:active,
+body.apple-motion-off .noviq-service-card:active,
+body.apple-motion-off .noviq-why-card:active,
+body.apple-motion-off .noviq-industry-card:active,
+body.apple-motion-off .noviq-builder-card:active {
+  scale: 1 !important;
+}

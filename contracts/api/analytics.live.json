@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "name": "analytics.live",
+  "summary": "Public sanitized live traffic snapshot (auth: none)",
+  "method": "GET",
+  "path": "/api/analytics/live",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "visitors": {
+        "type": "integer",
+        "optional": true
+      }
+    },
+    "name": "LiveTrafficResponse"
+  },
+  "errors": [
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.2.0",
+  "title": "Noviq Content Schema",
+  "description": "Unified content schema for all site content. Single source of truth for Frontend, Backend, and Debugger agents.",
+  "type": "object",
+  "properties": {
+    "services": {
+      "type": "array",
+      "description": "Service offerings displayed on the site",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "description", "icon", "features"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z-]+$" },
+          "title": { "type": "string", "maxLength": 80 },
+          "description": { "type": "string", "maxLength": 300 },
+          "icon": { "type": "string", "enum": ["code", "design", "cloud", "security", "analytics", "mobile", "ai", "database"] },
+          "features": { "type": "array", "items": { "type": "string" }, "maxItems": 6 },
+          "order": { "type": "integer", "minimum": 0 },
+          "active": { "type": "boolean", "default": true }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "description": "Portfolio projects / case studies",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "category", "description", "image", "technologies", "link"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z-]+$" },
+          "title": { "type": "string", "maxLength": 100 },
+          "category": { "type": "string", "enum": ["web", "mobile", "ai", "backend", "fullstack", "design"] },
+          "description": { "type": "string", "maxLength": 500 },
+          "image": { "type": "string", "format": "uri" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "link": { "type": "string", "format": "uri" },
+          "featured": { "type": "boolean", "default": false },
+          "order": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "team": {
+      "type": "array",
+      "description": "Team members",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "role", "bio", "avatar", "social"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z-]+$" },
+          "name": { "type": "string", "maxLength": 60 },
+          "role": { "type": "string", "maxLength": 80 },
+          "bio": { "type": "string", "maxLength": 400 },
+          "avatar": { "type": "string", "format": "uri" },
+          "social": {
+            "type": "object",
+            "properties": {
+              "linkedin": { "type": "string", "format": "uri" },
+              "github": { "type": "string", "format": "uri" },
+              "twitter": { "type": "string", "format": "uri" }
+            }
+          },
+          "order": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "testimonials": {
+      "type": "array",
+      "description": "Client testimonials",
+      "items": {
+        "type": "object",
+        "required": ["id", "author", "role", "company", "content", "rating"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z-]+$" },
+          "author": { "type": "string", "maxLength": 60 },
+          "role": { "type": "string", "maxLength": 80 },
+          "company": { "type": "string", "maxLength": 100 },
+          "content": { "type": "string", "maxLength": 600 },
+          "rating": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "avatar": { "type": "string", "format": "uri" },
+          "featured": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "industries": {
+      "type": "array",
+      "description": "Industry verticals served",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "icon", "caseStudies"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z-]+$" },
+          "name": { "type": "string", "maxLength": 60 },
+          "description": { "type": "string", "maxLength": 300 },
+          "icon": { "type": "string" },
+          "caseStudies": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "description": "Key statistics for hero/about sections",
+      "properties": {
+        "projectsDelivered": { "type": "integer", "minimum": 0 },
+        "happyClients": { "type": "integer", "minimum": 0 },
+        "teamMembers": { "type": "integer", "minimum": 0 },
+        "yearsExperience": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["projectsDelivered", "happyClients", "teamMembers", "yearsExperience"]
+    },
+    "hero": {
+      "type": "object",
+      "description": "Hero section content",
+      "properties": {
+        "headline": { "type": "string", "maxLength": 120 },
+        "subheadline": { "type": "string", "maxLength": 300 },
+        "ctaPrimary": { "type": "string", "maxLength": 40 },
+        "ctaSecondary": { "type": "string", "maxLength": 40 },
+        "backgroundImage": { "type": "string", "format": "uri" }
+      }
+    },
+    "brand": {
+      "type": "object",
+      "description": "Brand identity elements",
+      "properties": {
+        "name": { "type": "string", "maxLength": 40 },
+        "tagline": { "type": "string", "maxLength": 100 },
+        "logo": { "type": "string", "format": "uri" },
+        "favicon": { "type": "string", "format": "uri" },
+        "colors": {
+          "type": "object",
+          "properties": {
+            "primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "accent": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        }
+      }
+    }
+  },
+  "required": ["services", "projects", "team", "testimonials", "industries", "stats", "hero", "brand"]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "name": "export.get",
+  "summary": "Full data export as JSON download (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/export",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "exportedAt": {
+        "type": "string",
+        "optional": false,
+        "format": "date-time"
+      }
+    },
+    "name": "FullExportResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "name": "admin.stats",
+  "summary": "Dashboard counters across all tables (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/stats",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "contacts": {
+        "type": "integer",
+        "optional": false
+      },
+      "newsletter": {
+        "type": "integer",
+        "optional": false
+      },
+      "consultations": {
+        "type": "integer",
+        "optional": false
+      },
+      "assessments": {
+        "type": "integer",
+        "optional": false
+      },
+      "solutions": {
+        "type": "integer",
+        "optional": false
+      },
+      "users": {
+        "type": "integer",
+        "optional": false
+      },
+      "visitsTotal": {
+        "type": "integer",
+        "optional": false
+      },
+      "visitsToday": {
+        "type": "integer",
+        "optional": false
+      }
+    },
+    "name": "AdminStatsResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

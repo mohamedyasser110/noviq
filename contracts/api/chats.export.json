@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "chats.export",
+  "summary": "All chat messages as CSV download (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/chats-export",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "csv": {
+        "type": "string",
+        "optional": true
+      }
+    },
+    "name": "ChatsExportResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

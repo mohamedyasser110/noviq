@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "name": "contentadmin.deletearray",
+  "summary": "Remove one array item by index (auth: admin JWT)",
+  "method": "DELETE",
+  "path": "/api/admin/content/{key}/array/{index}",
+  "request": {
+    "query": {},
+    "params": {
+      "key": {
+        "type": "string",
+        "optional": false
+      },
+      "index": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "key": {
+        "type": "string",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "fileWritten": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "ContentArrayDeleteResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

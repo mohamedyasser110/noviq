@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "logs.export",
+  "summary": "Export system logs as CSV download (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/logs/export",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "csv": {
+        "type": "string",
+        "optional": true
+      }
+    },
+    "name": "LogsExportResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

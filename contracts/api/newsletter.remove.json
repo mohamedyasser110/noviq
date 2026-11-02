@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "name": "newsletter.remove",
+  "summary": "Delete a subscriber (auth: admin JWT)",
+  "method": "DELETE",
+  "path": "/api/newsletter/{id}",
+  "request": {
+    "query": {},
+    "params": {
+      "id": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "message": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "name": "NewsletterDeleteResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

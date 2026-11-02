@@ -1,0 +1,762 @@
+/* ============================================================
+   COMPONENTS — navbar, buttons, inputs, toast
+   ============================================================ */
+
+/* ---- Navbar ---- */
+.noviq-navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 24px var(--section-pad-x);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: all var(--dur-base) var(--ease-smooth);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.noviq-navbar.scrolled {
+  padding: 14px var(--section-pad-x);
+  background: var(--nav-bg);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border-bottom: 1px solid var(--border);
+}
+.noviq-logo {
+  display: flex; align-items: center; gap: 0; text-decoration: none;
+  transition: transform 0.3s var(--ease-smooth);
+}
+.noviq-logo:hover { transform: scale(1.03); }
+.noviq-logo-icon {
+  width: 30px; height: 30px;
+  display: block; overflow: visible;
+  transition: transform 0.3s var(--ease-smooth);
+  flex-shrink: 0;
+}
+.noviq-logo:hover .noviq-logo-icon { transform: rotate(5deg) scale(1.05); }
+.noviq-logo-text {
+  font-family: var(--font-display); font-weight: 600; font-size: 25px;
+  color: var(--text); letter-spacing: -0.015em;
+  transition: color 0.3s ease;
+}
+html[data-theme-tone="dark"] .noviq-logo-text { color: #f0ecff; }
+
+.noviq-desktop-nav { display: flex; gap: 36px; align-items: center; }
+.noviq-nav-actions { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+
+@media (max-width: 900px) {
+  .noviq-nav-actions {
+    gap: 8px;
+  }
+  .noviq-header-search {
+    width: 160px;
+  }
+  .noviq-header-search:focus-within {
+    width: 200px;
+  }
+}
+
+@media (max-width: 560px) {
+  .noviq-nav-actions {
+    gap: 6px;
+  }
+  .noviq-header-search {
+    display: none;
+  }
+  .noviq-logo-text {
+    display: none;
+  }
+  .noviq-logo-icon {
+    margin-right: 0 !important;
+  }
+}
+.noviq-desktop-nav a {
+  color: var(--text-secondary); text-decoration: none; font-size: 14.5px;
+  font-family: var(--font-body); font-weight: 500;
+  transition: color 0.25s;
+  position: relative;
+}
+.noviq-desktop-nav a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1.5px; background: var(--secondary);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.35s var(--ease-smooth);
+  border-radius: 2px;
+}
+.noviq-desktop-nav a:hover { color: var(--text); }
+.noviq-desktop-nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---- Featured Sub-menu Link (Solution Builder inside Mega Menu & Mobile Accordion) ---- */
+.noviq-mega-featured-link {
+  color: var(--secondary) !important;
+  font-weight: 600 !important;
+  transition: all 0.2s var(--ease-smooth) !important;
+}
+.noviq-mega-featured-link:hover {
+  color: var(--text) !important;
+  opacity: 0.95;
+}
+
+.noviq-mobile-sublink-highlight {
+  color: var(--secondary) !important;
+  font-weight: 600 !important;
+  transition: all 0.2s var(--ease-smooth) !important;
+}
+.noviq-mobile-sublink-highlight:hover {
+  color: var(--text) !important;
+}
+
+.noviq-login-icon {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary); text-decoration: none;
+  padding: 8px; border-radius: 8px;
+  transition: all 0.25s var(--ease-smooth);
+  margin-left: 4px;
+}
+.noviq-login-icon:hover { color: var(--text); background: var(--control-bg); }
+
+/* ---- Auth card ---- */
+.noviq-auth-card {
+  width: 100%; max-width: 440px; margin: 0 auto;
+  background: var(--glass-bg); backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border); border-radius: var(--radius-xl);
+  padding: 40px 36px;
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--inset-highlight) inset;
+  position: relative;
+  overflow: hidden;
+}
+.noviq-auth-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(139,92,246,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(59,130,246,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+.noviq-auth-header { text-align: center; margin-bottom: 28px; position: relative; }
+.noviq-auth-logo { display: flex; align-items: center; justify-content: center; gap: 6px; }
+html[dir='rtl'] .noviq-auth-logo { direction: ltr; }
+.noviq-auth-form { display: flex; flex-direction: column; gap: 18px; position: relative; }
+.noviq-auth-field { display: flex; flex-direction: column; gap: 6px; }
+.noviq-auth-field label {
+  font-size: 13px; color: var(--text-secondary); font-weight: 500;
+  font-family: var(--font-body);
+}
+.noviq-auth-field .noviq-input {
+  padding: 12px 16px; font-size: 14px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--control-border);
+  border-radius: var(--radius-md);
+  color: var(--text); outline: none;
+  transition: all 0.3s var(--ease-smooth);
+  font-family: var(--font-body);
+}
+.noviq-auth-field .noviq-input:focus {
+  border-color: var(--secondary);
+  background: rgba(139,92,246,0.06);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.08);
+}
+.noviq-auth-field .noviq-input::placeholder { color: var(--text-tertiary); }
+.noviq-auth-submit {
+  width: 100%; justify-content: center; padding: 14px;
+  font-size: 15px; font-weight: 600; margin-top: 4px;
+}
+.noviq-auth-footer {
+  text-align: center; margin-top: 24px; position: relative;
+}
+.noviq-auth-link {
+  color: var(--secondary); text-decoration: none; font-weight: 500;
+  transition: color 0.2s;
+}
+.noviq-auth-link:hover { color: #A78BFA; text-decoration: underline; }
+
+.noviq-mobile-toggle {
+  display: none; background: none; border: none; color: var(--text); cursor: pointer;
+  padding: 8px; border-radius: 8px; transition: background 0.25s;
+}
+.noviq-mobile-toggle:hover { background: var(--control-bg-hover); }
+.noviq-mobile-menu {
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--menu-bg); backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border-bottom: 1px solid var(--border); 
+  padding: 22px var(--section-pad-x) 28px;
+  display: flex; flex-direction: column; gap: 4px;
+  animation: slideDown 0.4s var(--ease-smooth);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(109,40,255,0.05);
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.noviq-mobile-menu a {
+  color: var(--text-secondary); text-decoration: none; font-family: var(--font-body); font-size: 15px;
+  padding: 12px 14px; transition: color 0.25s, background 0.25s;
+  border-radius: 12px;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+}
+.noviq-mobile-menu a:hover { color: var(--text); background: rgba(139,92,246,0.08); }
+
+/* Mobile search */
+.noviq-mobile-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: var(--input-bg);
+  border: 1px solid var(--control-border);
+  color: var(--text-tertiary);
+  box-shadow: inset 0 1px 0 var(--inset-highlight), 0 0 12px rgba(139,92,246,0.04);
+}
+.noviq-mobile-search input {
+  flex: 1; min-width: 0;
+  background: transparent; border: none; outline: none;
+  color: var(--text); font-family: var(--font-body); font-size: 14px;
+}
+.noviq-mobile-search input::placeholder { color: var(--text-tertiary); }
+.noviq-mobile-search > svg { flex-shrink: 0; opacity: 0.6; }
+.noviq-mobile-search .noviq-search-dropdown {
+  top: calc(100% + 8px);
+  min-width: 0;
+  width: 100%;
+  position: absolute;
+}
+
+/* Mobile accordion */
+.noviq-mobile-accordion {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: border-color 0.25s, background 0.25s;
+}
+.noviq-mobile-accordion[open] { border-color: var(--control-border); background: rgba(139,92,246,0.04); }
+.noviq-mobile-accordion-trigger {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0;
+}
+.noviq-mobile-accordion-trigger > a {
+  flex: 1; padding: 12px 14px;
+  border-radius: 12px;
+}
+.noviq-mobile-accordion-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: transparent; border: none; border-radius: 10px;
+  cursor: pointer; color: var(--text-secondary);
+  transition: background 0.2s, color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.noviq-mobile-accordion-btn:hover { background: var(--control-bg); color: var(--secondary); }
+.noviq-mobile-accordion-btn svg,
+.noviq-mobile-accordion-btn i { transition: transform 0.3s var(--ease-smooth); }
+
+.noviq-mobile-accordion-content {
+  padding: 4px 8px 8px 8px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 300px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+.noviq-mobile-accordion-content[style*="display: block"] {
+  display: flex;
+}
+.noviq-mobile-accordion-content a {
+  padding: 10px 14px;
+  font-family: 'Inter'; font-size: 13.5px;
+  color: var(--text-secondary); text-decoration: none;
+  border-radius: 10px;
+  transition: color 0.2s, background 0.2s;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.noviq-mobile-accordion-content a:hover { 
+  color: var(--text); 
+  background: var(--control-bg);
+}
+
+.noviq-mobile-menu-actions {
+  display: flex; gap: 10px;
+  padding-top: 18px; margin-top: 4px;
+  border-top: 1px solid var(--control-border);
+  margin-bottom: 12px;
+}
+.noviq-mobile-action {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 14px; border-radius: 12px;
+  background: var(--control-bg); border: 1px solid var(--control-border);
+  color: var(--text); text-decoration: none;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  cursor: pointer; touch-action: manipulation;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.noviq-mobile-action:hover {
+  background: rgba(139,92,246,0.1);
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+/* ---- Buttons ---- */
+.noviq-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+  background-size: 200% 200%;
+  color: #ffffff; border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding: 14px 30px; border-radius: var(--radius-md);
+  font-family: var(--font-body); font-weight: 600; font-size: 15px;
+  letter-spacing: -0.01em; cursor: pointer;
+  box-shadow:
+    var(--shadow-glow),
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+  transition: transform 0.35s var(--ease-smooth), box-shadow 0.35s var(--ease-smooth), background-position 0.5s var(--ease-smooth), border-color 0.35s;
+  position: relative; overflow: hidden;
+}
+.noviq-btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.7s var(--ease-smooth);
+  pointer-events: none;
+}
+.noviq-btn-primary:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow:
+    var(--shadow-glow-strong),
+    0 12px 32px color-mix(in srgb, var(--primary) 45%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  background-position: 100% 100%;
+  border-color: color-mix(in srgb, var(--accent-2) 60%, transparent);
+}
+.noviq-btn-primary:hover::after { transform: translateX(100%); }
+.noviq-btn-primary:active { transform: translateY(-1px) scale(0.99); box-shadow: 0 4px 16px rgba(109,40,255,0.3); }
+.noviq-btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.45), var(--shadow-glow);
+}
+.noviq-btn-primary:disabled { cursor: default; opacity: 0.85; }
+.noviq-btn-primary, .noviq-btn-secondary, .noviq-btn-ghost { touch-action: manipulation; }
+
+/* ---- Secondary Button ---- */
+.noviq-btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: var(--control-bg); color: var(--text);
+  border: 1px solid var(--control-border-strong); padding: 14px 30px; border-radius: var(--radius-md);
+  font-family: var(--font-body); font-weight: 600; font-size: 15px; cursor: pointer;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 var(--inset-highlight), 0 4px 16px rgba(0,0,0,0.1);
+  transition: all 0.35s var(--ease-smooth);
+  position: relative; overflow: hidden;
+}
+.noviq-btn-secondary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, var(--surface-highlight-strong) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.7s var(--ease-smooth);
+  pointer-events: none;
+}
+.noviq-btn-secondary:hover {
+  border-color: color-mix(in srgb, var(--secondary) 60%, transparent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--secondary) 22%, transparent), inset 0 1px 0 rgba(var(--text-rgb), 0.2);
+  background: color-mix(in srgb, var(--secondary) 14%, var(--control-bg));
+  color: var(--text);
+}
+.noviq-btn-secondary:hover::after { transform: translateX(100%); }
+
+/* ---- Ghost Button ---- */
+.noviq-btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: transparent; color: var(--secondary);
+  border: 1px solid transparent; padding: 14px 28px; border-radius: var(--radius-md);
+  font-family: var(--font-body); font-weight: 600; font-size: 15px; cursor: pointer;
+  transition: all 0.35s var(--ease-smooth);
+  position: relative; overflow: hidden;
+}
+.noviq-btn-ghost:hover {
+  background: color-mix(in srgb, var(--secondary) 12%, transparent);
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--secondary) 25%, transparent);
+}
+
+/* ---- Ripple Effect ---- */
+.noviq-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  transform: scale(0);
+  animation: rippleAnim 0.6s ease-out;
+  pointer-events: none;
+}
+@keyframes rippleAnim {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ---- Loading Spinner ---- */
+.noviq-spinner {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Error Shake ---- */
+.noviq-shake {
+  animation: shakeAnim 0.4s var(--ease-smooth);
+}
+@keyframes shakeAnim {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ---- Inputs ---- */
+.noviq-input {
+  width: 100%; padding: 14px 18px; border-radius: var(--radius-md);
+  background: var(--input-bg); border: 1px solid var(--control-border-strong); color: var(--text);
+  font-family: var(--font-body); font-size: 14px; outline: none;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.12), inset 0 1px 0 var(--inset-highlight);
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.noviq-input::placeholder { color: var(--text-tertiary); }
+.noviq-input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--secondary) 25%, transparent), 0 0 24px color-mix(in srgb, var(--secondary) 15%, transparent);
+  background: color-mix(in srgb, var(--card) 88%, var(--secondary) 12%);
+}
+.noviq-input.error { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+.noviq-input.success { border-color: var(--success); box-shadow: 0 0 0 3px rgba(34,197,94,0.15); }
+
+/* ---- Toast ---- */
+.noviq-toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--popup-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 14px 28px; color: var(--text);
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-md);
+  opacity: 0; transition: all 0.5s var(--ease-smooth);
+  z-index: 9999; pointer-events: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.noviq-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.noviq-toast .toast-icon { color: var(--success); }
+
+/* ---- Mega Menu ---- */
+.noviq-nav-mega-trigger { position: relative; }
+
+.noviq-mega-trigger {
+  color: var(--text-secondary); text-decoration: none; font-size: 14.5px;
+  font-family: var(--font-body); font-weight: 500;
+  transition: color 0.25s; cursor: pointer; display: flex; align-items: center; gap: 4px;
+  background: none; border: none; padding: 0;
+}
+.noviq-mega-trigger:hover { color: var(--text); }
+
+.noviq-mega-trigger i { transition: transform 0.25s; }
+.noviq-nav-mega-trigger:hover .noviq-mega-trigger i { transform: rotate(180deg); }
+
+.noviq-mega-menu {
+  position: absolute; top: 100%; left: -80px;
+  background: var(--popup-bg);
+  backdrop-filter: blur(32px) saturate(1.3);
+  -webkit-backdrop-filter: blur(32px) saturate(1.3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 32px;
+  min-width: 640px;
+  max-height: calc(82vh - 70px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(109,40,255,0.06);
+  z-index: 200;
+  animation: megaFadeIn 0.2s ease;
+}
+
+/* Custom smooth scrollbars for dropdown menus, sidebars, and panels */
+.noviq-mega-menu::-webkit-scrollbar,
+.noviq-mobile-menu::-webkit-scrollbar,
+.panel-container::-webkit-scrollbar,
+.noviq-mobile-accordion-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.noviq-mega-menu::-webkit-scrollbar-track,
+.noviq-mobile-menu::-webkit-scrollbar-track,
+.panel-container::-webkit-scrollbar-track,
+.noviq-mobile-accordion-content::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--secondary) 8%, transparent);
+  border-radius: 4px;
+}
+.noviq-mega-menu::-webkit-scrollbar-thumb,
+.noviq-mobile-menu::-webkit-scrollbar-thumb,
+.panel-container::-webkit-scrollbar-thumb,
+.noviq-mobile-accordion-content::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--secondary) 45%, transparent);
+  border-radius: 4px;
+}
+.noviq-mega-menu::-webkit-scrollbar-thumb:hover,
+.noviq-mobile-menu::-webkit-scrollbar-thumb:hover,
+.panel-container::-webkit-scrollbar-thumb:hover,
+.noviq-mobile-accordion-content::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+@keyframes megaFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.noviq-mega-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.noviq-mega-col h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  margin-bottom: 14px;
+  font-weight: 600;
+  font-family: 'Inter';
+}
+
+.noviq-mega-col a {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--text-secondary) !important;
+  font-size: 13.5px !important;
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-bottom: 2px;
+}
+
+.noviq-mega-col a:hover {
+  background: rgba(109,40,255,0.08);
+  color: var(--text) !important;
+}
+
+
+
+/* ---- Badge ---- */
+.noviq-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-family: 'Inter';
+}
+
+/* ---- Tabs ---- */
+.noviq-tabs {
+  margin-bottom: 32px;
+}
+
+/* ---- FAQ ---- */
+.noviq-faq-question {
+  cursor: pointer;
+  user-select: none;
+}
+
+.noviq-faq-question:hover {
+  background: var(--surface-highlight);
+}
+
+/* ---- Header Search Bar (Moon Orbit) ---- */
+.noviq-header-search {
+  position: relative;
+  width: 200px;
+  transition: width 0.5s var(--ease-bounce);
+}
+.noviq-header-search::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius-lg) + 2px);
+  background: linear-gradient(115deg, #8B5CF6, #3B82F6, #06B6D4, #A855F7, #8B5CF6);
+  background-size: 400% 400%;
+  z-index: -1;
+  opacity: 0.5;
+  animation: neonFlow 3s ease infinite;
+}
+.noviq-header-search:focus-within::before {
+  opacity: 0.9;
+}
+.noviq-header-search:focus-within {
+  width: 340px;
+}
+@keyframes neonFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.noviq-search-input {
+  width: 100%;
+  padding: 9px 14px 9px 38px;
+  font-size: var(--fs-body-sm);
+  border-radius: var(--radius-lg);
+  background: var(--input-bg);
+  border: 1.5px solid rgba(139, 92, 246, 0.25);
+  color: var(--text);
+  outline: none;
+  transition: all 0.4s var(--ease-smooth);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 8px rgba(139, 92, 246, 0.06),
+    0 0 20px rgba(139, 92, 246, 0.03);
+}
+.noviq-search-input::placeholder {
+  color: var(--text-tertiary);
+  transition: color 0.3s;
+}
+.noviq-search-input:focus::placeholder {
+  color: rgba(196, 181, 253, 0.4);
+}
+.noviq-search-input:focus {
+  background: color-mix(in srgb, var(--card) 94%, var(--secondary) 6%);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 2px rgba(139, 92, 246, 0.4),
+    0 0 16px rgba(139, 92, 246, 0.35),
+    0 0 45px rgba(139, 92, 246, 0.15),
+    0 0 90px rgba(139, 92, 246, 0.06);
+}
+.noviq-search-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: rgba(167, 139, 250, 0.5);
+  pointer-events: none;
+  transition: all 0.3s var(--ease-smooth);
+  filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.2));
+}
+.noviq-header-search:focus-within .noviq-search-icon {
+  color: #C4B5FD;
+  filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.7));
+}
+
+/* ---- Search Dropdown (Neon) ---- */
+.noviq-search-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background: var(--popup-bg);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(28px);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 30px rgba(139, 92, 246, 0.08);
+  z-index: 1000;
+  min-width: 340px;
+  animation: dropdownIn 0.25s var(--ease-out);
+}
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.noviq-search-group {
+  margin-bottom: 4px;
+}
+.noviq-search-group:last-child {
+  margin-bottom: 0;
+}
+.noviq-search-group-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  padding: 6px 10px 4px;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+.noviq-search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.25s;
+  border: 1px solid transparent;
+}
+.noviq-search-item:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.15);
+  box-shadow:
+    0 0 20px rgba(139, 92, 246, 0.06),
+    inset 0 0 20px rgba(139, 92, 246, 0.03);
+  transform: translateX(4px);
+}
+.noviq-search-item:active {
+  transform: scale(0.97);
+}
+.noviq-search-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.noviq-search-item-title {
+  font-size: var(--fs-body-sm);
+  color: var(--text);
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+.noviq-search-item-desc {
+  font-size: var(--fs-caption);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.noviq-search-no-results {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: var(--fs-body-sm);
+}
+.noviq-search-nlp-badge {
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(167, 139, 250, 0.5);
+  font-style: italic;
+}

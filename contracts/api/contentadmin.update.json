@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "name": "contentadmin.update",
+  "summary": "Upsert one content key with per-key validation (auth: admin JWT)",
+  "method": "PUT",
+  "path": "/api/admin/content/{key}",
+  "request": {
+    "query": {},
+    "params": {
+      "key": {
+        "type": "string",
+        "optional": false
+      }
+    },
+    "body": {
+      "type": "object",
+      "fields": {
+        "value": {
+          "type": "object",
+          "optional": false,
+          "fields": {}
+        }
+      },
+      "name": "ContentKeyBody"
+    }
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "key": {
+        "type": "string",
+        "optional": false
+      },
+      "message": {
+        "type": "string",
+        "optional": false
+      },
+      "fileWritten": {
+        "type": "boolean",
+        "optional": false
+      }
+    },
+    "name": "ContentKeyUpdateResponse"
+  },
+  "errors": [
+    {
+      "status": 400,
+      "code": "VALIDATION_ERROR"
+    },
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 409,
+      "code": "CONFLICT"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}

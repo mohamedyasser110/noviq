@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "name": "admin.monitor",
+  "summary": "In-memory perf and error snapshot (auth: admin JWT)",
+  "method": "GET",
+  "path": "/api/admin/monitor",
+  "request": {
+    "query": {},
+    "params": {},
+    "body": null
+  },
+  "response": {
+    "type": "object",
+    "fields": {
+      "requests": {
+        "type": "integer",
+        "optional": true
+      }
+    },
+    "name": "MonitorResponse"
+  },
+  "errors": [
+    {
+      "status": 401,
+      "code": "UNAUTHENTICATED"
+    },
+    {
+      "status": 500,
+      "code": "INTERNAL_ERROR"
+    }
+  ]
+}
