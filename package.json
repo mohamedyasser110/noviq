@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "build": "npm --prefix backend ci --omit=dev && npm --prefix frontend ci --include=dev && npm --prefix frontend run build",
+    "postinstall": "npm run build",
     "start": "node server.js"
   },
   "engines": {
