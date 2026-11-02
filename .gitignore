@@ -11,6 +11,7 @@ dist/
 
 # Secrets — never commit
 .env
+.env.production
 .env.local
 .env.*.local
 .env.railway
