@@ -49,6 +49,14 @@ const nextConfig = {
      Disabled: it previously got the blame for the ENOENT above, but that
      attribution was wrong — the error occurs with standalone output off. */
   // output: 'standalone',
+  /* Shared hosting (Hostinger) reports the HOST's core count, so Next spawns
+     dozens of static-generation workers that fight over the account's small
+     CPU slice — every page then blew the 60s limit. Cap the workers
+     (override with NEXT_BUILD_CPUS) and give slow hosts more time per page. */
+  staticPageGenerationTimeout: 180,
+  experimental: {
+    cpus: Number(process.env.NEXT_BUILD_CPUS) || 2,
+  },
   reactStrictMode: true,
   /* Hide the Next.js dev-tools badge (the circular "N" pinned bottom-left).
      It is injected by the dev overlay, not by the app, so it cannot be
