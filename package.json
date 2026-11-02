@@ -1,0 +1,14 @@
+{
+  "name": "noviq",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Noviq — Next.js site + Express API served from one Node app (see server.js)",
+  "main": "server.js",
+  "scripts": {
+    "build": "npm --prefix backend ci --omit=dev && npm --prefix frontend ci --include=dev && npm --prefix frontend run build",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

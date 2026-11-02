@@ -22,9 +22,9 @@ import { ShieldCheck, User, ArrowRight, AlertCircle, Loader2, Eye, EyeOff } from
 import { api } from '@/lib/api-client';
 import { Lookout } from '@/components/ui/Lookout';
 
-/* Falls back to the local API port only if NEXT_PUBLIC_API_URL is missing;
-   the real value is inlined at build time from frontend/.env.local. */
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4322';
+/* Inlined at build time from frontend/.env.local. Empty = same origin
+   (production, where server.js serves the site and the API together). */
+const API = process.env.NEXT_PUBLIC_API_URL || '';
 
 type Role = 'user' | 'admin';
 
