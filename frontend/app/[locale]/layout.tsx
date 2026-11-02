@@ -58,6 +58,12 @@ export function generateStaticParams() {
  */
 export const revalidate = 60;
 
+/* Render on request, never at build time: static generation hung on every
+   page (on Hostinger and locally alike) with no API reachable during the
+   build, so the build could never finish. At runtime server.js points the
+   server-side fetches at the API in the same process. */
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {
